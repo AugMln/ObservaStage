@@ -151,3 +151,5 @@ td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
   .grille { grid-template-columns: 1fr; }
   main, .entete { padding-left: 16px; padding-right: 16px; }
 }
+#mapping select.conflit { border-color: var(--erreur); outline: 2px solid color-mix(in srgb, var(--erreur) 35%, transparent); }
+.champs-libres { margin: 0 0 10px; font-size: 13px; color: var(--texte-2); background: var(--accent-clair); border-radius: 6px; padding: 6px 10px; }

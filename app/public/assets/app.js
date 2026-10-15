@@ -176,10 +176,36 @@ function afficherMapping() {
       <td><select data-index="${c.index}">${options(c.champ)}</select></td>
       <td><span class="badge ${c.confiance}">${CONFIANCE[c.confiance]}</span></td></tr>`).join('')}</tbody>`;
 
+  majChampsPris();
   $('#etape-mapping').hidden = false;
   $('#etape-bilan').hidden = true;
   $('#etape-mapping').scrollIntoView({ behavior: 'smooth' });
 }
+
+/** Signale dans chaque liste les champs déjà associés, et liste les champs encore libres. */
+function majChampsPris() {
+  const a = etat.analyse;
+  const selects = $$('#mapping select');
+  const prisPar = {};
+  selects.forEach((s) => {
+    if (s.value) (prisPar[s.value] ??= []).push(a.colonnes[s.dataset.index].source);
+  });
+  selects.forEach((s) => {
+    [...s.options].forEach((o) => {
+      if (!o.value) return;
+      const autres = (prisPar[o.value] ?? []).filter((src) => src !== a.colonnes[s.dataset.index].source);
+      o.textContent = o.dataset.libelle ??= o.textContent;
+      if (autres.length) o.textContent += `  (déjà : ${autres.join(', ')})`;
+    });
+    s.classList.toggle('conflit', (prisPar[s.value] ?? []).length > 1);
+  });
+  const libres = a.champs.filter((c) => !prisPar[c.code]);
+  $('#champs-libres').innerHTML = libres.length
+    ? `<strong>Champs non associés (${libres.length})</strong> : ${libres.map((c) => echapper(c.libelle) + (c.obligatoire ? ' *' : '')).join(' · ')}`
+    : 'Tous les champs ObservaStage sont associés.';
+}
+
+$('#mapping').addEventListener('change', majChampsPris);
 
 $('#lancer-import').addEventListener('click', async (e) => {
   const a = etat.analyse;
