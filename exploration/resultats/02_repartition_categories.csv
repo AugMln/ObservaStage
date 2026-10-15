@@ -1,0 +1,296 @@
+﻿colonne,valeur,effectif,pourcentage_lignes
+Code étape,1XIGYT,109,10.35
+Code étape,3YGCGC,59,5.6
+Code étape,3GENCV,52,4.94
+Code étape,4YGCGC,49,4.65
+Code étape,4YMCME,45,4.27
+Code étape,4YGEGE,40,3.8
+Code étape,5YGCGC,39,3.7
+Code étape,3YMCME,39,3.7
+Code étape,3YMHMH,36,3.42
+Code étape,4YMHMH,34,3.23
+Code étape,3YYSQE,33,3.13
+Code étape,4YGRGR,33,3.13
+Code étape,3YAGAG,32,3.04
+Code étape,3YATMT,32,3.04
+Code étape,4YATMT,31,2.94
+Code étape,5YMCME,29,2.75
+Code étape,4YTRTR,29,2.75
+Code étape,1VTEOP,27,2.56
+Code étape,5GCVIG,27,2.56
+Code étape,5GCVIH,26,2.47
+Code étape,5GMEME,22,2.09
+Code étape,5YGEGE,22,2.09
+Code étape,5NUTQP,21,1.99
+Code étape,3YTRTR,21,1.99
+Code étape,3YMTQT,21,1.99
+Code étape,5YATMT,19,1.8
+Code étape,5YMHMH,16,1.52
+Code étape,5GCVNN,13,1.23
+Code étape,5YGRGR,12,1.14
+Code étape,5YTRTR,11,1.04
+Libellé étape,"L1 Portail parcours des ingénieurs Polytech - mathématiques, physique, chimie, sciences de l'ingénieur",109,10.35
+Libellé étape,1an Ing Polytech Génie civil,59,5.6
+Libellé étape,L3 Génie civil,52,4.94
+Libellé étape,2an Ing Polytech Génie civil,49,4.65
+Libellé étape,2an Ing Polytech Mécanique,45,4.27
+Libellé étape,2an Ing Polytech Systèmes embarqués et génie électrique,40,3.8
+Libellé étape,3an Ing Polytech Génie civil,39,3.7
+Libellé étape,1an Ing Polytech Mécanique,39,3.7
+Libellé étape,1an Ing Polytech Informatique et mathématiques appliquées,36,3.42
+Libellé étape,2an Ing Polytech Informatique et mathématiques appliquées,34,3.23
+Libellé étape,1 Diplôme d'ingénieur Spécialité cybersécurité et systèmes embarqués,33,3.13
+Libellé étape,2an Ing Polytech Agroalimentaire,33,3.13
+Libellé étape,1Dip Ing Spécialité génie biologique et agroalimentaire,32,3.04
+Libellé étape,1an Ing Polytech Matériaux,32,3.04
+Libellé étape,2an Ing Polytech Matériaux,31,2.94
+Libellé étape,3an Ing Polytech Mécanique,29,2.75
+Libellé étape,2an Ing Polytech Instrumentation,29,2.75
+Libellé étape,L1 Portail SVTE - option PEIP,27,2.56
+Libellé étape,M2 Infrastructure en génie civil,27,2.56
+Libellé étape,M2 Ingénierie hydraulique et géotechnique,26,2.47
+Libellé étape,M2 Génie mécanique,22,2.09
+Libellé étape,3an Ing Polytech Systèmes embarqués et génie électrique,22,2.09
+Libellé étape,M2 Gestion de la qualité nutritionnelle et marketing des produits alimentaires,21,1.99
+Libellé étape,1an Ing Polytech Instrumentation,21,1.99
+Libellé étape,1an Ing Spécialité génie électrique et mécatronique,21,1.99
+Libellé étape,3an Ing Polytech Matériaux,19,1.8
+Libellé étape,3an Ing Polytech Informatique et mathématiques appliquées,16,1.52
+Libellé étape,M2 Nanoscience et nanotechnologie en génie civil,13,1.23
+Libellé étape,3an Ing Polytech Agroalimentaire,12,1.14
+Libellé étape,3an Ing Polytech Instrumentation,11,1.04
+Année universitaire,2025/2026,1053,100.0
+Thématique,GENIE CIVIL/BATIMENT ET TRAVAUX PUBLICS,288,27.35
+Thématique,INFORMATIQUE/ESN,99,9.4
+Thématique,RECHERCHE/INNOVATION/RECHERCHE ET DEVELOPPEMENT,94,8.93
+Thématique,MECANIQUE/METALLURGIE/SIDERURGIE/CONSTRUCTION NAVALE,67,6.36
+Thématique,ELECTRONIQUE/GENIE ELECTRIQUE/AUTOMATIQUE/ROBOTIQUE,60,5.7
+Thématique,AGRICOLE/AGRO-ALIMENTAIRE,59,5.6
+Thématique,PRODUCTION/PROCEDES/INSTRUMENTATION/MAINTENANCE,50,4.75
+Thématique,CHIMIE/PHYSIQUE/MATERIAUX/PLASTURGIE TEXTILE,50,4.75
+Thématique,SANTE/BIOLOGIE/BIOTECHNOLOGIES/MEDICAMENT-INDUSTRIE PHARMACEUTIQUE,39,3.7
+Thématique,MARKETING/COMMERCE/DISTRIBUTION/E-COMMERCE,39,3.7
+Thématique,RISQUES/SECURITE/QUALITE/HYGIENE,25,2.37
+Thématique,ENVIRONNEMENT/TRAITEMENT DES DECHETS/EAU/DEVELOPPEMENT DURABLE,22,2.09
+Thématique,INDUSTRIE AUTOMOBILE/EQUIPEMENTIERS,21,1.99
+Thématique,ENERGIES,17,1.61
+Thématique,LOISIRS/HOTELLERIE/TOURISME/RESTAURATION,17,1.61
+Thématique,AEROSPATIAL/AERONAUTIQUE,16,1.52
+Thématique,TRANSPORT/LOGISTIQUE,16,1.52
+Thématique,ADMINISTRATION,15,1.42
+Thématique,ENSEIGNEMENT/EDUCATION/FORMATION,11,1.04
+Thématique,FINANCE/GESTION/AUDIT/CONSEIL/BANQUE/ASSURANCE,9,0.85
+Thématique,MATHEMATIQUES/STATISTIQUES,8,0.76
+Thématique,INFORMATION/COMMUNICATION,8,0.76
+Thématique,AMENAGEMENT/URBANISME/DEVELOPPEMENT DES TERRITOIRES/IMMOBILIER,7,0.66
+Thématique,SERVICES A LA PERSONNE/SOCIAL/PSYCHOLOGIE/MEDICO-SOCIAL,5,0.47
+Thématique,SPORT ET ACTIVITES PHYSIQUES,4,0.38
+Thématique,INTERNATIONAL,3,0.28
+Thématique,ART/CULTURE/PATRIMOINE,1,0.09
+Thématique,DROIT/JUSTICE/CABINETS AVOCATS,1,0.09
+Thématique,COMMUNICATION/JOURNALISME,1,0.09
+Thématique,DOCUMENTATION/EDITION/GESTION DE L'INFORMATION,1,0.09
+Type convention,FORMATION INITIALE,1041,98.86
+Type convention,FORMATION CONT. REPRISE D'ETU. FINANCEES,10,0.95
+Type convention,Apprentissage,2,0.19
+Type de structure,Entreprise privée,748,71.04
+Type de structure,Structure publique,135,12.82
+Type de structure,Administration,65,6.17
+Type de structure,Autre sans SIRET,55,5.22
+Type de structure,Association,35,3.32
+Type de structure,Autres avec SIRET,8,0.76
+Type de structure,Société Civile Professionnelle,4,0.38
+Type de structure,Entreprise public / SEM,3,0.28
+Statut juridique,SAS,445,42.26
+Statut juridique,SA,134,12.73
+Statut juridique,SARL,112,10.64
+Statut juridique,public,93,8.83
+Statut juridique,[VALEUR MANQUANTE],79,7.5
+Statut juridique,Etablissement public à caractère scientifique et technologique,58,5.51
+Statut juridique,Association déclarée,35,3.32
+Statut juridique,Autres,24,2.28
+Statut juridique,Entreprise Individuelle (EI),19,1.8
+Statut juridique,SASU,17,1.61
+Statut juridique,EURL,15,1.42
+Statut juridique,"ONG, Associations et AUTRES",9,0.85
+Statut juridique,SNC (Société en Nom Collectif),5,0.47
+Statut juridique,SELARL,4,0.38
+Statut juridique,GEIE,2,0.19
+Statut juridique,EPCI,1,0.09
+Statut juridique,EPIC,1,0.09
+Pays,FRANCE,809,76.83
+Pays,BELGIQUE,75,7.12
+Pays,MAROC,22,2.09
+Pays,CANADA,13,1.23
+Pays,TUNISIE,12,1.14
+Pays,ESPAGNE,11,1.04
+Pays,LUXEMBOURG,8,0.76
+Pays,ITALIE,8,0.76
+Pays,SUISSE,7,0.66
+Pays,NOUVELLE-ZÉLANDE,6,0.57
+Pays,ALLEMAGNE,6,0.57
+Pays,SUÈDE,6,0.57
+Pays,ÉTATS-UNIS,5,0.47
+Pays,SÉNÉGAL,5,0.47
+Pays,PORTUGAL,5,0.47
+Pays,ROYAUME-UNI,4,0.38
+Pays,DANEMARK,4,0.38
+Pays,CHINE,3,0.28
+Pays,FINLANDE,3,0.28
+Pays,ALGÉRIE,3,0.28
+Pays,JAPON,3,0.28
+Pays,IRLANDE,3,0.28
+Pays,GRÈCE,3,0.28
+Pays,PAYS-BAS,2,0.19
+Pays,"TCHÈQUE, RÉPUBLIQUE",2,0.19
+Pays,NORVÈGE,2,0.19
+Pays,INDONÉSIE,2,0.19
+Pays,VIET NAM,2,0.19
+Pays,HONGRIE,2,0.19
+Pays,CÔTE D'IVOIRE,1,0.09
+Service d’accueil – Pays,FRANCE,806,76.54
+Service d’accueil – Pays,BELGIQUE,78,7.41
+Service d’accueil – Pays,MAROC,22,2.09
+Service d’accueil – Pays,CANADA,13,1.23
+Service d’accueil – Pays,TUNISIE,12,1.14
+Service d’accueil – Pays,ESPAGNE,11,1.04
+Service d’accueil – Pays,ITALIE,8,0.76
+Service d’accueil – Pays,SUISSE,7,0.66
+Service d’accueil – Pays,LUXEMBOURG,7,0.66
+Service d’accueil – Pays,NOUVELLE-ZÉLANDE,6,0.57
+Service d’accueil – Pays,ALLEMAGNE,6,0.57
+Service d’accueil – Pays,SUÈDE,6,0.57
+Service d’accueil – Pays,ÉTATS-UNIS,5,0.47
+Service d’accueil – Pays,SÉNÉGAL,5,0.47
+Service d’accueil – Pays,PORTUGAL,5,0.47
+Service d’accueil – Pays,ROYAUME-UNI,4,0.38
+Service d’accueil – Pays,DANEMARK,4,0.38
+Service d’accueil – Pays,CHINE,3,0.28
+Service d’accueil – Pays,PAYS-BAS,3,0.28
+Service d’accueil – Pays,FINLANDE,3,0.28
+Service d’accueil – Pays,ALGÉRIE,3,0.28
+Service d’accueil – Pays,JAPON,3,0.28
+Service d’accueil – Pays,IRLANDE,3,0.28
+Service d’accueil – Pays,GRÈCE,3,0.28
+Service d’accueil – Pays,"TCHÈQUE, RÉPUBLIQUE",2,0.19
+Service d’accueil – Pays,NORVÈGE,2,0.19
+Service d’accueil – Pays,INDONÉSIE,2,0.19
+Service d’accueil – Pays,VIET NAM,2,0.19
+Service d’accueil – Pays,HONGRIE,2,0.19
+Service d’accueil – Pays,CÔTE D'IVOIRE,1,0.09
+Commune,LILLE,97,9.21
+Commune,VILLENEUVE D ASCQ,49,4.65
+Commune,ROUBAIX,14,1.33
+Commune,LESQUIN,12,1.14
+Commune,VILLENEUVE-D'ASCQ,11,1.04
+Commune,GUYANCOURT,11,1.04
+Commune,NANTERRE,11,1.04
+Commune,LEZENNES,10,0.95
+Commune,MARCQ-EN-BARŒUL,9,0.85
+Commune,DUNKERQUE,8,0.76
+Commune,Tunis,7,0.66
+Commune,WASQUEHAL,6,0.57
+Commune,TOULOUSE,6,0.57
+Commune,RONCHIN,5,0.47
+Commune,TOURCOING,5,0.47
+Commune,ONNAING,5,0.47
+Commune,Dunedin,5,0.47
+Commune,JEUMONT,5,0.47
+Commune,VELIZY VILLACOUBLAY,5,0.47
+Commune,MARCQ EN BAROEUL,5,0.47
+Commune,Mouscron,5,0.47
+Commune,Bruxelles,5,0.47
+Commune,Stockholm,5,0.47
+Commune,PUTEAUX,4,0.38
+Commune,ALFORTVILLE,4,0.38
+Commune,VILLENEUVE D'ASCQ,4,0.38
+Commune,ST DENIS,4,0.38
+Commune,ANGERS,4,0.38
+Commune,ROUEN,4,0.38
+Commune,PARIS 16,4,0.38
+Service d’accueil - Commune,VILLENEUVE D ASCQ,107,10.16
+Service d’accueil - Commune,LILLE,56,5.32
+Service d’accueil - Commune,ROUBAIX,12,1.14
+Service d’accueil - Commune,LESQUIN,12,1.14
+Service d’accueil - Commune,LEZENNES,11,1.04
+Service d’accueil - Commune,DUNKERQUE,9,0.85
+Service d’accueil - Commune,MARCQ EN BAROEUL,9,0.85
+Service d’accueil - Commune,NANTERRE,8,0.76
+Service d’accueil - Commune,VILLENEUVE-D'ASCQ,7,0.66
+Service d’accueil - Commune,ST DENIS,6,0.57
+Service d’accueil - Commune,WASQUEHAL,6,0.57
+Service d’accueil - Commune,Tunis,6,0.57
+Service d’accueil - Commune,Mouscron,6,0.57
+Service d’accueil - Commune,RONCHIN,5,0.47
+Service d’accueil - Commune,ONNAING,5,0.47
+Service d’accueil - Commune,Dunedin,5,0.47
+Service d’accueil - Commune,Bruxelles,5,0.47
+Service d’accueil - Commune,TOULOUSE,5,0.47
+Service d’accueil - Commune,Stockholm,5,0.47
+Service d’accueil - Commune,Casablanca,5,0.47
+Service d’accueil - Commune,TOURCOING,4,0.38
+Service d’accueil - Commune,WAMBRECHIES,4,0.38
+Service d’accueil - Commune,ALFORTVILLE,4,0.38
+Service d’accueil - Commune,JEUMONT,4,0.38
+Service d’accueil - Commune,ANGERS,4,0.38
+Service d’accueil - Commune,PARIS 16,4,0.38
+Service d’accueil - Commune,Bradford,4,0.38
+Service d’accueil - Commune,HARNES,4,0.38
+Service d’accueil - Commune,HALLENNES LEZ HAUBOURDIN,4,0.38
+Service d’accueil - Commune,MASSY,4,0.38
+Code NAF,[VALEUR MANQUANTE],230,21.84
+Code NAF,Enseignement supérieur,71,6.74
+Code NAF,"Ingénierie, études techniques",67,6.36
+Code NAF,Construction d'autres bâtiments,60,5.7
+Code NAF,Recherche-développement en autres sciences physiques et naturelles,39,3.7
+Code NAF,Travaux de maçonnerie générale et gros ½uvre de bâtiment,16,1.52
+Code NAF,Conseil en systèmes et logiciels informatiques,15,1.42
+Code NAF,Construction de routes et autoroutes,14,1.33
+Code NAF,Administration publique générale,14,1.33
+Code NAF,Travaux d'installation électrique dans tous locaux,12,1.14
+Code NAF,Construction de véhicules automobiles,12,1.14
+Code NAF,Activités des sièges sociaux,11,1.04
+Code NAF,Construction aéronautique et spatiale,10,0.95
+Code NAF,"Analyses, essais et inspections techniques",9,0.85
+Code NAF,Commerce de gros (commerce interentreprises) d'autres biens domestiques,9,0.85
+Code NAF,Commerce de détail non spécialisé à prédominance alimentaire en magasin de plus de 2500 m² (hypermarché),7,0.66
+Code NAF,Autres travaux spécialisés de construction,7,0.66
+Code NAF,Construction d'autres ouvrages de génie civil n.c.a.,7,0.66
+Code NAF,Activités d’ingénierie et de conseil technique connexe,6,0.57
+Code NAF,"Fabrication de générateurs de vapeur, à l'exception des chaudières pour le chauffage central",6,0.57
+Code NAF,Production d'électricité,6,0.57
+Code NAF,Travaux de terrassement courants et travaux préparatoires,6,0.57
+Code NAF,Conseil pour les affaires et autres conseils de gestion,6,0.57
+Code NAF,Activités d’administration publique générale,6,0.57
+Code NAF,Administration publique (tutelle) des activités économiques,5,0.47
+Code NAF,Fabrication de parfums et de produits pour la toilette,5,0.47
+Code NAF,"Fabrication de biscuits, biscottes et pâtisseries de conservation",5,0.47
+Code NAF,Construction de réseaux pour fluides,5,0.47
+Code NAF,Activités des organisations associatives n.c.a.,5,0.47
+Code NAF,Construction d'ouvrages d'art,5,0.47
+Effectif,200 à 999,187,17.76
+Effectif,10 à 49,177,16.81
+Effectif,1000 et +,172,16.33
+Effectif,50 à 199,142,13.49
+Effectif,[VALEUR MANQUANTE],121,11.49
+Effectif,1 à 9,119,11.3
+Effectif,2 000 à 4 999 salariés,31,2.94
+Effectif,Non défini,30,2.85
+Effectif,10 000 salariés et plus,25,2.37
+Effectif,0,17,1.61
+Effectif,5 000 à 9 999 salariés,11,1.04
+Effectif,6 à 9 salariés,4,0.38
+Effectif,10 à 19 salariés,4,0.38
+Effectif,50 à 99 salariés,3,0.28
+Effectif,1 000 à 1 999 salariés,3,0.28
+Effectif,500 à 999 salariés,2,0.19
+Effectif,250 à 499 salariés,2,0.19
+Effectif,Unités non employeuses,1,0.09
+Effectif,1 ou 2 salariés,1,0.09
+Effectif,100 à 199 salariés,1,0.09
+Validation convention,Oui,884,83.95
+Validation convention,Non,169,16.05
+validation pédagogique,Oui,1022,97.06
+validation pédagogique,Non,31,2.94
+Code sexe étudiant,M,530,50.33
+Code sexe étudiant,F,523,49.67

@@ -1,0 +1,72 @@
+﻿colonne,type_pandas,valeurs_manquantes,pourcentage_manquant,valeurs_distinctes,colonne_constante
+Code étape,str,0,0.0,48,False
+Nom Étudiant,str,0,0.0,1024,False
+Prénom Étudiant,str,0,0.0,1024,False
+Adresse étudiant,str,0,0.0,1024,False
+Année universitaire,str,0,0.0,1,True
+Avantage nature,str,0,0.0,1053,False
+Avenant(s) à la convention,str,0,0.0,2,False
+Code département,str,1053,100.0,0,True
+Code ELP,str,1053,100.0,0,True
+Code postal étudiant,str,0,0.0,435,False
+Ville étudiant,str,0,0.0,494,False
+Pays étudiant,str,0,0.0,9,False
+Code sexe étudiant,str,0,0.0,2,False
+Code UFR,str,0,0.0,2,False
+Commentaire durée travail,str,890,84.52,118,False
+Commentaire stage,str,0,0.0,1053,False
+Date création convention,str,0,0.0,253,False
+Date début du stage,str,0,0.0,119,False
+Date début interruption,str,1053,100.0,0,True
+Date fin du stage,str,0,0.0,124,False
+Date fin interruption,str,1053,100.0,0,True
+Date modification convention,str,0,0.0,150,False
+Détail du projet,str,942,89.46,110,False
+Durée du stage,str,0,0.0,267,False
+Elément pédagogique,str,1053,100.0,0,True
+Enseignant référent (NOM Prénom),str,0,0.0,55,False
+Fonction signataire,str,2,0.19,664,False
+Fonctions et tâches,str,3,0.28,1041,False
+Gratification,str,531,50.43,196,False
+Interruption,str,946,89.84,2,False
+Libellé étape,str,0,0.0,48,False
+Libellé UFR,str,0,0.0,2,False
+Mail enseignant référent,str,0,0.0,55,False
+Mail perso étudiant,str,1053,100.0,0,True
+Mail signataire,str,0,0.0,1024,False
+Mail universitaire étudiant,str,0,0.0,971,False
+N° de la convention,str,0,0.0,1053,False
+N° étudiant,str,0,0.0,939,False
+Nbre d’heures hebdomadaire,str,15,1.42,40,False
+Nbre de jours de travail,str,1053,100.0,0,True
+Signataire (NOM Prénom),str,0,0.0,1024,False
+Sujet,str,2,0.19,1013,False
+Téléphone perso étudiant,str,167,15.86,867,False
+Téléphone portable étudiant,str,0,0.0,1024,False
+Thématique,str,0,0.0,30,False
+Type convention,str,0,0.0,3,False
+Unité Durée gratification,str,532,50.52,3,False
+Validation convention,str,0,0.0,2,False
+validation pédagogique,str,0,0.0,2,False
+Adresse,str,0,0.0,849,False
+Code NAF,str,230,21.84,268,False
+Code postal,str,0,0.0,570,False
+Commune,str,0,0.0,567,False
+Effectif,str,121,11.49,19,False
+Fonction tuteur professionnel,str,2,0.19,782,False
+Mail,str,594,56.41,449,False
+Mail tuteur professionnel,str,0,0.0,1034,False
+Nom structure d’accueil,str,0,0.0,840,False
+Pays,str,0,0.0,46,False
+Service d’accueil - Commune,str,0,0.0,573,False
+Service d’accueil – Adresse,str,0,0.0,907,False
+Service d’accueil – Code postal,str,0,0.0,582,False
+Service d’accueil – Nom,str,0,0.0,865,False
+Service d’accueil – Pays,str,0,0.0,46,False
+SIRET,str,221,20.99,664,False
+Site web,str,1051,99.81,2,False
+Statut juridique,str,79,7.5,16,False
+Téléphone,str,0,0.0,1034,False
+Téléphone tuteur professionnel,str,0,0.0,1034,False
+Tuteur professionnel (Nom Prénom),str,0,0.0,1034,False
+Type de structure,str,0,0.0,8,False

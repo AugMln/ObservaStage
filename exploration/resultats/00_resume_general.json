@@ -1,0 +1,27 @@
+{
+  "fichier": "esupstage_2025-2026_anonymise.xls",
+  "nombre_lignes": 1053,
+  "nombre_colonnes": 71,
+  "doublons_exacts": 0,
+  "cellules_manquantes": 13699,
+  "pourcentage_cellules_manquantes": 18.32,
+  "colonnes_entierement_vides": [
+    "Code département",
+    "Code ELP",
+    "Date début interruption",
+    "Date fin interruption",
+    "Elément pédagogique",
+    "Mail perso étudiant",
+    "Nbre de jours de travail"
+  ],
+  "colonnes_constantes": [
+    "Année universitaire",
+    "Code département",
+    "Code ELP",
+    "Date début interruption",
+    "Date fin interruption",
+    "Elément pédagogique",
+    "Mail perso étudiant",
+    "Nbre de jours de travail"
+  ]
+}

@@ -1,0 +1,138 @@
+{
+  "fichier": "esupstage_2025-2026_anonymise.xls",
+  "regle_validation": "« Validation convention = Oui »",
+  "conventions_total": 1053,
+  "conventions_retenues": 884,
+  "duree_moyenne": {
+    "jours": 101.1,
+    "semaines": 14.4,
+    "heures": 493.3
+  },
+  "duree_mediane": {
+    "jours": 96.0,
+    "semaines": 13.7,
+    "heures": 455.0
+  },
+  "etranger": {
+    "stages": 218,
+    "pct": 24.7
+  },
+  "hauts_de_france": {
+    "stages": 346,
+    "pct_total": 39.1,
+    "pct_france": 52.0
+  },
+  "recherche_dans_sujet": 27,
+  "type_experience_commentaire": {
+    "CDD": 39,
+    "CDI": 4,
+    "Intérim": 4,
+    "Bénévolat": 1
+  },
+  "commentaire_duree_renseigne": 117,
+  "pays_etrangers_top10": {
+    "BELGIQUE": 74,
+    "MAROC": 15,
+    "CANADA": 13,
+    "ESPAGNE": 9,
+    "ITALIE": 8,
+    "SUISSE": 7,
+    "LUXEMBOURG": 7,
+    "ALLEMAGNE": 6,
+    "SUÈDE": 6,
+    "ÉTATS-UNIS": 5
+  },
+  "thematiques_top10": {
+    "GENIE CIVIL/BATIMENT ET TRAVAUX PUBLICS": 270,
+    "RECHERCHE/INNOVATION/RECHERCHE ET DEVELOPPEMENT": 84,
+    "INFORMATIQUE/ESN": 78,
+    "MECANIQUE/METALLURGIE/SIDERURGIE/CONSTRUCTION NAVALE": 63,
+    "ELECTRONIQUE/GENIE ELECTRIQUE/AUTOMATIQUE/ROBOTIQUE": 50,
+    "AGRICOLE/AGRO-ALIMENTAIRE": 49,
+    "CHIMIE/PHYSIQUE/MATERIAUX/PLASTURGIE TEXTILE": 44,
+    "PRODUCTION/PROCEDES/INSTRUMENTATION/MAINTENANCE": 43,
+    "MARKETING/COMMERCE/DISTRIBUTION/E-COMMERCE": 31,
+    "SANTE/BIOLOGIE/BIOTECHNOLOGIES/MEDICAMENT-INDUSTRIE PHARMACEUTIQUE": 27
+  },
+  "par_niveau": [
+    {
+      "niveau": "PEIP / L1",
+      "stages": 60,
+      "jours": 43.0,
+      "semaines": 6.1,
+      "heures": 208.5,
+      "etranger_pct": 8.3
+    },
+    {
+      "niveau": "L2",
+      "stages": 3,
+      "jours": 29.3,
+      "semaines": 4.2,
+      "heures": 154.0,
+      "etranger_pct": 0.0
+    },
+    {
+      "niveau": "L3",
+      "stages": 52,
+      "jours": 60.8,
+      "semaines": 8.7,
+      "heures": 284.4,
+      "etranger_pct": 5.8
+    },
+    {
+      "niveau": "3A",
+      "stages": 227,
+      "jours": 41.3,
+      "semaines": 5.9,
+      "heures": 206.1,
+      "etranger_pct": 14.5
+    },
+    {
+      "niveau": "M1",
+      "stages": 9,
+      "jours": 62.6,
+      "semaines": 8.9,
+      "heures": 311.2,
+      "etranger_pct": 11.1
+    },
+    {
+      "niveau": "4A",
+      "stages": 256,
+      "jours": 102.3,
+      "semaines": 14.6,
+      "heures": 504.4,
+      "etranger_pct": 59.8
+    },
+    {
+      "niveau": "M2",
+      "stages": 116,
+      "jours": 171.6,
+      "semaines": 24.5,
+      "heures": 834.2,
+      "etranger_pct": 2.6
+    },
+    {
+      "niveau": "5A",
+      "stages": 148,
+      "jours": 174.2,
+      "semaines": 24.9,
+      "heures": 827.9,
+      "etranger_pct": 13.5
+    },
+    {
+      "niveau": "Autres",
+      "stages": 13,
+      "jours": 129.4,
+      "semaines": 18.5,
+      "heures": 560.9,
+      "etranger_pct": 0.0
+    }
+  ],
+  "anomalies_exclues_des_heures": {
+    "heures_hebdo_manquantes": 11,
+    "heures_hebdo_superieures_48": 4,
+    "heures_hebdo_nulles_ou_negatives": 1,
+    "duree_declaree_nulle": 3,
+    "dates_invalides_ou_fin_avant_debut": 0
+  }
+}

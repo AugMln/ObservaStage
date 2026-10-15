@@ -1,0 +1,16 @@
+# Données EsupStage : jamais versionnées (RGPD)
+donnees/
+*.xls
+*.xlsx
+*.csv
+!conception/referentiels/*.csv
+!exploration/resultats/*.csv
+
+# Environnements et caches
+venv/
+__pycache__/
+app/vendor/
+app/.env
+
+# Fichiers en attente de suppression
+_a_supprimer/

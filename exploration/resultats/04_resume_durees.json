@@ -1,0 +1,29 @@
+{
+  "duree_calendaire_jours": {
+    "nombre_valeurs": 1053,
+    "moyenne": 90.9,
+    "mediane": 75.0,
+    "minimum": 2.0,
+    "maximum": 214.0,
+    "valeurs_negatives": 0,
+    "valeurs_nulles": 0
+  },
+  "jours_interruption_detectes": {
+    "nombre_valeurs": 1053,
+    "moyenne": 0.0,
+    "mediane": 0.0,
+    "minimum": 0.0,
+    "maximum": 0.0,
+    "valeurs_negatives": 0,
+    "valeurs_nulles": 1053
+  },
+  "duree_hors_interruption_jours": {
+    "nombre_valeurs": 1053,
+    "moyenne": 90.9,
+    "mediane": 75.0,
+    "minimum": 2.0,
+    "maximum": 214.0,
+    "valeurs_negatives": 0,
+    "valeurs_nulles": 0
+  }
+}
