@@ -25,6 +25,7 @@ final class Importeur
     private float $heuresHebdoMax;
     private array $cacheStructures = [];
     private array $cacheEtudiants = [];
+    private array $cacheEncadrants = [];
     private array $anomalies = [];
 
     /**
@@ -170,18 +171,19 @@ final class Importeur
     private function enregistrer(array $d): bool
     {
         $stmt = Db::pdo()->prepare(
-            'INSERT INTO stage (annee_universitaire, numero_convention, etudiant_id, structure_id, code_etape,
+            'INSERT INTO stage (annee_universitaire, numero_convention, etudiant_id, structure_id, enseignant_id, tuteur_id, code_etape,
                 service_nom, service_pays, service_code_postal, service_commune, date_debut, date_fin,
                 duree_heures, heures_hebdo, thematique, sujet, fonctions_taches, type_convention,
                 commentaire_duree_travail, validation_convention, validation_pedagogique, avenant,
                 interruption, date_modification, lot_id)
-             VALUES (:annee_universitaire, :numero_convention, :etudiant_id, :structure_id, :code_etape,
+             VALUES (:annee_universitaire, :numero_convention, :etudiant_id, :structure_id, :enseignant_id, :tuteur_id, :code_etape,
                 :service_nom, :service_pays, :service_code_postal, :service_commune, :date_debut, :date_fin,
                 :duree_heures, :heures_hebdo, :thematique, :sujet, :fonctions_taches, :type_convention,
                 :commentaire_duree_travail, :validation_convention, :validation_pedagogique, :avenant,
                 :interruption, :date_modification, :lot_id)
              ON CONFLICT (annee_universitaire, numero_convention) DO UPDATE SET
                 etudiant_id = EXCLUDED.etudiant_id, structure_id = EXCLUDED.structure_id,
+                enseignant_id = EXCLUDED.enseignant_id, tuteur_id = EXCLUDED.tuteur_id,
                 code_etape = EXCLUDED.code_etape, service_nom = EXCLUDED.service_nom,
                 service_pays = EXCLUDED.service_pays, service_code_postal = EXCLUDED.service_code_postal,
                 service_commune = EXCLUDED.service_commune, date_debut = EXCLUDED.date_debut,
@@ -205,21 +207,45 @@ final class Importeur
             $valeur = $d[$colonne] ?? null;
             $params[$colonne] = is_bool($valeur) ? ($valeur ? 'true' : 'false') : $valeur;
         }
-        $params['etudiant_id'] = $this->etudiant($d['numero_etudiant'] ?? null);
+        $params['etudiant_id'] = $this->etudiant($d);
+        $params['enseignant_id'] = $this->encadrant('enseignant', $d['enseignant_nom'] ?? null, $d['enseignant_email'] ?? null);
+        $params['tuteur_id'] = $this->encadrant('tuteur', $d['tuteur_nom'] ?? null, $d['tuteur_email'] ?? null);
         $params['structure_id'] = $this->structure($d);
         $params['lot_id'] = $this->lotId;
         $stmt->execute($params);
         return (bool) $stmt->fetchColumn();
     }
 
-    private function etudiant(?string $numero): ?int
+    /** Étudiant rapproché par son numéro ; nom, prénom et e-mail mis à jour s'ils sont fournis. */
+    private function etudiant(array $d): ?int
     {
+        $numero = $d['numero_etudiant'] ?? null;
         if ($numero === null) {
             return null;
         }
         return $this->cacheEtudiants[$numero] ??= (int) Db::valeur(
-            'INSERT INTO etudiant (numero) VALUES (?) ON CONFLICT (numero) DO UPDATE SET numero = EXCLUDED.numero RETURNING id',
-            [$numero]
+            'INSERT INTO etudiant (numero, nom, prenom, email) VALUES (?, ?, ?, ?)
+             ON CONFLICT (numero) DO UPDATE SET nom = coalesce(EXCLUDED.nom, etudiant.nom),
+                prenom = coalesce(EXCLUDED.prenom, etudiant.prenom), email = coalesce(EXCLUDED.email, etudiant.email)
+             RETURNING id',
+            [$numero, $d['etudiant_nom'] ?? null, $d['etudiant_prenom'] ?? null, $d['etudiant_email'] ?? null]
+        );
+    }
+
+    /** Encadrant rapproché par e-mail, sinon par nom normalisé. */
+    private function encadrant(string $role, ?string $nom, ?string $email): ?int
+    {
+        $email = $email !== null ? mb_strtolower($email) : null;
+        $cle = $email ?? ($nom !== null ? 'NOM:' . Texte::normaliser($nom) : null);
+        if ($cle === null) {
+            return null;
+        }
+        return $this->cacheEncadrants["$role|$cle"] ??= (int) Db::valeur(
+            'INSERT INTO encadrant (role, cle_rapprochement, nom, email) VALUES (?, ?, ?, ?)
+             ON CONFLICT (role, cle_rapprochement) DO UPDATE SET nom = coalesce(EXCLUDED.nom, encadrant.nom),
+                email = coalesce(EXCLUDED.email, encadrant.email)
+             RETURNING id',
+            [$role, $cle, $nom, $email]
         );
     }
 

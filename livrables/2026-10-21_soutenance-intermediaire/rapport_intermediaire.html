@@ -77,7 +77,7 @@
 <h3>Contraintes majeures</h3>
 <ul>
   <li><strong>Technique</strong> : la stack est imposée (PHP, HTML/JavaScript, PostgreSQL), comme pour toutes les applications de Polytech. L'hébergement devra être maîtrisé par l'école.</li>
-  <li><strong>Données personnelles (RGPD)</strong> : je développe sur une base anonymisée, mais l'outil traitera ensuite des fichiers nominatifs. Il doit fonctionner à l'identique sur les deux. Les colonnes inutiles ne sont pas stockées et l'accès sera authentifié.</li>
+  <li><strong>Données personnelles (RGPD)</strong> : je développe sur une base anonymisée, mais l'outil traitera ensuite des fichiers nominatifs. Il doit fonctionner à l'identique sur les deux. Les noms des étudiants et des encadrants sont utiles à la DRE et sont conservés. En revanche, les colonnes inutiles (adresses, téléphones, e-mails personnels) ne sont pas stockées, et l'accès sera authentifié.</li>
   <li><strong>Données</strong> : 2025-2026 est la première année d'EsupStage, il n'existe <strong>aucune autre extraction</strong> pour tester l'évolution des colonnes. La qualité des données est hétérogène (section 3.2).</li>
 </ul>
 
@@ -130,15 +130,15 @@
   <li><strong>Alias</strong> : comparaison avec les intitulés connus, après normalisation (accents, casse, ponctuation).</li>
   <li><strong>Similarité</strong> (mots communs, distance entre chaînes) : proposition marquée « à vérifier ».</li>
 </ol>
-<p>L'utilisatrice valide l'association en voyant des <strong>valeurs d'exemple</strong>, sauf pour les colonnes personnelles, qui sont masquées. Son choix est enregistré comme profil réutilisable. L'import est <strong>idempotent</strong> sur la clé (année universitaire, N° de convention) : un réimport met à jour au lieu de dupliquer.</p>
+<p>L'utilisatrice valide l'association en voyant des <strong>valeurs d'exemple</strong>. Son choix est enregistré comme profil réutilisable. L'import est <strong>idempotent</strong> sur la clé (année universitaire, N° de convention) : un réimport met à jour au lieu de dupliquer.</p>
 
 <figure>
   <img src="figures/app_mapping.png" style="width:92%">
-  <figcaption>Figure 1 – Ébauche : import d'un fichier de test aux colonnes renommées, déplacées et ajoutées. 27 colonnes sont reconnues, 2 sont à vérifier, 3 nouvelles sont à décider.</figcaption>
+  <figcaption>Figure 1 – Ébauche : import d'un fichier de test aux colonnes renommées, déplacées et ajoutées. 34 colonnes sont reconnues, 2 sont à vérifier, 3 nouvelles sont à décider.</figcaption>
 </figure>
 
 <h3>3.4 Validation croisée des indicateurs</h3>
-<p>Pour vérifier les indicateurs (critère 2), un script Python indépendant applique les mêmes règles au fichier d'origine. Un second script compare automatiquement ses résultats à ceux de l'application. L'ébauche obtient <strong>47 indicateurs identiques sur 47</strong>. Exemples sur les 884 conventions validées : durée moyenne de 14,4 semaines (101 jours, 493 heures), 24,7 % des stages à l'étranger, 39,1 % en Hauts-de-France.</p>
+<p>Pour vérifier les indicateurs (critère 2), un script Python indépendant applique les mêmes règles au fichier d'origine. Un second script compare automatiquement ses résultats à ceux de l'application. L'ébauche obtient <strong>48 indicateurs identiques sur 48</strong>. Exemples sur les 884 conventions validées : durée moyenne de 14,4 semaines (101 jours, 493 heures), 24,7 % des stages à l'étranger, 39,1 % en Hauts-de-France.</p>
 
 <h2>4. Gestion de projet</h2>
 
@@ -165,7 +165,7 @@
 </ul>
 
 <h3>4.4 Recadrage et prochaines étapes</h3>
-<p>L'ébauche étant en avance sur le calendrier initial, je revois les ambitions <strong>à la hausse</strong> pour les fonctionnalités souhaitables (recherche plein texte, rapprochement des structures par similarité avec <code>pg_trgm</code>, graphiques, historique). À l'inverse, l'indicateur « type d'expérience » restera <strong>partiel</strong> : il n'est renseigné que dans un texte libre, pour 164 conventions. Prochaines étapes : faire valider les critères de validation et la table des niveaux (S43), consolider l'import (S44-S46), ajouter l'authentification et les écrans de paramètres (S46-S47), contacter la DSI pour l'hébergement (S44-S45, principal risque), puis faire tester l'outil par la DRE avant la session démo du 08/01/2027.</p>
+<p>L'ébauche étant en avance sur le calendrier initial, je revois les ambitions <strong>à la hausse</strong> pour les fonctionnalités souhaitables (recherche plein texte, rapprochement des structures par similarité avec <code>pg_trgm</code>, graphiques, historique). À l'inverse, l'indicateur « type d'expérience » restera <strong>partiel</strong> : il repose sur un texte libre, renseigné pour 164 conventions seulement. Une convention sans mention est comptée comme un stage. Prochaines étapes : faire valider les critères de validation et la table des niveaux (S43), consolider l'import (S44-S46), ajouter l'authentification et les écrans de paramètres (S46-S47), contacter la DSI pour l'hébergement (S44-S45, principal risque), puis faire tester l'outil par la DRE avant la session démo du 08/01/2027.</p>
 
 <table>
   <tr><th style="width:30%">Risque</th><th style="width:12%">Impact</th><th>Mesure</th></tr>

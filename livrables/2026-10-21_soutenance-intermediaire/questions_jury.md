@@ -26,7 +26,7 @@ Elle sépare la logique métier de l'affichage, permet de tester les calculs ind
 Il y a un seul endroit où elles sont définies. Les indicateurs, la recherche et les exports utilisent la même définition, donc ils ne peuvent pas diverger. Les paramètres se modifient en base, sans redéploiement.
 
 **Comment garantissez-vous que les chiffres sont justes ?**
-Par une double implémentation indépendante : Python (pandas) sur le fichier brut, SQL dans l'application. Un script compare les deux : 47 sur 47 identiques. Les écarts trouvés en cours de route (arrondi, règle de comptage des CDD/CDI) ont été tranchés explicitement.
+Par une double implémentation indépendante : Python (pandas) sur le fichier brut, SQL dans l'application. Un script compare les deux : 48 sur 48 identiques. Les écarts trouvés en cours de route (arrondi, règle de comptage des CDD/CDI) ont été tranchés explicitement.
 
 **Que se passe-t-il si on importe deux fois le même fichier ?**
 Rien n'est dupliqué : la clé est (année universitaire, N° de convention), et la convention est mise à jour. Je l'ai testé : second import, 0 création et 1053 mises à jour.
@@ -43,7 +43,7 @@ Avec un script qui génère des fichiers dérivés de la base réelle : colonnes
 ## Données et RGPD
 
 **Vous travaillez sur des données personnelles ?**
-En développement, sur une base anonymisée par ma tutrice école. En production, Dorothée Bernard importera des fichiers nominatifs : l'outil n'importe que les colonnes utiles, le fichier n'est pas conservé après import, les données personnelles ne sont ni affichées ni exportées, et l'authentification sera en place avant toute mise en service. L'hébergement sera sur un serveur de l'école.
+En développement, sur une base anonymisée par ma tutrice école. En production, Dorothée Bernard importera des fichiers nominatifs : l'outil conserve les noms (étudiants, enseignants référents, tuteurs), dont elle a besoin, mais n'importe pas les colonnes inutiles (adresses, téléphones, e-mails personnels). Le fichier n'est pas conservé après import, et l'authentification sera en place avant toute mise en service. L'hébergement sera sur un serveur de l'école.
 
 **Pourquoi seulement les conventions validées ?**
 C'est la règle demandée par la DRE : une convention non validée peut être abandonnée. Toutes sont importées, le filtre s'applique au calcul, et la règle est paramétrable (validation administrative seule : 884 ; administrative ou pédagogique : 1023). Point ouvert : les PEIP non validées étaient probablement en cours de validation au moment de l'extraction.

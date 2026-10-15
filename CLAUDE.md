@@ -33,7 +33,7 @@ Application (Docker requis, voir `app/README.md`) :
 ```powershell
 cd app; docker compose up -d --build                             # http://localhost:8080
 docker compose down -v; docker compose up -d                     # repartir d'une base vide
-.\venv\Scripts\python.exe exploration\verifier_application.py    # indicateurs appli == référence (47/47)
+.\venv\Scripts\python.exe exploration\verifier_application.py    # indicateurs appli == référence (48/48)
 .\venv\Scripts\python.exe exploration\generer_fichier_test.py    # fichier aux colonnes modifiées (donnees/tests/)
 ```
 
@@ -45,7 +45,9 @@ docker compose down -v; docker compose up -d                     # repartir d'un
 - Toutes les règles métier dérivées (retenu, durées, étranger, Hauts-de-France, recherche, type d'expérience) sont dans **la vue SQL `v_stage`**, pilotée par la table `parametre`. Indicateurs, recherche et exports passent par `Filtres::versSql()` : ne pas dupliquer une règle ailleurs.
 - Toute modification d'une règle doit être reportée dans `exploration/indicateurs_reference.py`, puis vérifiée avec `verifier_application.py`.
 - Mapping (`Mapping.php`) : profil (signature des en-têtes) → colonnes déjà vues → alias exacts normalisés → similarité (seuil 0,78, « à vérifier »). Normalisation PHP (`Texte::normaliser`) équivalente à `normalize_name()` en Python.
-- RGPD : colonnes ignorées jamais lues ; exemples masqués pour les en-têtes personnels ; aucune donnée d'étudiant ou d'encadrant dans la recherche ni dans les exports ; fichier téléversé supprimé après import (purge après 1 h sinon).
+- Données nominatives : l'outil **inclut** les noms et e-mails universitaires des étudiants, enseignants référents et tuteurs (besoin de la DRE ; anonymisation seulement pour le développement). Minimisation : adresses, téléphones, e-mails personnels, sexe, signataire ne sont pas des champs cibles. Colonnes ignorées jamais lues ; fichier téléversé supprimé après import (purge après 1 h sinon). Authentification à ajouter avant toute mise en service.
+- Type d'expérience : CDD, CDI, intérim, bénévolat par mots-clés ; **« Stage » si rien n'est précisé**.
+- Suppression d'un import (`api/lot_supprimer.php`) : retire les conventions dont ce lot est la dernière version (cascade), puis les structures, étudiants et encadrants orphelins. Profils supprimables (`api/profils.php`).
 
 ## Livrables
 

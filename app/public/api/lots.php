@@ -9,7 +9,9 @@ if (isset($_GET['id'])) {
     repondre(Db::lignes(
         "SELECT l.id, l.fichier, to_char(l.importe_le, 'DD/MM/YYYY HH24:MI') AS date, p.nom AS profil,
                 l.nb_lignes, l.nb_crees, l.nb_mis_a_jour, l.nb_rejetes,
-                (SELECT count(*) FROM import_anomalie a WHERE a.lot_id = l.id) AS nb_anomalies
+                (SELECT count(*) FROM import_anomalie a WHERE a.lot_id = l.id) AS nb_anomalies,
+                (SELECT count(*) FROM stage s WHERE s.lot_id = l.id) AS nb_actuelles,
+                (SELECT string_agg(DISTINCT s.annee_universitaire, ', ') FROM stage s WHERE s.lot_id = l.id) AS annees
          FROM import_lot l LEFT JOIN profil_mapping p ON p.id = l.profil_id
          ORDER BY l.id DESC"
     ));

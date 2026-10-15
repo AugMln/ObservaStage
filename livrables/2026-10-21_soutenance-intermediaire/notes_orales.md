@@ -55,13 +55,13 @@ Repère : si j'arrive à la slide 9 après 6:15, je raccourcis la démo (tableau
 
 **7. Mapping (1:00), le cœur technique.**
 - Quatre niveaux, du plus sûr au moins sûr : profil connu, colonne déjà vue, alias, similarité.
-- L'utilisatrice valide avec des exemples de valeurs. Les colonnes personnelles sont masquées.
-- Sur le fichier de test : sur 69 colonnes, 2 seulement sont à vérifier et 3 sont nouvelles. « Seules les différences sont à traiter. »
+- L'utilisatrice valide avec des exemples de valeurs.
+- Sur le fichier de test : sur 69 colonnes, 34 sont reconnues, 2 seulement sont à vérifier et 3 sont nouvelles. « Seules les différences sont à traiter. »
 
 **8. Fiabilité (0:45).**
 - Chaque règle est explicite et validée.
-- Pour être sûr des chiffres : un script Python indépendant recalcule tout, et un second compare. 47 sur 47 identiques.
-- RGPD : minimisation, rien de personnel affiché ni exporté.
+- Pour être sûr des chiffres : un script Python indépendant recalcule tout, et un second compare. 48 sur 48 identiques.
+- RGPD : seules les colonnes utiles sont stockées (pas d'adresses ni de téléphones), accès réservé à la DRE avec authentification.
 
 **9. Démo (1:45).** Voir le script ci-dessous.
 
@@ -93,8 +93,8 @@ Préparation, **avant** la séance :
 Déroulé :
 1. **Tableau de bord** (30 s) : « 884 stages validés, 14,4 semaines en moyenne, un quart à l'étranger. » Choisir Niveau = 4A : « 60 % à l'étranger en 4A ».
 2. **Recherche** (30 s) : Localisation = Étranger, mot-clé « robot » → 8 stages. Cliquer sur XLS : le fichier se télécharge.
-3. **Import** (45 s) : choisir `donnees/tests/esupstage_test_colonnes_modifiees.xlsx`, puis Analyser. « Colonnes renommées et déplacées : l'outil reconnaît 27 colonnes, m'en propose 2 à vérifier, et 3 sont nouvelles. Je les associe : Domaine d'activité → Thématique, Temps de travail hebdo → Heures hebdomadaires. » **Ne pas cliquer sur Importer** : c'est un fichier de test (année 2026/2027 fictive).
+3. **Import** (45 s) : choisir `donnees/tests/esupstage_test_colonnes_modifiees.xlsx`, puis Analyser. « Colonnes renommées et déplacées : l'outil reconnaît 34 colonnes, m'en propose 2 à vérifier, et 3 sont nouvelles. Je les associe : Domaine d'activité → Thématique, Temps de travail hebdo → Heures hebdomadaires. » Option, si le temps le permet : cliquer sur Importer, montrer l'année 2026/2027 dans les filtres, puis **supprimer l'import** dans l'historique et **supprimer le profil** créé, pour remettre la démo dans son état initial. Sinon, ne pas importer.
 
 ## Ne pas montrer
 
-- Aucun nom de personne : les noms des enseignants référents ne sont pas affichés par l'outil, ne pas ouvrir le fichier Excel source à l'écran.
+- Les noms apparaissent dans la recherche (étudiants pseudonymisés, enseignants réels mais déjà publics au sein de l'école). Rester sur le tableau de bord et l'écran de mapping si possible.

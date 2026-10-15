@@ -51,7 +51,8 @@ final class Filtres
         }
 
         if (trim($criteres['texte'] ?? '') !== '') {
-            $conditions[] = "unaccent(concat_ws(' ', sujet, fonctions_taches, structure_nom, service_nom, service_commune))
+            $conditions[] = "unaccent(concat_ws(' ', sujet, fonctions_taches, structure_nom, service_nom, service_commune,
+                                       etudiant, etudiant_numero, enseignant, tuteur))
                              ILIKE unaccent(:texte)";
             $params['texte'] = '%' . trim($criteres['texte']) . '%';
         }

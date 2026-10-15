@@ -15,9 +15,6 @@ final class Mapping
 {
     private const SEUIL_SIMILARITE = 0.78;
 
-    /** En-têtes dont les valeurs d'exemple ne sont jamais affichées. */
-    private const MOTS_PERSONNELS = ['nom', 'prenom', 'mail', 'telephone', 'adresse', 'signataire', 'tuteur', 'enseignant', 'etudiant'];
-
     /** @return list<array<string, mixed>> */
     public static function catalogue(): array
     {
@@ -48,8 +45,7 @@ final class Mapping
             $colonnes[] = [
                 'index' => $i,
                 'source' => $entete,
-                'exemples' => self::estPersonnelle($entete) ? [] : $fichier->exemples($i),
-                'masquee' => self::estPersonnelle($entete),
+                'exemples' => $fichier->exemples($i),
                 'champ' => $suggestion['champ'],
                 'confiance' => $profil && $suggestion['champ'] ? 'profil' : $suggestion['confiance'],
             ];
@@ -164,13 +160,6 @@ final class Mapping
         return $profilId;
     }
 
-    public static function estPersonnelle(string $entete): bool
-    {
-        $mots = explode(' ', Texte::normaliser($entete));
-        return array_intersect($mots, self::MOTS_PERSONNELS) !== [] && !in_array(Texte::normaliser($entete), [
-            'nom structure d accueil', 'service d accueil nom', 'service d accueil adresse', 'adresse',
-        ], true);
-    }
 
     /** Convertit un tableau PostgreSQL renvoyé par PDO ('{"a","b"}') en tableau PHP. */
     private static function tableauPg(string $valeur): array

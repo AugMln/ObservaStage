@@ -40,7 +40,7 @@
       </label>
       <label>Pays <select name="pays"><option value="">Tous</option></select></label>
       <label>Thématique <select name="thematique"><option value="">Toutes</option></select></label>
-      <label class="recherche-seule">Mots-clés <input type="search" name="texte" placeholder="sujet, missions, structure…"></label>
+      <label class="recherche-seule">Mots-clés <input type="search" name="texte" placeholder="sujet, structure, nom…"></label>
       <label class="recherche-seule">Type d'expérience <select name="type_experience"><option value="">Tous</option></select></label>
       <label class="case"><input type="checkbox" name="recherche" value="1"> Stages « recherche »</label>
       <button type="reset" class="discret">Réinitialiser</button>
@@ -63,7 +63,7 @@
           <div id="thematiques"></div>
         </article>
         <article class="carte">
-          <header><h2>Type d'expérience</h2><span class="aide">mentionné dans le commentaire de durée de travail</span></header>
+          <header><h2>Type d'expérience</h2><span class="aide">d'après le commentaire de durée de travail · « Stage » si rien n'est précisé</span></header>
           <div id="experience"></div>
         </article>
       </div>
@@ -121,8 +121,13 @@
       </article>
 
       <article class="carte">
-        <header><h2>Historique des imports</h2></header>
+        <header><h2>Historique des imports</h2><span class="aide">supprimer un import retire les conventions dont il est la dernière version</span></header>
         <div class="table-defilante"><table id="lots"></table></div>
+      </article>
+
+      <article class="carte">
+        <header><h2>Profils de mapping</h2><span class="aide">un profil par format de fichier ; supprimer un profil fait oublier ses associations de colonnes</span></header>
+        <div class="table-defilante"><table id="profils"></table></div>
       </article>
     </section>
   </main>

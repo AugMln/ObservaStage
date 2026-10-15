@@ -32,7 +32,8 @@ HEURES_HEBDO_MAX = 48
 MOTS_CLES_RECHERCHE = ["recherche", "r&d"]
 
 # Type d'expérience, détecté dans « Commentaire durée travail ».
-# Une convention reçoit le premier type trouvé, dans cet ordre (« CDD/CDI » compte comme CDD).
+# Une convention reçoit le premier type trouvé, dans cet ordre (« CDD/CDI » compte comme CDD) ;
+# sans mot-clé, c'est un stage.
 MOTS_CLES_EXPERIENCE = {
     "CDD": ["cdd"],
     "CDI": ["cdi"],
@@ -125,6 +126,7 @@ def main():
     df["type_experience"] = None
     for label, keywords in MOTS_CLES_EXPERIENCE.items():
         df.loc[df["type_experience"].isna() & contains_any(comment, keywords), "type_experience"] = label
+    df["type_experience"] = df["type_experience"].fillna("Stage")  # rien de précisé : stage classique
     experience = df["type_experience"].value_counts().to_dict()
 
     def duree(frame):

@@ -93,7 +93,14 @@ INSERT INTO champ_cible (code, libelle, type, obligatoire, alias, ordre) VALUES
     ('service_nom', 'Service d''accueil : nom', 'texte', false, ARRAY['Service d''accueil - Nom'], 28),
     ('service_pays', 'Service d''accueil : pays', 'texte', true, ARRAY['Service d''accueil - Pays'], 29),
     ('service_code_postal', 'Service d''accueil : code postal', 'texte', false, ARRAY['Service d''accueil - Code postal'], 30),
-    ('service_commune', 'Service d''accueil : commune', 'texte', false, ARRAY['Service d''accueil - Commune'], 31);
+    ('service_commune', 'Service d''accueil : commune', 'texte', false, ARRAY['Service d''accueil - Commune'], 31),
+    ('etudiant_nom', 'Étudiant : nom', 'texte', false, ARRAY['Nom Étudiant', 'Nom étudiant'], 32),
+    ('etudiant_prenom', 'Étudiant : prénom', 'texte', false, ARRAY['Prénom Étudiant', 'Prénom étudiant'], 33),
+    ('etudiant_email', 'Étudiant : e-mail universitaire', 'texte', false, ARRAY['Mail universitaire étudiant'], 34),
+    ('enseignant_nom', 'Enseignant référent : nom', 'texte', false, ARRAY['Enseignant référent (NOM Prénom)'], 35),
+    ('enseignant_email', 'Enseignant référent : e-mail', 'texte', false, ARRAY['Mail enseignant référent'], 36),
+    ('tuteur_nom', 'Tuteur professionnel : nom', 'texte', false, ARRAY['Tuteur professionnel (Nom Prénom)'], 37),
+    ('tuteur_email', 'Tuteur professionnel : e-mail', 'texte', false, ARRAY['Mail tuteur professionnel'], 38);
 
 INSERT INTO parametre (cle, valeur, description) VALUES
     ('regle_validation', 'administrative', 'Conventions retenues : administrative | administrative_ou_pedagogique | toutes'),

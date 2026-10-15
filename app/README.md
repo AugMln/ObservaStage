@@ -6,6 +6,10 @@
 
 Prérequis : Docker Desktop.
 
+**Le plus simple** : double-cliquer sur `lancer.bat` (démarre Docker Desktop si besoin, puis l'application, puis ouvre le navigateur) et `arreter.bat` pour l'arrêter. Les données importées sont conservées entre deux lancements.
+
+En ligne de commande :
+
 ```powershell
 cd app
 docker compose up -d --build
@@ -48,6 +52,5 @@ Après import du fichier 2025-2026 :
 ## Limites de l'ébauche
 
 - Pas d'authentification (prévue avant toute utilisation sur données réelles).
-- Encadrants (enseignant référent, tuteur) non importés.
 - Pas d'écran d'administration des paramètres et des référentiels (modification en base).
 - Rapprochement des structures sans SIRET : nom normalisé exact uniquement (pas encore de similarité `pg_trgm`).

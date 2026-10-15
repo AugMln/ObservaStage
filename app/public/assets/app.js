@@ -172,8 +172,7 @@ function afficherMapping() {
   $('#mapping').innerHTML = `<thead><tr><th>Colonne du fichier</th><th>Exemples de valeurs</th><th>Champ ObservaStage</th><th>Statut</th></tr></thead>
     <tbody>${colonnes.map((c) => `<tr class="${c.confiance}">
       <td><strong>${echapper(c.source)}</strong></td>
-      <td>${c.masquee ? '<span class="masque">donnée personnelle : non affichée</span>'
-        : `<span class="exemples">${c.exemples.map(echapper).join(' · ') || '<em>colonne vide</em>'}</span>`}</td>
+      <td><span class="exemples">${c.exemples.map(echapper).join(' · ') || '<em>colonne vide</em>'}</span></td>
       <td><select data-index="${c.index}">${options(c.champ)}</select></td>
       <td><span class="badge ${c.confiance}">${CONFIANCE[c.confiance]}</span></td></tr>`).join('')}</tbody>`;
 
@@ -235,14 +234,49 @@ function afficherBilan(b) {
 }
 
 async function chargerLots() {
-  const lots = await api('lots.php');
+  const [lots, profils] = await Promise.all([api('lots.php'), api('profils.php')]);
   $('#lots').innerHTML = `<thead><tr><th>#</th><th>Date</th><th>Fichier</th><th>Profil</th><th class="num">Lignes</th>
-    <th class="num">Créées</th><th class="num">Mises à jour</th><th class="num">Rejetées</th><th class="num">Anomalies</th></tr></thead>
-    <tbody>${lots.map((l) => `<tr><td>${l.id}</td><td>${l.date}</td><td>${echapper(l.fichier)}</td><td>${echapper(l.profil)}</td>
+    <th class="num">Créées</th><th class="num">Mises à jour</th><th class="num">Rejetées</th><th class="num">Anomalies</th>
+    <th class="num">Conventions actuelles</th><th></th></tr></thead>
+    <tbody>${lots.map((l) => `<tr><td>${l.id}</td><td>${l.date}</td><td>${echapper(l.fichier)}</td><td>${echapper(l.profil ?? '–')}</td>
       <td class="num">${nombre(l.nb_lignes)}</td><td class="num">${nombre(l.nb_crees)}</td><td class="num">${nombre(l.nb_mis_a_jour)}</td>
-      <td class="num">${nombre(l.nb_rejetes)}</td><td class="num">${nombre(l.nb_anomalies)}</td></tr>`).join('')
-      || '<tr><td colspan="9" class="vide">Aucun import pour l\'instant.</td></tr>'}</tbody>`;
+      <td class="num">${nombre(l.nb_rejetes)}</td><td class="num">${nombre(l.nb_anomalies)}</td>
+      <td class="num" title="${echapper(l.annees ?? '')}">${nombre(l.nb_actuelles)}${l.annees ? ` <span class="aide">(${echapper(l.annees)})</span>` : ''}</td>
+      <td><button class="discret" data-supprimer-lot="${l.id}" data-nb="${l.nb_actuelles}" data-fichier="${echapper(l.fichier)}">Supprimer</button></td></tr>`).join('')
+      || '<tr><td colspan="11" class="vide">Aucun import pour l’instant.</td></tr>'}</tbody>`;
+
+  $('#profils').innerHTML = `<thead><tr><th>Profil</th><th>Créé le</th><th class="num">Colonnes importées</th>
+    <th class="num">Colonnes ignorées</th><th class="num">Imports</th><th></th></tr></thead>
+    <tbody>${profils.map((p) => `<tr><td>${echapper(p.nom)}</td><td>${p.date}</td><td class="num">${nombre(p.colonnes_importees)}</td>
+      <td class="num">${nombre(p.colonnes_ignorees)}</td><td class="num">${nombre(p.imports)}</td>
+      <td><button class="discret" data-supprimer-profil="${p.id}" data-nom="${echapper(p.nom)}">Supprimer</button></td></tr>`).join('')
+      || '<tr><td colspan="6" class="vide">Aucun profil enregistré.</td></tr>'}</tbody>`;
 }
+
+document.addEventListener('click', async (e) => {
+  const lot = e.target.closest('[data-supprimer-lot]');
+  const profil = e.target.closest('[data-supprimer-profil]');
+  try {
+    if (lot) {
+      if (!confirm(`Supprimer l'import n° ${lot.dataset.supprimerLot} (${lot.dataset.fichier}) ?
+`
+        + `${lot.dataset.nb} convention(s) dont il est la dernière version seront retirées de la base.`)) return;
+      const r = await api('lot_supprimer.php', { method: 'POST', body: JSON.stringify({ id: Number(lot.dataset.supprimerLot) }) });
+      message(`Import supprimé : ${r.conventions_supprimees} convention(s) retirée(s).`);
+      await chargerOptions();
+      chargerLots();
+    }
+    if (profil) {
+      if (!confirm(`Supprimer le profil « ${profil.dataset.nom} » ?
+Ses associations de colonnes ne seront plus proposées automatiquement.`)) return;
+      await api('profils.php', { method: 'POST', body: JSON.stringify({ id: Number(profil.dataset.supprimerProfil) }) });
+      message('Profil supprimé.');
+      chargerLots();
+    }
+  } catch (err) {
+    message(err.message, true);
+  }
+});
 
 // ------------------------------------------------------------ Événements
 

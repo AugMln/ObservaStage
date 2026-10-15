@@ -65,7 +65,7 @@ CREATE TABLE import_lot (
     id            serial PRIMARY KEY,
     fichier       text NOT NULL,
     empreinte     text NOT NULL,           -- SHA-256 du fichier
-    profil_id     int REFERENCES profil_mapping(id),
+    profil_id     int REFERENCES profil_mapping(id) ON DELETE SET NULL,
     importe_le    timestamptz NOT NULL DEFAULT now(),
     nb_lignes     int NOT NULL DEFAULT 0,
     nb_crees      int NOT NULL DEFAULT 0,
@@ -86,9 +86,23 @@ CREATE TABLE import_anomalie (
 -- Données métier
 -- ============================================================
 
+-- Données nominatives : présentes en production (fichiers non anonymisés), accès authentifié.
 CREATE TABLE etudiant (
     id      serial PRIMARY KEY,
-    numero  text NOT NULL UNIQUE
+    numero  text NOT NULL UNIQUE,
+    nom     text,
+    prenom  text,
+    email   text
+);
+
+-- Enseignants référents (école) et tuteurs professionnels, rapprochés par e-mail, sinon par nom.
+CREATE TABLE encadrant (
+    id                serial PRIMARY KEY,
+    role              text NOT NULL CHECK (role IN ('enseignant', 'tuteur')),
+    cle_rapprochement text NOT NULL,
+    nom               text,
+    email             text,
+    UNIQUE (role, cle_rapprochement)
 );
 
 CREATE TABLE structure (
@@ -111,6 +125,8 @@ CREATE TABLE stage (
     numero_convention          text NOT NULL,
     etudiant_id                int REFERENCES etudiant(id),
     structure_id               int REFERENCES structure(id),
+    enseignant_id              int REFERENCES encadrant(id),
+    tuteur_id                  int REFERENCES encadrant(id),
     code_etape                 text,
     service_nom                text,
     service_pays               text,
@@ -130,7 +146,7 @@ CREATE TABLE stage (
     avenant                    boolean,
     interruption               boolean,
     date_modification          date,
-    lot_id                     int REFERENCES import_lot(id),
+    lot_id                     int REFERENCES import_lot(id) ON DELETE CASCADE,
     UNIQUE (annee_universitaire, numero_convention)
 );
 
@@ -162,6 +178,13 @@ SELECT
     coalesce(n.ordre, 99)                                 AS niveau_ordre,
     st.nom                                                AS structure_nom,
     st.type_structure,
+    et.numero                                             AS etudiant_numero,
+    concat_ws(' ', upper(et.nom), et.prenom)              AS etudiant,
+    et.email                                              AS etudiant_email,
+    en.nom                                                AS enseignant,
+    en.email                                              AS enseignant_email,
+    tu.nom                                                AS tuteur,
+    tu.email                                              AS tuteur_email,
     -- Prise en compte dans les indicateurs (règle paramétrable)
     CASE param('regle_validation')
         WHEN 'administrative_ou_pedagogique'
@@ -188,8 +211,12 @@ SELECT
         WHEN contient_mot_cle(s.commentaire_duree_travail, param('mots_cles_cdi'))       THEN 'CDI'
         WHEN contient_mot_cle(s.commentaire_duree_travail, param('mots_cles_interim'))   THEN 'Intérim'
         WHEN contient_mot_cle(s.commentaire_duree_travail, param('mots_cles_benevolat')) THEN 'Bénévolat'
+        ELSE 'Stage'                                      -- rien de précisé : stage classique
     END                                                   AS type_experience
 FROM stage s
 LEFT JOIN ref_etape e  ON e.code_etape = s.code_etape
 LEFT JOIN ref_niveau n ON n.niveau = e.niveau
-LEFT JOIN structure st ON st.id = s.structure_id;
+LEFT JOIN structure st ON st.id = s.structure_id
+LEFT JOIN etudiant et  ON et.id = s.etudiant_id
+LEFT JOIN encadrant en ON en.id = s.enseignant_id
+LEFT JOIN encadrant tu ON tu.id = s.tuteur_id;
