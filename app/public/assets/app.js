@@ -161,6 +161,8 @@ function afficherMapping() {
     : `${a.fichier} · ${nombre(a.lignes)} lignes · ${a.colonnes.length} colonnes : `
       + `${compte('sure')} reconnues, ${compte('a_verifier')} à vérifier, ${compte('ignoree')} nouvelles`;
   $('#nom-profil').value = a.profil?.nom ?? '';
+  $('#alerte-fichier').hidden = !a.avertissements?.length;
+  $('#alerte-fichier').textContent = (a.avertissements ?? []).join(' ');
 
   const options = (choisi) => '<option value="">— Ignorer (non stockée) —</option>'
     + a.champs.map((ch) => `<option value="${ch.code}" ${ch.code === choisi ? 'selected' : ''}>${echapper(ch.libelle)}${ch.obligatoire ? ' *' : ''}</option>`).join('');

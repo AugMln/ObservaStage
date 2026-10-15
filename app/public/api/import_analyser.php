@@ -27,6 +27,7 @@ repondre([
     'jeton' => $jeton,
     'fichier' => $fichier['name'],
     'lignes' => count($lecteur->lignes),
+    'avertissements' => $lecteur->avertissements,
     'profil' => $suggestion['profil'],
     'colonnes' => $suggestion['colonnes'],
     'champs' => Mapping::catalogue(),

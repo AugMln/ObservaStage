@@ -5,6 +5,8 @@ Outil de valorisation et de suivi des données de stages de Polytech Lille, à p
 Projet ingénieur IS5 ISIA 2026-2027 — Augustin Mélon.
 Commanditaire : Direction des Relations Entreprises (Dorothée Bernard). Tutrice école : Marie-Éléonore Kessaci. Expert technique : Bastien Cazaux.
 
+**Ce qu'il reste à faire : [A_FAIRE.md](A_FAIRE.md).**
+
 ## Contenu du dépôt
 
 | Dossier | Contenu |
