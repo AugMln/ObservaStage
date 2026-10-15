@@ -148,6 +148,12 @@ final class Importeur
         if (isset($d['date_debut'], $d['date_fin']) && $d['date_fin'] < $d['date_debut']) {
             $this->anomalie($ligne, 'avertissement', 'date_fin', 'Date de fin antérieure à la date de début');
         }
+        // Une année universitaire va du 1er septembre au 31 août : le stage doit y commencer.
+        if (isset($d['date_debut']) && preg_match('#^(\d{4})\s*[/-]\s*(\d{4})$#', $d['annee_universitaire'], $annees)
+            && ($d['date_debut'] < "{$annees[1]}-09-01" || $d['date_debut'] > "{$annees[2]}-08-31")) {
+            $this->anomalie($ligne, 'avertissement', 'date_debut',
+                "Date de début hors de l'année universitaire « {$d['annee_universitaire']} »");
+        }
         if (array_key_exists('heures_hebdo', $d)) {
             $h = $d['heures_hebdo'];
             if ($h === null) {
