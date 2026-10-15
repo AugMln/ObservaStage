@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ObservaStage</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 16%22><circle cx=%228%22 cy=%228%22 r=%226%22 fill=%22none%22 stroke=%22%231d4f91%22 stroke-width=%223%22/></svg>">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <header class="entete">
+    <div class="marque">
+      <span class="logo" aria-hidden="true">◎</span>
+      <div>
+        <h1>ObservaStage</h1>
+        <p>Observatoire des stages · Polytech Lille · Direction des Relations Entreprises</p>
+      </div>
+    </div>
+    <nav class="onglets" role="tablist">
+      <button role="tab" data-onglet="tableau" aria-selected="true">Tableau de bord</button>
+      <button role="tab" data-onglet="recherche">Recherche</button>
+      <button role="tab" data-onglet="import">Import</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Filtres communs au tableau de bord et à la recherche -->
+    <form id="filtres" class="filtres">
+      <label>Année <select name="annee"><option value="">Toutes</option></select></label>
+      <label>Niveau <select name="niveau"><option value="">Tous</option></select></label>
+      <label>Spécialité <select name="specialite"><option value="">Toutes</option></select></label>
+      <label>Localisation
+        <select name="localisation">
+          <option value="">Toutes</option>
+          <option value="france">France</option>
+          <option value="hdf">Hauts-de-France</option>
+          <option value="france_hors_hdf">France hors Hauts-de-France</option>
+          <option value="etranger">Étranger</option>
+        </select>
+      </label>
+      <label>Pays <select name="pays"><option value="">Tous</option></select></label>
+      <label>Thématique <select name="thematique"><option value="">Toutes</option></select></label>
+      <label class="recherche-seule">Mots-clés <input type="search" name="texte" placeholder="sujet, missions, structure…"></label>
+      <label class="recherche-seule">Type d'expérience <select name="type_experience"><option value="">Tous</option></select></label>
+      <label class="case"><input type="checkbox" name="recherche" value="1"> Stages « recherche »</label>
+      <button type="reset" class="discret">Réinitialiser</button>
+    </form>
+
+    <section id="tableau" class="vue">
+      <p class="regle" id="regle"></p>
+      <div class="tuiles" id="tuiles"></div>
+      <div class="grille">
+        <article class="carte large">
+          <header><h2>Par niveau</h2><span class="aide">Durées moyennes · conventions retenues</span></header>
+          <div id="par-niveau"></div>
+        </article>
+        <article class="carte">
+          <header><h2>Pays étrangers les plus fréquents</h2></header>
+          <div id="top-pays"></div>
+        </article>
+        <article class="carte">
+          <header><h2>Thématiques</h2><span class="aide">10 plus fréquentes</span></header>
+          <div id="thematiques"></div>
+        </article>
+        <article class="carte">
+          <header><h2>Type d'expérience</h2><span class="aide">mentionné dans le commentaire de durée de travail</span></header>
+          <div id="experience"></div>
+        </article>
+      </div>
+      <div class="actions">
+        <span>Exporter les indicateurs :</span>
+        <button data-export="indicateurs" data-format="csv">CSV</button>
+        <button data-export="indicateurs" data-format="xls">XLS</button>
+      </div>
+    </section>
+
+    <section id="recherche" class="vue" hidden>
+      <div class="actions">
+        <strong id="nb-resultats"></strong>
+        <span class="espace"></span>
+        <span>Exporter les résultats :</span>
+        <button data-export="stages" data-format="csv">CSV</button>
+        <button data-export="stages" data-format="xls">XLS</button>
+      </div>
+      <div class="table-defilante"><table id="resultats"></table></div>
+      <div class="pagination" id="pagination"></div>
+    </section>
+
+    <section id="import" class="vue" hidden>
+      <article class="carte">
+        <header><h2>1. Choisir un fichier EsupStage</h2><span class="aide">.xls, .xlsx ou .csv · une année universitaire par fichier</span></header>
+        <form id="form-fichier" class="ligne">
+          <input type="file" name="fichier" accept=".xls,.xlsx,.csv" required>
+          <button type="submit" class="principal">Analyser les colonnes</button>
+        </form>
+      </article>
+
+      <article class="carte" id="etape-mapping" hidden>
+        <header>
+          <h2>2. Vérifier l'association des colonnes</h2>
+          <span class="aide" id="resume-mapping"></span>
+        </header>
+        <div class="legende-confiance">
+          <span class="badge profil">profil connu</span>
+          <span class="badge sure">reconnue</span>
+          <span class="badge a_verifier">à vérifier</span>
+          <span class="badge connue">ignorée (déjà décidé)</span>
+          <span class="badge ignoree">nouvelle : à décider</span>
+        </div>
+        <div class="table-defilante haute"><table id="mapping"></table></div>
+        <div class="actions">
+          <label>Nom du profil <input type="text" id="nom-profil" placeholder="ex. EsupStage 2025-2026"></label>
+          <span class="espace"></span>
+          <button id="lancer-import" class="principal">Importer</button>
+        </div>
+      </article>
+
+      <article class="carte" id="etape-bilan" hidden>
+        <header><h2>3. Bilan de l'import</h2></header>
+        <div id="bilan"></div>
+      </article>
+
+      <article class="carte">
+        <header><h2>Historique des imports</h2></header>
+        <div class="table-defilante"><table id="lots"></table></div>
+      </article>
+    </section>
+  </main>
+
+  <div id="message" class="message" role="status" hidden></div>
+  <script src="assets/app.js"></script>
+</body>
+</html>

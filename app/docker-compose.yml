@@ -1,0 +1,29 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: observastage
+      POSTGRES_USER: observastage
+      POSTGRES_PASSWORD: observastage
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      - ./sql:/docker-entrypoint-initdb.d:ro
+    ports:
+      - "5432:5432"
+
+  web:
+    build: .
+    depends_on:
+      - db
+    environment:
+      DB_DSN: "pgsql:host=db;port=5432;dbname=observastage"
+      DB_USER: observastage
+      DB_PASSWORD: observastage
+    volumes:
+      - ./public:/var/www/html
+      - ./src:/var/www/src
+    ports:
+      - "8080:80"
+
+volumes:
+  db-data:

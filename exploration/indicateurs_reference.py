@@ -6,12 +6,13 @@ Seuls des agrégats sont produits (contrainte RGPD).
 """
 
 from pathlib import Path
+from decimal import Decimal, ROUND_HALF_UP
 import json
-import re
+import unicodedata
 
 import pandas as pd
 
-from analyse_exploratoire import INPUT_FILE, OUTPUT_DIR, find_column, load_data, normalize_name
+from analyse_exploratoire import INPUT_FILE, OUTPUT_DIR, find_column, load_data
 
 
 # ============================================================
@@ -27,14 +28,16 @@ VALIDATION_COLUMNS = ["Validation convention"]
 DEPARTEMENTS_HDF = {"02", "59", "60", "62", "80"}
 HEURES_HEBDO_MAX = 48
 
-MOTS_CLES_RECHERCHE = ["recherche", "r&d", "r & d"]
+# Mots-clés cherchés en sous-chaîne, sans casse ni accents (même règle que l'application).
+MOTS_CLES_RECHERCHE = ["recherche", "r&d"]
 
 # Type d'expérience, détecté dans « Commentaire durée travail ».
+# Une convention reçoit le premier type trouvé, dans cet ordre (« CDD/CDI » compte comme CDD).
 MOTS_CLES_EXPERIENCE = {
-    "CDD": [r"\bcdd\b"],
-    "CDI": [r"\bcdi\b"],
-    "Intérim": [r"\binterim\b"],
-    "Bénévolat": [r"benevol", r"woof"],
+    "CDD": ["cdd"],
+    "CDI": ["cdi"],
+    "Intérim": ["interim"],
+    "Bénévolat": ["benevol", "woof"],
 }
 
 ORDRE_NIVEAUX = ["PEIP / L1", "L2", "L3", "3A", "M1", "4A", "M2", "5A", "Autres"]
@@ -47,24 +50,26 @@ def to_number(series):
     )
 
 
-def contains_any(series, patterns):
-    text = series.fillna("").map(normalize_name_keep_symbols)
+def contains_any(series, keywords):
+    text = series.fillna("").map(strip_accents).str.lower()
     mask = pd.Series(False, index=series.index)
-    for pattern in patterns:
-        mask |= text.str.contains(pattern, regex=True)
+    for keyword in keywords:
+        mask |= text.str.contains(keyword, regex=False)
     return mask
 
 
-def normalize_name_keep_symbols(value):
-    """Minuscules sans accents, en gardant « & » (pour « R&D »)."""
-    return " ".join(
-        normalize_name(part) if part != "&" else "&"
-        for part in re.split(r"(&)", str(value))
-    ).replace(" & ", "&")
+def strip_accents(value):
+    return "".join(
+        char for char in unicodedata.normalize("NFKD", str(value))
+        if not unicodedata.combining(char)
+    )
 
 
 def round1(value):
-    return None if pd.isna(value) else round(float(value), 1)
+    """Arrondi au dixième, à la demi-unité supérieure (comme PostgreSQL)."""
+    if pd.isna(value):
+        return None
+    return float(Decimal(repr(float(value))).quantize(Decimal("0.1"), rounding=ROUND_HALF_UP))
 
 
 def main():
@@ -114,13 +119,13 @@ def main():
     df["etranger"] = pays.ne("FRANCE") & pays.ne("")
     df["hdf"] = pays.eq("FRANCE") & cp.str[:2].isin(DEPARTEMENTS_HDF)
 
-    df["recherche"] = contains_any(df[col["Sujet"]], [re.escape(k) for k in MOTS_CLES_RECHERCHE])
+    df["recherche"] = contains_any(df[col["Sujet"]], MOTS_CLES_RECHERCHE)
 
     comment = df[col["Commentaire durée travail"]]
-    experience = {
-        label: int(contains_any(comment, patterns).sum())
-        for label, patterns in MOTS_CLES_EXPERIENCE.items()
-    }
+    df["type_experience"] = None
+    for label, keywords in MOTS_CLES_EXPERIENCE.items():
+        df.loc[df["type_experience"].isna() & contains_any(comment, keywords), "type_experience"] = label
+    experience = df["type_experience"].value_counts().to_dict()
 
     def duree(frame):
         return {

@@ -25,8 +25,8 @@
   "recherche_dans_sujet": 27,
   "type_experience_commentaire": {
     "CDD": 39,
-    "CDI": 4,
     "Intérim": 4,
+    "CDI": 2,
     "Bénévolat": 1
   },
   "commentaire_duree_renseigne": 117,
@@ -92,7 +92,7 @@
       "stages": 9,
       "jours": 62.6,
       "semaines": 8.9,
-      "heures": 311.2,
+      "heures": 311.3,
       "etranger_pct": 11.1
     },
     {

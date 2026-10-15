@@ -1,0 +1,13 @@
+{
+    "name": "polytech-lille/observastage",
+    "description": "Valorisation et suivi des données de stages EsupStage",
+    "require": {
+        "php": ">=8.2",
+        "phpoffice/phpspreadsheet": "^2.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "ObservaStage\\": "src/"
+        }
+    }
+}
