@@ -28,6 +28,29 @@ Environnement virtuel Python 3.13 dans `venv/` (pandas, xlrd pour `.xls`, openpy
 
 Les chemins sont calculés à partir de l'emplacement des scripts : ils se lancent depuis n'importe quel dossier.
 
+Application (Docker requis, voir `app/README.md`) :
+
+```powershell
+cd app; docker compose up -d --build                             # http://localhost:8080
+docker compose down -v; docker compose up -d                     # repartir d'une base vide
+.\venv\Scripts\python.exe exploration\verifier_application.py    # indicateurs appli == référence (47/47)
+.\venv\Scripts\python.exe exploration\generer_fichier_test.py    # fichier aux colonnes modifiées (donnees/tests/)
+```
+
+`app/public` et `app/src` sont montés en volume : les modifications PHP/JS sont prises en compte sans reconstruire. Les fichiers `app/sql/*.sql` ne sont chargés qu'à la création du volume (`down -v` pour les rejouer). `app/sql/02_referentiels.sql` est généré à partir de `conception/referentiels/ref_etape.csv` : garder les deux cohérents.
+
+## Application (ObservaStage)
+
+- `src/` : logique métier PHP (espace de noms `ObservaStage`, autoload Composer). `public/api/*.php` : API JSON. `public/index.html` + `assets/` : interface sans framework.
+- Toutes les règles métier dérivées (retenu, durées, étranger, Hauts-de-France, recherche, type d'expérience) sont dans **la vue SQL `v_stage`**, pilotée par la table `parametre`. Indicateurs, recherche et exports passent par `Filtres::versSql()` : ne pas dupliquer une règle ailleurs.
+- Toute modification d'une règle doit être reportée dans `exploration/indicateurs_reference.py`, puis vérifiée avec `verifier_application.py`.
+- Mapping (`Mapping.php`) : profil (signature des en-têtes) → colonnes déjà vues → alias exacts normalisés → similarité (seuil 0,78, « à vérifier »). Normalisation PHP (`Texte::normaliser`) équivalente à `normalize_name()` en Python.
+- RGPD : colonnes ignorées jamais lues ; exemples masqués pour les en-têtes personnels ; aucune donnée d'étudiant ou d'encadrant dans la recherche ni dans les exports ; fichier téléversé supprimé après import (purge après 1 h sinon).
+
+## Livrables
+
+`livrables/<date>_<jalon>/` : sources HTML (`rapport_intermediaire.html`, `support_soutenance.html`) et PDF générés par Chrome headless (impression, fonds activés). Figures dans `figures/` (captures de l'application en thème clair, `gantt.png` copié depuis `gestion-projet/planning/`). Le Gantt se modifie dans `gestion-projet/planning/gantt.html` (tableau `TACHES`).
+
 ## Scripts d'exploration
 
 - Tout est lu en `dtype=str` (aucune conversion implicite : codes postaux, SIRET, N° étudiant gardent leurs zéros). Les chaînes vides deviennent `NA`.

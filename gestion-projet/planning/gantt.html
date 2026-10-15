@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Gantt ObservaStage</title>
+<!-- Planning du projet. Modifier le tableau TACHES ci-dessous, puis régénérer gantt.png. -->
+<style>
+  :root {
+    --texte: #0b0b0b; --texte-2: #52514e; --texte-3: #8a8983; --grille: #e6e7ea; --fond: #ffffff;
+    --fait: #1d4f91; --a-venir: #9cc0ec; --jalon: #1d4f91; --jalon-a-venir: #ffffff;
+    --vacances: #f2f2f0; --aujourdhui: #c2410c;
+  }
+  body { margin: 0; background: var(--fond); color: var(--texte); font: 13px/1.3 "Segoe UI", system-ui, sans-serif; }
+  #gantt { padding: 18px 22px 14px; width: 1560px; }
+  h1 { font-size: 17px; margin: 0 0 2px; }
+  .sous-titre { color: var(--texte-2); margin: 0 0 12px; font-size: 12.5px; }
+  .grille { display: grid; grid-template-columns: 370px 1fr; }
+  .semaines { display: grid; position: relative; }
+  .entete-sem { font-size: 11px; color: var(--texte-2); text-align: center; border-left: 1px solid var(--grille); padding: 2px 0; }
+  .entete-sem.mois { font-weight: 600; color: var(--texte); border-left-color: #c9cbd0; }
+  .phase { grid-column: 1 / -1; font-weight: 650; font-size: 12.5px; padding: 9px 0 3px; border-bottom: 1px solid #c9cbd0; }
+  .tache { padding: 4px 8px 4px 10px; font-size: 12.5px; border-bottom: 1px solid var(--grille); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .piste { position: relative; border-bottom: 1px solid var(--grille); height: 25px; }
+  .barre { position: absolute; top: 6px; height: 13px; border-radius: 3px; }
+  .barre.fait { background: var(--fait); }
+  .barre.a_venir { background: var(--a-venir); }
+  .barre.en_cours { background: linear-gradient(90deg, var(--fait) var(--avancement), var(--a-venir) var(--avancement)); }
+  .jalon { position: absolute; top: 5px; width: 13px; height: 13px; transform: translateX(-50%) rotate(45deg); background: var(--jalon); border: 2px solid var(--jalon); box-sizing: border-box; }
+  .jalon.a_venir { background: var(--jalon-a-venir); }
+  .etiquette { position: absolute; top: 5px; font-size: 11.5px; color: var(--texte-2); white-space: nowrap; }
+  .fond-sem { position: absolute; top: 0; bottom: 0; border-left: 1px solid var(--grille); }
+  .fond-sem.vacances { background: var(--vacances); }
+  .aujourdhui { position: absolute; top: 0; bottom: 0; border-left: 2px solid var(--aujourdhui); z-index: 2; }
+  .aujourdhui span { position: absolute; top: -17px; left: -30px; font-size: 11px; color: var(--aujourdhui); font-weight: 600; white-space: nowrap; }
+  .legende { display: flex; gap: 18px; margin-top: 12px; font-size: 12px; color: var(--texte-2); align-items: center; }
+  .legende i { display: inline-block; width: 22px; height: 11px; border-radius: 2px; vertical-align: -1px; margin-right: 5px; }
+  .legende .j { width: 10px; height: 10px; transform: rotate(45deg); border: 2px solid var(--jalon); box-sizing: border-box; margin-right: 8px; }
+</style>
+</head>
+<body>
+<div id="gantt"></div>
+<script>
+// Semaines ISO : S38 2026 (lundi 14/09/2026) → S5 2027.
+const DEBUT = new Date(2026, 8, 14);
+const NB_SEMAINES = 21;
+const AUJOURDHUI = new Date(2026, 9, 21);
+const VACANCES = [[2026, 52], [2026, 53]];
+
+// [libellé, début (jj/mm/aaaa), fin, statut, avancement %] ; un jalon a début = fin.
+const TACHES = [
+  ['Cadrage'],
+  ['Lancement, prise de connaissance du sujet', '14/09/2026', '27/09/2026', 'fait'],
+  ['Réunion tripartite de cadrage', '28/09/2026', '28/09/2026', 'fait'],
+  ['Réunion technique (architecture, stack)', '29/09/2026', '29/09/2026', 'fait'],
+  ['Données et besoins'],
+  ['Analyse exploratoire de la base EsupStage', '05/10/2026', '16/10/2026', 'fait'],
+  ['Réunion DRE : règles métier, périmètre V1', '12/10/2026', '12/10/2026', 'fait'],
+  ['Cahier des charges, critères de validation', '12/10/2026', '23/10/2026', 'en_cours', 70],
+  ['Conception et ébauche'],
+  ['Architecture, modèle de données, stratégie de mapping', '30/09/2026', '20/10/2026', 'fait'],
+  ['Ébauche technique (import, indicateurs, recherche, export)', '14/10/2026', '20/10/2026', 'fait'],
+  ['Soutenance intermédiaire', '21/10/2026', '21/10/2026', 'a_venir'],
+  ['Développement de la V1'],
+  ['Import : profils, contrôles, référentiels, staging', '26/10/2026', '13/11/2026', 'a_venir'],
+  ['Authentification, écrans de paramètres', '09/11/2026', '20/11/2026', 'a_venir'],
+  ['Rapprochement des structures, recherche plein texte', '16/11/2026', '04/12/2026', 'a_venir'],
+  ['Indicateurs complets, graphiques, exports', '23/11/2026', '11/12/2026', 'a_venir'],
+  ['Tests multi-années (fichiers modifiés)', '02/11/2026', '11/12/2026', 'a_venir'],
+  ['Déploiement'],
+  ['Hébergement : contact DSI, choix du serveur', '26/10/2026', '13/11/2026', 'a_venir'],
+  ['Déploiement sur le serveur de l\'école', '07/12/2026', '18/12/2026', 'a_venir'],
+  ['Validation et livrables'],
+  ['Tests utilisateurs avec Dorothée Bernard', '30/11/2026', '11/12/2026', 'a_venir'],
+  ['Rapport (première version)', '07/12/2026', '18/12/2026', 'a_venir'],
+  ['Envoi du rapport v1', '18/12/2026', '18/12/2026', 'a_venir'],
+  ['Documentation technique et guide utilisateur', '14/12/2026', '15/01/2027', 'a_venir'],
+  ['Session démo', '08/01/2027', '08/01/2027', 'a_venir'],
+  ['Corrections, réunion tripartite de bilan', '11/01/2027', '22/01/2027', 'a_venir'],
+  ['Rapport final, préparation de la soutenance', '11/01/2027', '28/01/2027', 'a_venir'],
+  ['Soutenance finale', '29/01/2027', '29/01/2027', 'a_venir'],
+];
+
+const MOIS = ['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.'];
+const JOUR = 864e5;
+const versDate = (t) => { const [j, m, a] = t.split('/').map(Number); return new Date(a, m - 1, j); };
+const position = (d) => (100 * (d - DEBUT) / JOUR) / (NB_SEMAINES * 7);
+const numeroSemaine = (d) => {
+  const t = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+  t.setUTCDate(t.getUTCDate() + 4 - (t.getUTCDay() || 7));
+  return [t.getUTCFullYear(), Math.ceil(((t - Date.UTC(t.getUTCFullYear(), 0, 1)) / JOUR + 1) / 7)];
+};
+
+let html = `<h1>ObservaStage : planning du projet</h1>
+  <p class="sous-titre">Projet ingénieur IS5 ISIA 2026-2027 · Augustin Mélon · charge estimée ≈ 15 h par semaine (≈ 300 h) · état au 21/10/2026</p>
+  <div class="grille"><div></div><div class="semaines" style="grid-template-columns:repeat(${NB_SEMAINES},1fr)">`;
+let moisPrecedent = -1;
+const semaines = [];
+for (let i = 0; i < NB_SEMAINES; i++) {
+  const lundi = new Date(2026, 8, 14 + 7 * i); // pas de calcul en millisecondes : changement d'heure le 25/10
+  const [annee, num] = numeroSemaine(lundi);
+  const nouveauMois = lundi.getMonth() !== moisPrecedent;
+  moisPrecedent = lundi.getMonth();
+  semaines.push({ annee, num });
+  html += `<div class="entete-sem${nouveauMois ? ' mois' : ''}">${nouveauMois ? MOIS[lundi.getMonth()] : '&nbsp;'}<br>S${num}</div>`;
+}
+html += '</div>';
+
+const fond = semaines.map((s, i) => `<div class="fond-sem${VACANCES.some(([a, n]) => a === s.annee && n === s.num) ? ' vacances' : ''}"
+  style="left:${(100 * i) / NB_SEMAINES}%;width:${100 / NB_SEMAINES}%"></div>`).join('');
+
+TACHES.forEach(([libelle, debut, fin, statut, avancement], index) => {
+  if (!debut) { html += `<div class="phase">${libelle}</div>`; return; }
+  const d = versDate(debut), f = versDate(fin);
+  let marque;
+  if (debut === fin) {
+    marque = `<div class="jalon ${statut}" style="left:${position(d) + 0.5 / (NB_SEMAINES * 7) * 100}%"></div>
+      <div class="etiquette" style="left:calc(${position(d)}% + 12px)">${debut.slice(0, 5)}</div>`;
+  } else {
+    const g = position(d), l = position(new Date(f.getTime() + JOUR)) - g;
+    marque = `<div class="barre ${statut}" style="left:${g}%;width:${l}%;--avancement:${avancement ?? 0}%"></div>`;
+  }
+  const ligneAujourdhui = index === 1 ? `<div class="aujourdhui" style="left:${position(AUJOURDHUI)}%"><span>21/10</span></div>` : '';
+  html += `<div class="tache" title="${libelle}">${libelle}</div><div class="piste">${fond}${marque}${index > 0 ? `<div class="aujourdhui" style="left:${position(AUJOURDHUI)}%">${ligneAujourdhui ? '<span>21/10</span>' : ''}</div>` : ''}</div>`;
+});
+html += `</div><div class="legende"><span><i style="background:var(--fait)"></i>Réalisé</span><span><i style="background:linear-gradient(90deg,var(--fait) 60%,var(--a-venir) 60%)"></i>En cours</span>
+  <span><i style="background:var(--a-venir)"></i>Prévu</span><span><i class="j" style="background:var(--jalon)"></i>Jalon atteint</span>
+  <span><i class="j"></i>Jalon à venir</span><span><i style="background:var(--vacances);border:1px solid #ddd"></i>Vacances</span>
+  <span><i style="width:2px;background:var(--aujourdhui)"></i>Soutenance intermédiaire (21/10)</span></div>`;
+document.getElementById('gantt').innerHTML = html;
+</script>
+</body>
+</html>

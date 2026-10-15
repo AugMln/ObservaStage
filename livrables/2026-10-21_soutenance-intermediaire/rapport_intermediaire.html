@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Rapport intermédiaire – ObservaStage – Augustin Mélon</title>
+<style>
+  @page { size: A4; margin: 14mm 15mm 13mm; }
+  :root { --accent: #1d4f91; --accent-clair: #e8eef7; --texte: #1a1a1a; --texte-2: #555; --trait: #d5d8de; }
+  * { box-sizing: border-box; }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body { margin: 0; color: var(--texte); background: #fff; font: 9.6pt/1.42 "Segoe UI", "Helvetica Neue", Arial, sans-serif; }
+  h1 { font-size: 17pt; margin: 0; color: var(--accent); letter-spacing: -0.01em; }
+  h2 { font-size: 12pt; color: var(--accent); margin: 11pt 0 4pt; padding-bottom: 2pt; border-bottom: 1.5px solid var(--accent); break-after: avoid; }
+  h3 { font-size: 10pt; margin: 7pt 0 2pt; break-after: avoid; }
+  p { margin: 0 0 5pt; text-align: justify; hyphens: auto; }
+  ul { margin: 0 0 5pt; padding-left: 15pt; }
+  li { margin-bottom: 1.5pt; }
+  strong { font-weight: 650; }
+  .entete { display: flex; justify-content: space-between; align-items: end; border-bottom: 3px solid var(--accent); padding-bottom: 6pt; margin-bottom: 6pt; }
+  .entete .sous-titre { font-size: 10.5pt; color: var(--texte-2); margin-top: 2pt; }
+  .entete .meta { text-align: right; font-size: 8.6pt; color: var(--texte-2); line-height: 1.45; }
+  table { width: 100%; border-collapse: collapse; margin: 3pt 0 6pt; font-size: 8.8pt; break-inside: avoid; }
+  th, td { border: 1px solid var(--trait); padding: 2.5pt 5pt; text-align: left; vertical-align: top; }
+  th { background: var(--accent-clair); font-weight: 650; }
+  td.num { text-align: right; white-space: nowrap; }
+  figure { margin: 4pt 0 7pt; break-inside: avoid; text-align: center; }
+  figure img { max-width: 100%; border: 1px solid var(--trait); }
+  figcaption { font-size: 8.3pt; color: var(--texte-2); margin-top: 2pt; }
+  .encadre { background: var(--accent-clair); border-left: 3px solid var(--accent); padding: 5pt 8pt; margin: 4pt 0 7pt; break-inside: avoid; }
+  .encadre p:last-child { margin-bottom: 0; }
+  .deux { display: grid; grid-template-columns: 1fr 1fr; gap: 12pt; }
+  .pipeline { display: flex; align-items: stretch; gap: 0; margin: 5pt 0 3pt; font-size: 8pt; break-inside: avoid; }
+  .pipeline div { flex: 1; text-align: center; background: var(--accent-clair); border: 1px solid #b9c8de; border-radius: 4pt; padding: 4pt 3pt; line-height: 1.25; }
+  .pipeline div b { display: block; color: var(--accent); font-size: 8.4pt; }
+  .pipeline span { align-self: center; color: var(--accent); font-weight: 700; padding: 0 2pt; }
+  .petit { font-size: 8.4pt; color: var(--texte-2); }
+  .saut { break-before: page; }
+</style>
+</head>
+<body>
+
+<header class="entete">
+  <div>
+    <h1>ObservaStage</h1>
+    <div class="sous-titre">Conception d'un outil de valorisation et de suivi des données de stages · Rapport intermédiaire</div>
+  </div>
+  <div class="meta">
+    Augustin Mélon · IS5 ISIA · Polytech Lille<br>
+    Projet ingénieur 2026-2027 · 21 octobre 2026<br>
+    Référente : Dorothée Bernard (DRE) · Tutrice école : Marie-Éléonore Kessaci
+  </div>
+</header>
+
+<h2>1. Contexte du projet</h2>
+
+<p><strong>Structure.</strong> La Direction des Relations Entreprises (DRE) de Polytech Lille gère les conventions de stage de toutes les formations de l'école : PEIP, licences, masters, cycle ingénieur. Depuis l'année 2025-2026, les conventions sont saisies dans <strong>EsupStage</strong>, l'application nationale de gestion des stages des universités. Dorothée Bernard gère seule ces conventions. Elle travaille avec deux chargées d'accompagnement des étudiants, une dizaine d'assistants pédagogiques et un responsable de stage par formation.</p>
+
+<p><strong>Problème.</strong> EsupStage sait gérer une convention, mais pas exploiter l'ensemble des conventions. La seule possibilité est d'extraire un fichier Excel de 71 colonnes par année universitaire. Aujourd'hui, <strong>environ 80 % des questions posées à la DRE</strong> sur les stages (durée moyenne, part à l'étranger, stages en Hauts-de-France, répartition par spécialité, etc.) <strong>restent sans réponse</strong>. Pour les autres, chaque réponse demande une extraction et un traitement manuel d'<strong>environ 30 minutes</strong>. Ces données pourraient pourtant servir à la direction (indicateurs, contrôles), aux enseignants (thématiques de stage) et aux futurs stagiaires (structures d'accueil).</p>
+
+<p><strong>Équipe.</strong> Je mène ce projet seul. Dorothée Bernard, tutrice référente, exprime le besoin et valide les règles métier. Marie-Éléonore Kessaci, tutrice école, encadre la démarche et a anonymisé les données de travail. Bastien Cazaux, expert technique, a validé les choix d'architecture. Le projet s'inscrit dans le système d'information de l'école, dont les applications sont développées en PHP, JavaScript et PostgreSQL.</p>
+
+<h2>2. Cahier des charges</h2>
+
+<p><strong>Objectif.</strong> Concevoir et réaliser un prototype d'application web qui <strong>importe</strong> les extractions EsupStage, les <strong>contrôle</strong>, les <strong>structure</strong> dans une base de données et permet de les <strong>explorer</strong> : indicateurs, recherche multicritère, export. L'utilisatrice de la V1 est Dorothée Bernard. D'autres profils (enseignants, étudiants) sont envisagés plus tard.</p>
+
+<p><strong>Difficulté centrale.</strong> Le format des extractions peut changer d'une année à l'autre : colonnes renommées, déplacées, ajoutées ou supprimées. L'import ne doit donc pas être codé « en dur ». Il doit s'adapter <strong>sans modification du code</strong>, par un paramétrage que l'utilisatrice, non informaticienne, peut faire elle-même.</p>
+
+<h3>Périmètre de la V1 (validé avec la DRE le 12/10/2026)</h3>
+<table>
+  <tr><th style="width:17%">Priorité</th><th>Fonctionnalités</th></tr>
+  <tr><td><strong>Indispensable</strong></td><td>Import d'un fichier EsupStage avec mapping configurable et profil réutilisable · contrôles et rapport d'anomalies · indicateurs (nombre de stages, durée moyenne en jours, semaines et heures, France / étranger, Hauts-de-France, par niveau, spécialité et année) · recherche multicritère · <strong>export CSV et XLS</strong></td></tr>
+  <tr><td>Souhaitable</td><td>Historique sur plusieurs années · recherche plein texte (sujet, missions) · graphiques · rapprochement des structures sans SIRET</td></tr>
+  <tr><td>Bonus</td><td>Indicateurs « recherche » et « secteur » · type d'expérience (CDD, intérim, bénévolat)</td></tr>
+  <tr><td>Hors V1</td><td>Gratification · gestion de plusieurs profils d'utilisateurs</td></tr>
+</table>
+
+<h3>Contraintes majeures</h3>
+<ul>
+  <li><strong>Technique</strong> : la stack est imposée (PHP, HTML/JavaScript, PostgreSQL), comme pour toutes les applications de Polytech. L'hébergement devra être maîtrisé par l'école.</li>
+  <li><strong>Données personnelles (RGPD)</strong> : je développe sur une base anonymisée, mais l'outil traitera ensuite des fichiers nominatifs. Il doit fonctionner à l'identique sur les deux. Les colonnes inutiles ne sont pas stockées et l'accès sera authentifié.</li>
+  <li><strong>Données</strong> : 2025-2026 est la première année d'EsupStage, il n'existe <strong>aucune autre extraction</strong> pour tester l'évolution des colonnes. La qualité des données est hétérogène (section 3.2).</li>
+</ul>
+
+<h3>Règles métier validées</h3>
+<table>
+  <tr><th style="width:24%">Notion</th><th>Règle retenue</th></tr>
+  <tr><td>Conventions comptées</td><td>Seules les conventions validées (« Validation convention = Oui ») entrent dans les indicateurs ; toutes sont importées. La règle est paramétrable.</td></tr>
+  <tr><td>Durée</td><td>En jours et semaines à partir des dates, en heures à partir de la durée déclarée (unité vérifiée sur les données).</td></tr>
+  <tr><td>Étranger / Hauts-de-France</td><td>Pays du <em>service d'accueil</em> (lieu réel du stage) ; département du code postal ∈ {02, 59, 60, 62, 80}.</td></tr>
+  <tr><td>Recherche / secteur</td><td>Mots-clés « recherche », « R&amp;D » dans le sujet ; le secteur est la thématique EsupStage.</td></tr>
+  <tr><td>Valeurs aberrantes</td><td>Heures hebdomadaires ≤ 0 ou &gt; 48 (durée légale maximale), durée nulle : signalées et exclues des calculs, jamais corrigées.</td></tr>
+</table>
+
+<h3>Livrables et critères de validation</h3>
+<p><strong>Livrables</strong> : prototype fonctionnel, architecture et modèle de données, stratégie d'import, documentation technique et <strong>guide utilisateur</strong>. <strong>Critères de validation</strong> proposés à la DRE, qui devra les confirmer :</p>
+<ol style="margin:0 0 5pt; padding-left:15pt">
+  <li><strong>Import</strong> : la DRE importe seule un fichier EsupStage, sans toucher au code. Un fichier dont les colonnes ont changé s'importe en ajustant seulement le mapping. Un réimport ne crée aucun doublon.</li>
+  <li><strong>Indicateurs</strong> : ils sont identiques aux chiffres de référence calculés indépendamment.</li>
+  <li><strong>Recherche</strong> : filtrage par année, niveau, spécialité, localisation et thématique.</li>
+  <li><strong>Export</strong> : résultats et indicateurs exportés en CSV et XLS, lisibles dans Excel.</li>
+</ol>
+
+<h2>3. Proposition de mise en œuvre et points techniques</h2>
+
+<h3>3.1 Architecture</h3>
+<div class="pipeline">
+  <div><b>Fichier EsupStage</b>.xls / .xlsx / .csv</div><span>→</span>
+  <div><b>Lecture</b>tout en texte (codes, zéros)</div><span>→</span>
+  <div><b>Mapping configurable</b>profils stockés en base</div><span>→</span>
+  <div><b>Contrôles</b>conversion, anomalies</div><span>→</span>
+  <div><b>PostgreSQL</b>modèle normalisé, règles en vue SQL</div><span>→</span>
+  <div><b>API JSON</b>PHP</div><span>→</span>
+  <div><b>Interface web</b>HTML / JavaScript</div>
+</div>
+<p class="petit">Les règles métier (validation retenue, seuil d'heures, départements, mots-clés) sont stockées dans une table de paramètres et appliquées dans une seule vue SQL. Elles se modifient sans toucher au code.</p>
+
+<h3>3.2 Constats sur les données : pourquoi un import « naïf » ne suffit pas</h3>
+<p>L'analyse exploratoire de l'extraction 2025-2026 (1053 conventions, 939 étudiants, 71 colonnes) a montré plusieurs pièges :</p>
+<ul>
+  <li><strong>Intitulés non fiables</strong> : dans un même fichier, tirets courts et longs, apostrophes droites et typographiques, casse variable. Les noms ne garantissent pas non plus le contenu : la colonne « Code NAF » contient un libellé, pas un code.</li>
+  <li><strong>Informations à dériver</strong> : il n'y a pas de colonne région, secteur, recherche ni niveau. Le niveau et la spécialité sont fusionnés dans un libellé. J'ai construit une table de correspondance pour les 48 codes étape.</li>
+  <li><strong>Qualité</strong> : 18 % de cellules vides, 7 colonnes entièrement vides, SIRET absent pour 21 % des structures (structures étrangères), valeurs aberrantes (jusqu'à 175 h par semaine). Le type d'expérience (CDD, intérim…) n'existe que dans un commentaire libre.</li>
+</ul>
+
+<h3>3.3 Point clé : le mapping configurable</h3>
+<p>À l'import, chaque colonne du fichier est associée à un <strong>champ cible</strong> du modèle, ou ignorée (elle n'est alors pas stockée). La suggestion automatique suit quatre niveaux de confiance :</p>
+<ol style="margin:0 0 5pt; padding-left:15pt">
+  <li><strong>Profil connu</strong> : si l'ensemble des en-têtes (signature) correspond à un profil enregistré, il est appliqué directement.</li>
+  <li><strong>Colonne déjà rencontrée</strong> : la décision prise lors d'un import précédent est reprise. Seules les différences restent à traiter.</li>
+  <li><strong>Alias</strong> : comparaison avec les intitulés connus, après normalisation (accents, casse, ponctuation).</li>
+  <li><strong>Similarité</strong> (mots communs, distance entre chaînes) : proposition marquée « à vérifier ».</li>
+</ol>
+<p>L'utilisatrice valide l'association en voyant des <strong>valeurs d'exemple</strong>, sauf pour les colonnes personnelles, qui sont masquées. Son choix est enregistré comme profil réutilisable. L'import est <strong>idempotent</strong> sur la clé (année universitaire, N° de convention) : un réimport met à jour au lieu de dupliquer.</p>
+
+<figure>
+  <img src="figures/app_mapping.png" style="width:92%">
+  <figcaption>Figure 1 – Ébauche : import d'un fichier de test aux colonnes renommées, déplacées et ajoutées. 27 colonnes sont reconnues, 2 sont à vérifier, 3 nouvelles sont à décider.</figcaption>
+</figure>
+
+<h3>3.4 Validation croisée des indicateurs</h3>
+<p>Pour vérifier les indicateurs (critère 2), un script Python indépendant applique les mêmes règles au fichier d'origine. Un second script compare automatiquement ses résultats à ceux de l'application. L'ébauche obtient <strong>47 indicateurs identiques sur 47</strong>. Exemples sur les 884 conventions validées : durée moyenne de 14,4 semaines (101 jours, 493 heures), 24,7 % des stages à l'étranger, 39,1 % en Hauts-de-France.</p>
+
+<h2>4. Gestion de projet</h2>
+
+<h3>4.1 Organisation</h3>
+<p>Le suivi repose sur un tableau <strong>Trello</strong> partagé avec les tutrices et la responsable de projet, un <strong>mail récapitulatif hebdomadaire</strong> et des réunions régulières avec la DRE. Chaque réunion fait l'objet d'une préparation et d'un compte rendu. Le code et les documents sont versionnés avec <strong>Git</strong>. Le développement se fait dans des conteneurs <strong>Docker</strong> (PHP et PostgreSQL), qui reproduisent l'environnement cible.</p>
+
+<h3>4.2 Étapes réalisées et état d'avancement</h3>
+<table>
+  <tr><th style="width:15%">Date</th><th>Étape</th><th style="width:30%">Résultat</th></tr>
+  <tr><td>14/09</td><td>Lancement, prise de connaissance du sujet</td><td>Contexte et jalons identifiés</td></tr>
+  <tr><td>28/09</td><td>Réunion tripartite de cadrage</td><td>Circuit d'anonymisation des données, besoins types</td></tr>
+  <tr><td>29/09</td><td>Réunion avec l'expert technique</td><td>Architecture et stack actées</td></tr>
+  <tr><td>S41-S42</td><td>Analyse exploratoire de la base anonymisée</td><td>Constats sur les données, chiffres de référence</td></tr>
+  <tr><td>12/10</td><td>Réunion DRE : règles métier, périmètre</td><td>14 décisions, périmètre V1 validé</td></tr>
+  <tr><td>S42-S43</td><td>Conception et ébauche technique</td><td>Import, mapping, indicateurs, recherche, export fonctionnels</td></tr>
+</table>
+<p><strong>État au 21/10.</strong> La conception est stabilisée. L'ébauche couvre déjà le chemin complet du fichier à l'export. Les fonctionnalités indispensables existent sous une forme simple, sans authentification ni écrans d'administration.</p>
+
+<h3>4.3 Difficultés rencontrées</h3>
+<ul>
+  <li><strong>Accès aux données</strong> : le premier fichier ne contenait qu'une ligne d'exemple. La base complète, anonymisée, est arrivée début octobre. La colonne nécessaire au type d'expérience, d'abord anonymisée, a été obtenue en clair le 15/10.</li>
+  <li><strong>Aucun historique</strong> : l'adaptation aux changements de colonnes, cœur du sujet, ne peut pas être testée sur des données réelles. J'ai créé des fichiers de test modifiés (colonnes renommées, déplacées, ajoutées, supprimées).</li>
+  <li><strong>Données peu propres et règles implicites</strong> : chaque indicateur a demandé une règle explicite à faire valider. Par exemple, l'exclusion des conventions non validées retire environ 64 % des stages de PEIP, sans doute en attente de validation au moment de l'extraction. Ce point est à confirmer avec la DRE.</li>
+</ul>
+
+<h3>4.4 Recadrage et prochaines étapes</h3>
+<p>L'ébauche étant en avance sur le calendrier initial, je revois les ambitions <strong>à la hausse</strong> pour les fonctionnalités souhaitables (recherche plein texte, rapprochement des structures par similarité avec <code>pg_trgm</code>, graphiques, historique). À l'inverse, l'indicateur « type d'expérience » restera <strong>partiel</strong> : il n'est renseigné que dans un texte libre, pour 164 conventions. Prochaines étapes : faire valider les critères de validation et la table des niveaux (S43), consolider l'import (S44-S46), ajouter l'authentification et les écrans de paramètres (S46-S47), contacter la DSI pour l'hébergement (S44-S45, principal risque), puis faire tester l'outil par la DRE avant la session démo du 08/01/2027.</p>
+
+<table>
+  <tr><th style="width:30%">Risque</th><th style="width:12%">Impact</th><th>Mesure</th></tr>
+  <tr><td>Hébergement non disponible à temps</td><td>Élevé</td><td>Contact DSI dès S44 ; application conteneurisée, déployable sur tout serveur de l'école</td></tr>
+  <tr><td>Format des futures extractions inconnu</td><td>Moyen</td><td>Fichiers de test modifiés ; mapping et règles paramétrables sans code</td></tr>
+  <tr><td>Règles métier encore ouvertes (validation, « recherche »)</td><td>Moyen</td><td>Règles stockées en paramètres, modifiables en une ligne ; chiffres comparés systématiquement</td></tr>
+  <tr><td>Disponibilité de l'utilisatrice pour les tests</td><td>Moyen</td><td>Tests planifiés dès début décembre, avant la session démo</td></tr>
+</table>
+
+<figure>
+  <img src="figures/gantt.png" style="width:84%">
+  <figcaption>Figure 2 – Diagramme de Gantt (charge estimée : environ 15 h par semaine, soit 300 h pour 12 ECTS).</figcaption>
+</figure>
+
+<h2>5. Positionnement sur les compétences ISIA</h2>
+<div class="encadre">
+<p><strong>Métier visé : data engineer.</strong> Le cœur de la mission est de construire un <strong>pipeline d'ingestion de données</strong> robuste : lire des fichiers hétérogènes dont le schéma évolue, les mapper vers un modèle cible, contrôler et tracer la qualité des données, et alimenter une base relationnelle qui sert des indicateurs fiables. Cela correspond directement aux activités d'un data engineer : conception de pipelines ETL, modélisation de données, qualité des données, gouvernance et conformité RGPD (minimisation, pseudonymisation).</p>
+<p>Le projet mobilise aussi des compétences d'<strong>ingénieur logiciel</strong> (architecture applicative, API, interface web) et d'<strong>analyse de données</strong> (exploration, définition d'indicateurs avec le métier). Elles restent au service de la chaîne de données, qui fait la difficulté et la valeur du projet.</p>
+</div>
+
+</body>
+</html>

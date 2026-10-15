@@ -9,6 +9,13 @@ if (!$fichier || $fichier['error'] !== UPLOAD_ERR_OK) {
     throw new RuntimeException('Aucun fichier reçu.');
 }
 
+// Minimisation : les fichiers analysés mais jamais importés sont supprimés au bout d'une heure.
+foreach (glob(sys_get_temp_dir() . '/observastage_*') as $ancien) {
+    if (filemtime($ancien) < time() - 3600) {
+        unlink($ancien);
+    }
+}
+
 $lecteur = new LecteurFichier($fichier['tmp_name'], $fichier['name']);
 
 $jeton = bin2hex(random_bytes(16));
