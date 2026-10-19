@@ -9,20 +9,16 @@ Bonjour,
 
 Voici le point de la semaine sur le projet de valorisation des données de stages.
 
-**Avancement**
+Avancement
 - Réunion avec Dorothée Bernard le 12/10 : règles de calcul des indicateurs et périmètre de la V1 validés (compte rendu en pièce jointe).
-- Colonne « Commentaire durée travail » reçue en clair le 15/10, merci. Les types d'expérience y figurent pour 164 conventions (39 CDD, 4 CDI, 4 intérim, 1 bénévolat sur les conventions validées). L'indicateur est donc faisable, de façon partielle.
-- Première ébauche de l'outil, baptisé **ObservaStage** : import d'un fichier EsupStage avec association automatique des colonnes, contrôles, tableau de bord, recherche et export CSV/XLS. Les indicateurs ont été vérifiés contre un calcul indépendant.
+- Colonne « Commentaire durée travail » reçue en clair le 12/10, merci. Les types d'expérience y figurent pour 164 conventions (39 CDD, 4 CDI, 4 intérim, 1 bénévolat sur les conventions validées). L'indicateur est donc faisable, de façon partielle.
+- Première ébauche de l'outil, baptisé ObservaStage : import d'un fichier EsupStage avec association automatique des colonnes, contrôles, tableau de bord, recherche et export CSV/XLS. Les indicateurs ont été vérifiés avec un calcul indépendant.
 - Rapport intermédiaire et support de soutenance en cours de finalisation.
 
-**Difficultés**
+Difficultés
 - Aucune autre année d'extraction : l'adaptation aux changements de colonnes est testée sur des fichiers modifiés.
 
-**Questions en suspens**
-- Critères de validation du prototype : proposition dans le compte rendu, à confirmer.
-- Hébergement de l'application : je contacterai la DSI la semaine du 26/10.
-
-Prochaine étape : soutenance blanche lundi 19/10 à 11h, puis soutenance intermédiaire le 21/10.
+Prochaine étape : soutenance blanche lundi 19/10, puis soutenance intermédiaire le 21/10.
 
 Bonne fin de semaine,
 Augustin Mélon

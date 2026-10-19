@@ -64,7 +64,7 @@ docker compose down -v; docker compose up -d                     # repartir d'un
 ## Données
 
 - `donnees/esupstage_2025-2026_anonymise.xls` : extraction EsupStage anonymisée 2025-2026 (1 feuille, 71 colonnes, 1053 lignes). Un fichier = une année universitaire. 2025-2026 est la première année d'EsupStage : **il n'existe aucune autre année**, les tests multi-années se font sur des fichiers modifiés à partir de celui-ci.
-- Anonymisation seulement, aucune colonne supprimée. « Commentaire durée travail » est **non anonymisée** (version reçue le 15/10/2026, 164 lignes renseignées : CDD, CDI, intérim, bénévolat, horaires). « Commentaire stage » reste entièrement remplacée.
+- Anonymisation seulement, aucune colonne supprimée. « Commentaire durée travail » est **non anonymisée** (version reçue le 12/10/2026, 164 lignes renseignées : CDD, CDI, intérim, bénévolat, horaires). « Commentaire stage » reste entièrement remplacée.
 - En production, l'utilisatrice importera des fichiers **non anonymisés** : le code doit fonctionner à l'identique sur les deux.
 - Pièges connus (détaillés dans `conception/conception_technique.md` §4) : les intitulés de colonnes ne garantissent pas le contenu (« Code NAF » contient un libellé), pas de colonne région / secteur / recherche (à dériver), niveau + spécialité fusionnés dans « Libellé étape » (correspondance 1:1 avec « Code étape », 48 valeurs, table `conception/referentiels/ref_etape.csv`), SIRET souvent vide (structures étrangères), colonne « Interruption » renseignée mais dates d'interruption toujours vides.
 

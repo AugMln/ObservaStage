@@ -134,7 +134,7 @@ Ces valeurs seront signalées dans le rapport d'anomalies et exclues des calculs
 
 ### 5.4 Colonne « Commentaire durée travail »
 
-Dans la base anonymisée initiale, elle était remplie pour les 1053 conventions, avec des valeurs toutes différentes : elle avait été entièrement remplacée lors de l'anonymisation. La version non anonymisée a été reçue le 15/10.
+Dans la base anonymisée initiale, elle était remplie pour les 1053 conventions, avec des valeurs toutes différentes : elle avait été entièrement remplacée lors de l'anonymisation. La version non anonymisée a été reçue le 12/10.
 
 - La colonne n'est renseignée que pour **164 conventions** (117 validées). Il s'agit surtout d'horaires et de précisions sur le temps de travail.
 - Les types d'expérience y apparaissent par mots-clés. Sur les conventions validées : **39 CDD, 4 CDI, 4 intérim, 1 bénévolat** (« WWOOFing »).
@@ -161,7 +161,7 @@ Dans la base anonymisée initiale, elle était remplie pour les 1053 conventions
 
 | Action | Responsable | Échéance | État |
 |---|---|---|---|
-| Demander la colonne « Commentaire durée travail » non anonymisée | Augustin → Mme Kessaci | 12/10 | Fait (reçue le 15/10) |
+| Demander la colonne « Commentaire durée travail » non anonymisée | Augustin → Mme Kessaci | 12/10 | Fait (reçue le 12/10) |
 | Envoyer ce compte rendu et la proposition de critères de validation | Augustin | 16/10 | |
 | Faire valider la table code étape → niveau → spécialité | Augustin | 19/10 | Table construite |
 | Construire le Gantt (pas de 2e année ; export indispensable) | Augustin | 18/10 | |

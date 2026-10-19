@@ -1,6 +1,6 @@
 # Notes orales : soutenance intermédiaire du 21/10/2026
 
-10 minutes de présentation, puis 5 minutes de questions. Le public (jury de plusieurs tuteurs, autres étudiants) ne connaît pas le sujet : partir du problème, pas de la technique.
+10 minutes de présentation, puis 5 minutes de questions. Le public (jury de plusieurs tuteurs, autres étudiants) ne connaît pas le sujet : partir du problème, pas de la technique. Texte complet, slide par slide : [texte_oral.md](texte_oral.md).
 
 ## Minutage
 
