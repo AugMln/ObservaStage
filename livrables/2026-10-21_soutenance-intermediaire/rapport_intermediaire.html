@@ -61,9 +61,11 @@
 
 <h2>2. Cahier des charges</h2>
 
-<p><strong>Objectif.</strong> Concevoir et réaliser un prototype d'application web qui <strong>importe</strong> les extractions EsupStage, les <strong>contrôle</strong>, les <strong>structure</strong> dans une base de données et permet de les <strong>explorer</strong> : indicateurs, recherche multicritère, export. L'utilisatrice de la V1 est Dorothée Bernard. D'autres profils (enseignants, étudiants) sont envisagés plus tard.</p>
+<p><strong>Objectif.</strong> Concevoir et réaliser un prototype d'application web qui <strong>importe</strong> les extractions EsupStage (lecture, association des colonnes et pré-traitement : contrôles, anomalies), les <strong>structure</strong> dans une base de données historisée et permet de les <strong>exploiter</strong> : indicateurs, recherche multicritère, export. L'utilisatrice de la V1 est Dorothée Bernard. D'autres profils (enseignants, étudiants) sont envisagés plus tard.</p>
 
-<p><strong>Difficulté centrale.</strong> Le format des extractions peut changer d'une année à l'autre : colonnes renommées, déplacées, ajoutées ou supprimées. L'import ne doit donc pas être codé « en dur ». Il doit s'adapter <strong>sans modification du code</strong>, par un paramétrage que l'utilisatrice, non informaticienne, peut faire elle-même.</p>
+<p><strong>Une chaîne adaptable.</strong> Le format des extractions peut changer d'une année à l'autre : colonnes renommées, déplacées, ajoutées ou supprimées. L'import ne doit donc pas être codé « en dur ». Toute la chaîne s'ajuste <strong>par paramétrage, sans modification du code</strong> : association des colonnes, règles métier, référentiels. L'utilisatrice, non informaticienne, doit pouvoir le faire elle-même.</p>
+
+<p><strong>Compréhension du besoin.</strong> Je suis parti des questions réellement posées à la DRE (« combien de stages à l'étranger ? », « quelle durée moyenne en 4A ? »). Chacune cache une règle implicite à expliciter : quelles conventions compter, quel pays retenir (celui de la structure ou celui du lieu de stage), dans quelle unité exprimer une durée. Pour chaque règle, j'ai chiffré les options possibles sur les données réelles, puis je les ai présentées à l'utilisatrice pour qu'elle tranche. Trois réunions ont structuré ce travail : le cadrage (28/09), les règles métier et le périmètre (12/10), puis la validation des critères (19/10).</p>
 
 <h3>Périmètre de la V1 (validé avec la DRE le 12/10/2026)</h3>
 <table>
@@ -76,23 +78,23 @@
 
 <h3>Contraintes majeures</h3>
 <ul>
-  <li><strong>Technique</strong> : la stack est imposée (PHP, HTML/JavaScript, PostgreSQL), comme pour toutes les applications de Polytech. L'hébergement devra être maîtrisé par l'école.</li>
+  <li><strong>Technique</strong> : les technologies m'ont été imposées par l'école (PHP, HTML/JavaScript, PostgreSQL), comme pour toutes les applications de Polytech. L'hébergement devra être maîtrisé par l'école.</li>
   <li><strong>Données personnelles (RGPD)</strong> : je développe sur une base anonymisée, mais l'outil traitera ensuite des fichiers nominatifs. Il doit fonctionner à l'identique sur les deux. Les noms des étudiants et des encadrants sont utiles à la DRE et sont conservés. En revanche, les colonnes inutiles (adresses, téléphones, e-mails personnels) ne sont pas stockées, et l'accès sera authentifié.</li>
   <li><strong>Données</strong> : 2025-2026 est la première année d'EsupStage, il n'existe <strong>aucune autre extraction</strong> pour tester l'évolution des colonnes. La qualité des données est hétérogène (section 3.2).</li>
 </ul>
 
-<h3>Règles métier validées</h3>
+<h3>Règles métier validées (12/10, précisées le 19/10)</h3>
 <table>
   <tr><th style="width:24%">Notion</th><th>Règle retenue</th></tr>
-  <tr><td>Conventions comptées</td><td>Seules les conventions validées (« Validation convention = Oui ») entrent dans les indicateurs ; toutes sont importées. La règle est paramétrable.</td></tr>
+  <tr><td>Conventions comptées</td><td>Toutes les conventions sont importées. Le 19/10, la DRE a précisé la règle : seules les conventions <strong>non validées d'un étudiant qui a déjà une convention validée</strong> (doublons) sont exclues des indicateurs. Mise en œuvre prévue en S44 ; les chiffres de ce rapport utilisent la règle du 12/10 (« Validation convention = Oui »). La règle est paramétrable.</td></tr>
   <tr><td>Durée</td><td>En jours et semaines à partir des dates, en heures à partir de la durée déclarée (unité vérifiée sur les données).</td></tr>
   <tr><td>Étranger / Hauts-de-France</td><td>Pays du <em>service d'accueil</em> (lieu réel du stage) ; département du code postal ∈ {02, 59, 60, 62, 80}.</td></tr>
-  <tr><td>Recherche / secteur</td><td>Mots-clés « recherche », « R&amp;D » dans le sujet ; le secteur est la thématique EsupStage.</td></tr>
+  <tr><td>Recherche / secteur</td><td>Mots-clés « recherche », « R&amp;D » dans le sujet (règle confirmée le 19/10) ; le secteur est la thématique EsupStage.</td></tr>
   <tr><td>Valeurs aberrantes</td><td>Heures hebdomadaires ≤ 0 ou &gt; 48 (durée légale maximale), durée nulle : signalées et exclues des calculs, jamais corrigées.</td></tr>
 </table>
 
 <h3>Livrables et critères de validation</h3>
-<p><strong>Livrables</strong> : prototype fonctionnel, architecture et modèle de données, stratégie d'import, documentation technique et <strong>guide utilisateur</strong>. <strong>Critères de validation</strong> proposés à la DRE, qui devra les confirmer :</p>
+<p><strong>Livrables</strong> : prototype fonctionnel, architecture et modèle de données, stratégie d'import, documentation technique et <strong>guide utilisateur</strong>. <strong>Critères de validation</strong>, validés par la DRE le 19/10 :</p>
 <ol style="margin:0 0 5pt; padding-left:15pt">
   <li><strong>Import</strong> : la DRE importe seule un fichier EsupStage, sans toucher au code. Un fichier dont les colonnes ont changé s'importe en ajustant seulement le mapping. Un réimport ne crée aucun doublon.</li>
   <li><strong>Indicateurs</strong> : ils sont identiques aux chiffres de référence calculés indépendamment.</li>
@@ -107,19 +109,20 @@
   <div><b>Fichier EsupStage</b>.xls / .xlsx / .csv</div><span>→</span>
   <div><b>Lecture</b>tout en texte (codes, zéros)</div><span>→</span>
   <div><b>Mapping configurable</b>profils stockés en base</div><span>→</span>
-  <div><b>Contrôles</b>conversion, anomalies</div><span>→</span>
+  <div><b>Pré-traitement</b>conversion, anomalies</div><span>→</span>
   <div><b>PostgreSQL</b>modèle normalisé, règles en vue SQL</div><span>→</span>
   <div><b>API JSON</b>PHP</div><span>→</span>
   <div><b>Interface web</b>HTML / JavaScript</div>
 </div>
-<p class="petit">Les règles métier (validation retenue, seuil d'heures, départements, mots-clés) sont stockées dans une table de paramètres et appliquées dans une seule vue SQL. Elles se modifient sans toucher au code.</p>
+<p class="petit">Les trois premières étapes forment l'import : le pré-traitement en fait partie. Les règles métier (validation retenue, seuil d'heures, départements, mots-clés) sont stockées dans une table de paramètres et appliquées dans une seule vue SQL. Elles se modifient sans toucher au code.</p>
 
 <h3>3.2 Constats sur les données : pourquoi un import « naïf » ne suffit pas</h3>
 <p>L'analyse exploratoire de l'extraction 2025-2026 (1053 conventions, 939 étudiants, 71 colonnes) a montré plusieurs pièges :</p>
 <ul>
   <li><strong>Intitulés non fiables</strong> : dans un même fichier, tirets courts et longs, apostrophes droites et typographiques, casse variable. Les noms ne garantissent pas non plus le contenu : la colonne « Code NAF » contient un libellé, pas un code.</li>
   <li><strong>Informations à dériver</strong> : il n'y a pas de colonne région, secteur, recherche ni niveau. Le niveau et la spécialité sont fusionnés dans un libellé. J'ai construit une table de correspondance pour les 48 codes étape.</li>
-  <li><strong>Qualité</strong> : 18 % de cellules vides, 7 colonnes entièrement vides, SIRET absent pour 21 % des structures (structures étrangères), valeurs aberrantes (jusqu'à 175 h par semaine). Le type d'expérience (CDD, intérim…) n'existe que dans un commentaire libre.</li>
+  <li><strong>Particularités de la base</strong> : les structures étrangères (21 %) n'ont pas de SIRET, ce qui est normal. Le SIRET ne peut donc pas servir seul à identifier une structure.</li>
+  <li><strong>Qualité</strong> : 18 % de cellules vides, 7 colonnes entièrement vides, valeurs aberrantes (jusqu'à 175 h par semaine). Le type d'expérience (CDD, intérim…) n'existe que dans un commentaire libre.</li>
 </ul>
 
 <h3>3.3 Point clé : le mapping configurable</h3>
@@ -134,18 +137,27 @@
 
 <figure>
   <img src="figures/app_mapping.png" style="width:92%">
-  <figcaption>Figure 1 – Ébauche : import d'un fichier de test aux colonnes renommées, déplacées et ajoutées. 34 colonnes sont reconnues, 2 sont à vérifier, 3 nouvelles sont à décider.</figcaption>
+  <figcaption>Figure 1 – V1 : import d'un fichier de test aux colonnes renommées, déplacées et ajoutées. 34 colonnes sont reconnues, 2 sont à vérifier, 3 nouvelles sont à décider.</figcaption>
 </figure>
 
-<h3>3.4 Validation croisée des indicateurs</h3>
-<p>Pour vérifier les indicateurs (critère 2), un script Python indépendant applique les mêmes règles au fichier d'origine. Un second script compare automatiquement ses résultats à ceux de l'application. L'ébauche obtient <strong>48 indicateurs identiques sur 48</strong>. Exemples sur les 884 conventions validées : durée moyenne de 14,4 semaines (101 jours, 493 heures), 24,7 % des stages à l'étranger, 39,1 % en Hauts-de-France.</p>
+<h3>3.4 Vérification croisée des indicateurs</h3>
+<p>Pour vérifier les indicateurs (critère 2), un script Python indépendant applique les mêmes règles au fichier d'origine. Un second script compare automatiquement ses résultats à ceux de l'application. La V1 obtient <strong>48 indicateurs identiques sur 48</strong>. Exemples sur les 884 conventions validées : durée moyenne de 14,4 semaines (101 jours, 493 heures), 24,7 % des stages à l'étranger, 39,1 % en Hauts-de-France.</p>
 
 <h2>4. Gestion de projet</h2>
 
 <h3>4.1 Organisation</h3>
-<p>Le suivi repose sur un tableau <strong>Trello</strong> partagé avec les tutrices et la responsable de projet, un <strong>mail récapitulatif hebdomadaire</strong> et des réunions régulières avec la DRE. Chaque réunion fait l'objet d'une préparation et d'un compte rendu. Le code et les documents sont versionnés avec <strong>Git</strong>. Le développement se fait dans des conteneurs <strong>Docker</strong> (PHP et PostgreSQL), qui reproduisent l'environnement cible.</p>
+<p>Le suivi repose sur un tableau <strong>Trello</strong> partagé avec les tutrices et la responsable de projet, un <strong>mail récapitulatif hebdomadaire</strong> et des réunions régulières avec la DRE. Chaque réunion fait l'objet d'une préparation et d'un compte rendu. Le code et les documents sont versionnés avec <strong>Git</strong>. Le développement se fait dans des conteneurs <strong>Docker</strong> (PHP et PostgreSQL), qui reproduisent l'environnement cible. Le périmètre est priorisé (indispensable, souhaitable, bonus) : en cas de retard, je réduis le souhaitable, jamais l'indispensable.</p>
 
-<h3>4.2 Étapes réalisées et état d'avancement</h3>
+<h3>4.2 Usage de l'IA</h3>
+<p>J'utilise <strong>Claude Code</strong>, un assistant de programmation, pour écrire le code, les scripts d'analyse et une partie des documents. Je l'encadre de trois façons :</p>
+<ul>
+  <li><strong>Cadrer avant</strong> : un fichier de contexte, tenu à jour, lui donne les règles métier validées, les contraintes RGPD et les pièges connus des données. Les décisions (règles, architecture, périmètre) sont prises avec la DRE et l'expert technique avant d'être codées. Je demande une tâche à la fois et je lui fais d'abord exposer son plan et ses questions.</li>
+  <li><strong>Vérifier après</strong> : les indicateurs sont calculés deux fois de façon indépendante (Python et SQL) puis comparés (section 3.4). Chaque modification est relue avant d'être enregistrée dans Git, puis testée sur la base réelle et sur les fichiers modifiés.</li>
+  <li><strong>Garder la main</strong> : l'assistant ne travaille que sur la base anonymisée, et les analyses ne produisent que des agrégats. Les décisions, les commits et les échanges avec les tutrices restent de mon ressort.</li>
+</ul>
+<p>Le temps gagné sur l'écriture est réinvesti dans la compréhension du besoin et dans la vérification.</p>
+
+<h3>4.3 Étapes réalisées et état d'avancement</h3>
 <table>
   <tr><th style="width:15%">Date</th><th>Étape</th><th style="width:30%">Résultat</th></tr>
   <tr><td>14/09</td><td>Lancement, prise de connaissance du sujet</td><td>Contexte et jalons identifiés</td></tr>
@@ -153,25 +165,26 @@
   <tr><td>29/09</td><td>Réunion avec l'expert technique</td><td>Architecture et stack actées</td></tr>
   <tr><td>S41-S42</td><td>Analyse exploratoire de la base anonymisée</td><td>Constats sur les données, chiffres de référence</td></tr>
   <tr><td>12/10</td><td>Réunion DRE : règles métier, périmètre</td><td>14 décisions, périmètre V1 validé</td></tr>
-  <tr><td>S42-S43</td><td>Conception et ébauche technique</td><td>Import, mapping, indicateurs, recherche, export fonctionnels</td></tr>
+  <tr><td>S42-S43</td><td>Conception et V1</td><td>Import, mapping, indicateurs, recherche, export fonctionnels</td></tr>
+  <tr><td>19/10</td><td>Réunion DRE, soutenance blanche</td><td>Critères validés, règle des doublons, retours sur la présentation</td></tr>
 </table>
-<p><strong>État au 21/10.</strong> La conception est stabilisée. L'ébauche couvre déjà le chemin complet du fichier à l'export. Les fonctionnalités indispensables existent sous une forme simple, sans authentification ni écrans d'administration.</p>
+<p><strong>État au 21/10.</strong> La conception est stabilisée et la <strong>V1 est fonctionnelle</strong> : elle couvre le chemin complet du fichier à l'export, alors que le calendrier initial prévoyait le module d'import en S45-S48. Avant toute mise en service, il reste à ajouter l'authentification et les écrans de paramètres, et à appliquer la règle des doublons.</p>
 
-<h3>4.3 Difficultés rencontrées</h3>
+<h3>4.4 Difficultés rencontrées</h3>
 <ul>
   <li><strong>Accès aux données</strong> : le premier fichier ne contenait qu'une ligne d'exemple. La base complète, anonymisée, est arrivée début octobre. La colonne nécessaire au type d'expérience, d'abord anonymisée, a été obtenue en clair le 12/10.</li>
   <li><strong>Aucun historique</strong> : l'adaptation aux changements de colonnes, cœur du sujet, ne peut pas être testée sur des données réelles. J'ai créé des fichiers de test modifiés (colonnes renommées, déplacées, ajoutées, supprimées).</li>
-  <li><strong>Données peu propres et règles implicites</strong> : chaque indicateur a demandé une règle explicite à faire valider. Par exemple, l'exclusion des conventions non validées retire environ 64 % des stages de PEIP, sans doute en attente de validation au moment de l'extraction. Ce point est à confirmer avec la DRE.</li>
+  <li><strong>Données peu propres et règles implicites</strong> : chaque indicateur a demandé une règle explicite à faire valider. Par exemple, l'exclusion de toutes les conventions non validées retirait environ 64 % des stages de PEIP, sans doute en attente de validation au moment de l'extraction. Présenté à la DRE avec les chiffres, ce constat a conduit le 19/10 à ne retirer que les doublons non validés.</li>
 </ul>
 
-<h3>4.4 Recadrage et prochaines étapes</h3>
-<p>L'ébauche étant en avance sur le calendrier initial, je revois les ambitions <strong>à la hausse</strong> pour les fonctionnalités souhaitables (recherche plein texte, rapprochement des structures par similarité avec <code>pg_trgm</code>, graphiques, historique). À l'inverse, l'indicateur « type d'expérience » restera <strong>partiel</strong> : il repose sur un texte libre, renseigné pour 164 conventions seulement. Une convention sans mention est comptée comme un stage. Prochaines étapes : faire valider les critères de validation et la table des niveaux (S43), consolider l'import (S44-S46), ajouter l'authentification et les écrans de paramètres (S46-S47), contacter la DSI pour l'hébergement (S44-S45, principal risque), puis faire tester l'outil par la DRE avant la session démo du 08/01/2027.</p>
+<h3>4.5 Recadrage et prochaines étapes</h3>
+<p>La V1 étant en avance sur le calendrier initial, je revois les ambitions <strong>à la hausse</strong> pour les fonctionnalités souhaitables (recherche plein texte, rapprochement des structures par similarité avec <code>pg_trgm</code>, graphiques, historique). À l'inverse, l'indicateur « type d'expérience » restera <strong>partiel</strong> : il repose sur un texte libre, renseigné pour 164 conventions seulement. Une convention sans mention est comptée comme un stage. Prochaines étapes : faire confirmer le niveau d'un code étape ambigu (S43), appliquer la règle des doublons et enrichir le rapport d'import (S44-S46), ajouter l'authentification et les écrans de paramètres (S46-S47), contacter la DSI pour l'hébergement (S44-S45, principal risque), puis faire tester l'outil par la DRE avant la session démo du 08/01/2027.</p>
 
 <table>
   <tr><th style="width:30%">Risque</th><th style="width:12%">Impact</th><th>Mesure</th></tr>
   <tr><td>Hébergement non disponible à temps</td><td>Élevé</td><td>Contact DSI dès S44 ; application conteneurisée, déployable sur tout serveur de l'école</td></tr>
   <tr><td>Format des futures extractions inconnu</td><td>Moyen</td><td>Fichiers de test modifiés ; mapping et règles paramétrables sans code</td></tr>
-  <tr><td>Règles métier encore ouvertes (validation, « recherche »)</td><td>Moyen</td><td>Règles stockées en paramètres, modifiables en une ligne ; chiffres comparés systématiquement</td></tr>
+  <tr><td>Règles métier qui évoluent (ex. doublons, 19/10)</td><td>Moyen</td><td>Règles stockées en paramètres, modifiables en une ligne ; chiffres comparés systématiquement</td></tr>
   <tr><td>Disponibilité de l'utilisatrice pour les tests</td><td>Moyen</td><td>Tests planifiés dès début décembre, avant la session démo</td></tr>
 </table>
 
@@ -182,7 +195,7 @@
 
 <h2>5. Positionnement sur les compétences ISIA</h2>
 <div class="encadre">
-<p><strong>Métier visé : data engineer.</strong> Le cœur de la mission est de construire un <strong>pipeline d'ingestion de données</strong> robuste : lire des fichiers hétérogènes dont le schéma évolue, les mapper vers un modèle cible, contrôler et tracer la qualité des données, et alimenter une base relationnelle qui sert des indicateurs fiables. Cela correspond directement aux activités d'un data engineer : conception de pipelines ETL, modélisation de données, qualité des données, gouvernance et conformité RGPD (minimisation, pseudonymisation).</p>
+<p><strong>Métier visé : data engineer.</strong> Le cœur de la mission est la <strong>chaîne complète de la donnée</strong>, du fichier brut à l'indicateur : ingérer des fichiers hétérogènes dont le schéma évolue, les mapper vers un modèle cible, les pré-traiter en traçant leur qualité, les structurer dans une base relationnelle, puis les exploiter avec des indicateurs fiables, une recherche et des exports. Cela correspond directement aux activités d'un data engineer : conception de pipelines ETL, modélisation de données, qualité des données, gouvernance et conformité RGPD (minimisation, pseudonymisation).</p>
 <p>Le projet mobilise aussi des compétences d'<strong>ingénieur logiciel</strong> (architecture applicative, API, interface web) et d'<strong>analyse de données</strong> (exploration, définition d'indicateurs avec le métier). Elles restent au service de la chaîne de données, qui fait la difficulté et la valeur du projet.</p>
 </div>
 

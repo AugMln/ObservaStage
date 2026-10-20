@@ -6,6 +6,9 @@ donnees/
 !conception/referentiels/*.csv
 !exploration/resultats/*.csv
 
+# Vidéos (démo de secours) : trop lourdes pour le dépôt
+*.mp4
+
 # Environnements et caches
 venv/
 __pycache__/

@@ -2,98 +2,112 @@
 
 10 minutes de présentation, puis 5 minutes de questions. Le public (jury de plusieurs tuteurs, autres étudiants) ne connaît pas le sujet : partir du problème, pas de la technique. Texte complet, slide par slide : [texte_oral.md](texte_oral.md).
 
+Fil rouge, d'après la soutenance blanche du 19/10 : **j'ai compris le besoin, je pilote le projet, l'IA est un outil encadré**. La technique vient en appui.
+
 ## Minutage
 
 | Slide | Contenu | Durée | Cumul |
 |---|---|---|---|
 | 1 | Titre | 0:15 | 0:15 |
-| 2 | Contexte | 0:55 | 1:10 |
-| 3 | Objectif, difficulté centrale | 0:40 | 1:50 |
-| 4 | Les données | 0:50 | 2:40 |
-| 5 | Cahier des charges | 0:55 | 3:35 |
-| 6 | Architecture | 0:35 | 4:10 |
-| 7 | Mapping configurable | 1:00 | 5:10 |
-| 8 | Fiabilité, RGPD | 0:45 | 5:55 |
-| 9 | **Démo en direct** | 1:45 | 7:40 |
-| 10 | Avancement, difficultés | 0:50 | 8:30 |
-| 11 | Gantt | 0:40 | 9:10 |
-| 12 | Recadrage, suite, ISIA | 0:45 | 9:55 |
+| 2 | Contexte | 0:45 | 1:00 |
+| 3 | **Comprendre le besoin** | 1:00 | 2:00 |
+| 4 | Objectif, chaîne adaptable | 0:35 | 2:35 |
+| 5 | Les données | 0:40 | 3:15 |
+| 6 | Cahier des charges | 0:40 | 3:55 |
+| 7 | Chaîne de la donnée, mapping | 1:00 | 4:55 |
+| 8 | Fiabilité, RGPD | 0:40 | 5:35 |
+| 9 | **Démo en direct** | 1:30 | 7:05 |
+| 10 | **Gestion de projet** | 0:50 | 7:55 |
+| 11 | Planning (Gantt simplifié) | 0:30 | 8:25 |
+| 12 | **Usage de l'IA** | 0:50 | 9:15 |
+| 13 | Suite, data engineer | 0:40 | 9:55 |
+| Annexes | Gantt détaillé, architecture détaillée | si question | |
 
-Repère : si j'arrive à la slide 9 après 6:15, je raccourcis la démo (tableau de bord + mapping seulement).
+Repère : si j'arrive à la slide 9 après 6:00, je raccourcis la démo (tableau de bord + mapping seulement).
+
+## Vocabulaire (remarques de Mme Kessaci)
+
+- Dire **exploiter**, pas « explorer ».
+- Le contrôle est un **pré-traitement**, qui fait partie de l'**import**.
+- Parler d'**adaptabilité** de la chaîne, pas de « difficulté centrale ».
+- **Vérification croisée**, jamais « validation croisée » (terme de statistiques).
+- SIRET absent pour l'étranger : une **particularité de la base**, pas un défaut de qualité.
+- Les technologies m'ont été **imposées**.
+- Le cœur du projet est la **chaîne complète de la donnée**, pas seulement l'ingestion.
+- L'outil est une **V1 fonctionnelle**, pas une « ébauche ».
 
 ## Ce que je dis
 
 **1. Titre (0:15).** « Bonjour, je présente ObservaStage, un outil pour valoriser les données de stages de Polytech, commandé par la Direction des Relations Entreprises. »
 
-**2. Contexte (0:55).**
-- La DRE gère les conventions de stage de toutes les formations : un peu plus de 1 000 par an.
-- Depuis l'an dernier, tout passe par EsupStage, l'outil national. Il gère très bien une convention, mais pas l'ensemble : la seule sortie est un fichier Excel de 71 colonnes.
-- Conséquence : 80 % des questions posées à la DRE restent sans réponse, et chaque réponse demande environ 30 minutes de manipulations.
+**2. Contexte (0:45).**
+- La DRE gère environ 1 000 conventions par an, toutes formations confondues.
+- EsupStage gère une convention, pas l'ensemble : la seule sortie est un Excel de 71 colonnes.
+- 80 % des questions restent sans réponse, 30 minutes pour les autres.
 - Phrase clé : « Les données existent, mais personne ne peut les exploiter. »
 
-**3. Objectif (0:40).**
-- Importer, contrôler, structurer, explorer.
-- L'utilisatrice n'est pas informaticienne.
-- Difficulté centrale : le format du fichier change d'une année à l'autre, donc l'import doit s'adapter sans toucher au code.
-- Montrer les exemples de questions en bas de la slide : c'est ce qu'on veut pouvoir répondre en quelques clics.
+**3. Comprendre le besoin (1:00).**
+- Partir de ses vraies questions. Exemple : « combien à l'étranger ? » → pays du siège ou du lieu du stage ?
+- Chaque question cache une règle implicite. Je chiffre les options, elle tranche.
+- 3 réunions, chacune préparée et suivie d'un compte rendu. 14 règles validées, périmètre priorisé, critères validés le 19/10.
 
-**4. Données (0:50).** J'ai d'abord analysé la base réelle anonymisée. Quatre pièges :
-- les intitulés sont trompeurs : même pas cohérents dans un seul fichier, et « Code NAF » ne contient pas un code ;
-- il faut dériver le niveau, la région, le secteur ;
-- la qualité est hétérogène (jusqu'à 175 h par semaine) ;
-- surtout, il n'existe aucune autre année : c'est la première année d'EsupStage. Je ne peux donc pas tester l'évolution sur du réel, d'où des fichiers de test modifiés.
+**4. Objectif (0:35).**
+- Importer (avec pré-traitement), structurer, exploiter.
+- Utilisatrice non informaticienne, autonome.
+- Force de l'outil : **adaptable**, tout s'ajuste par paramétrage, sans toucher au code.
 
-**5. Cahier des charges (0:55).**
-- Périmètre validé avec la DRE le 12/10 : 5 fonctionnalités indispensables, dont l'export CSV/XLS, ajouté par Dorothée Bernard.
-- Critères de validation, mesurables : import autonome, indicateurs identiques à une référence, recherche, export.
-- Contraintes : stack imposée (standard de l'école), RGPD (en production, les fichiers seront nominatifs).
+**5. Données (0:40).** Intitulés trompeurs ; informations à dériver (niveau, spécialité) ; particularité : pas de SIRET à l'étranger ; qualité hétérogène (175 h/semaine) ; aucune autre année → fichiers de test modifiés.
 
-**6. Architecture (0:35).**
-- Une chaîne classique de traitement de données. La brique clé est le mapping.
-- Les règles métier sont des paramètres en base, pas du code.
-- L'import est idempotent : réimporter ne crée pas de doublon.
+**6. Cahier des charges (0:40).**
+- Périmètre priorisé avec la DRE ; export CSV/XLS ajouté à sa demande.
+- Critères de validation **validés par elle le 19/10**.
+- Technologies imposées par l'école, RGPD.
 
-**7. Mapping (1:00), le cœur technique.**
-- Quatre niveaux, du plus sûr au moins sûr : profil connu, colonne déjà vue, alias, similarité.
-- L'utilisatrice valide avec des exemples de valeurs.
-- Sur le fichier de test : sur 69 colonnes, 34 sont reconnues, 2 seulement sont à vérifier et 3 sont nouvelles. « Seules les différences sont à traiter. »
+**7. Chaîne de la donnée (1:00).**
+- Import = lecture + mapping + pré-traitement → PostgreSQL → API → interface. Technologies imposées.
+- Le mapping rend la chaîne adaptable : profil connu, colonne déjà vue, alias, similarité « à vérifier ».
+- Fichier de test : 34 reconnues, 2 à vérifier, 3 nouvelles. « Seules les différences sont à traiter. »
 
-**8. Fiabilité (0:45).**
-- Chaque règle est explicite et validée.
-- Pour être sûr des chiffres : un script Python indépendant recalcule tout, et un second compare. 48 sur 48 identiques.
-- RGPD : seules les colonnes utiles sont stockées (pas d'adresses ni de téléphones), accès réservé à la DRE avec authentification.
+**8. Fiabilité (0:40).**
+- Règles validées ; règle des doublons précisée le 19/10, appliquée en S44.
+- **Vérification croisée** : 48 sur 48 identiques.
+- RGPD : minimisation, fichier supprimé, authentification.
 
-**9. Démo (1:45).** Voir le script ci-dessous.
+**9. Démo (1:30).** Voir le script ci-dessous.
 
-**10. Avancement (0:50).**
-- Frise : cadrage, réunion technique, analyse, règles métier, ébauche.
-- Organisation : Trello, mail hebdo, comptes rendus, Git.
-- Difficultés : accès aux données, pas d'historique, données sales.
-- « Aujourd'hui, je suis en avance : l'ébauche va déjà de l'import à l'export. »
+**10. Gestion de projet (0:50).**
+- Démarche itérative, validation à chaque étape (frise).
+- Cycle de réunion : préparation → compte rendu → actions. Mail hebdo, Trello.
+- Priorisation : je coupe dans le souhaitable, jamais dans l'indispensable.
+- « Aujourd'hui, je suis en avance : la V1 va de l'import à l'export. »
 
-**11. Gantt (0:40).**
-- Montrer la ligne rouge du 21/10.
-- Novembre et début décembre : consolidation et déploiement. Tests avec la DRE début décembre. Rapport le 18/12, démo le 08/01, soutenance le 29/01.
-- Insister sur le contact DSI dès S44.
+**11. Planning (0:30).** Cadrage et V1 faits ; consolidation, souhaitable, hébergement (risque principal), tests début décembre ; démo 08/01, soutenance 29/01. Détail en annexe.
 
-**12. Suite (0:45).**
-- Recadrage à la hausse (fonctionnalités souhaitables) et à la baisse (type d'expérience, partiel).
-- Métier : **data engineer**. Le cœur est un pipeline d'ingestion de données dont le schéma évolue, avec qualité, modélisation et RGPD.
+**12. IA (0:50).**
+- Cadrer avant : fichier de contexte, décisions prises avec la DRE avant le code, une tâche à la fois, plan et questions d'abord. Montrer la consigne réelle.
+- Vérifier après : double calcul, relecture avant chaque commit, tests.
+- Garder la main : base anonymisée seulement, décisions à moi.
+- « Le temps gagné est réinvesti dans le besoin et la vérification. »
+
+**13. Suite (0:40).**
+- Recadrage à la hausse et à la baisse.
+- Doublons, rapport d'import, authentification, DSI, tests.
+- **Data engineer** : la chaîne complète de la donnée, du fichier brut à l'indicateur.
 - « Merci, je suis prêt pour vos questions. »
 
-## Script de démo (1:45)
+## Script de démo (1:30)
 
 Préparation, **avant** la séance :
 1. `cd app ; docker compose up -d`, puis vérifier http://localhost:8080.
 2. Base remplie avec le fichier 2025-2026 (déjà fait ; sinon onglet Import, valider, Importer).
 3. Générer le fichier de test s'il n'existe pas : `.\venv\Scripts\python.exe exploration\generer_fichier_test.py`.
 4. Navigateur en plein écran, zoom 125 %, onglet Tableau de bord ouvert.
-5. **Plan B** : si la démo ne marche pas, rester sur la slide 9 et commenter la capture.
+5. **Plan B** : la vidéo `demo_observastage.mp4` ouverte dans un lecteur, prête à lancer (voir [video_demo.md](video_demo.md)). Plan C : commenter la capture de la slide 9.
 
 Déroulé :
 1. **Tableau de bord** (30 s) : « 884 stages validés, 14,4 semaines en moyenne, un quart à l'étranger. » Choisir Niveau = 4A : « 60 % à l'étranger en 4A ».
-2. **Recherche** (30 s) : Localisation = Étranger, mot-clé « robot » → 8 stages. Cliquer sur XLS : le fichier se télécharge.
-3. **Import** (45 s) : choisir `donnees/tests/esupstage_test_colonnes_modifiees.xlsx`, puis Analyser. « Colonnes renommées et déplacées : l'outil reconnaît 34 colonnes, m'en propose 2 à vérifier, et 3 sont nouvelles. Je les associe : Domaine d'activité → Thématique, Temps de travail hebdo → Heures hebdomadaires. » Option, si le temps le permet : cliquer sur Importer, montrer l'année 2026/2027 dans les filtres, puis **supprimer l'import** dans l'historique et **supprimer le profil** créé, pour remettre la démo dans son état initial. Sinon, ne pas importer.
+2. **Recherche** (25 s) : Localisation = Étranger, mot-clé « robot » → 8 stages. Cliquer sur XLS : le fichier se télécharge.
+3. **Import** (35 s) : choisir `donnees/tests/esupstage_test_colonnes_modifiees.xlsx`, puis Analyser. « L'outil reconnaît 34 colonnes, m'en propose 2 à vérifier, et 3 sont nouvelles. Domaine d'activité → Thématique, Temps de travail hebdo → Heures hebdomadaires. » Ne pas importer.
 
 ## Ne pas montrer
 

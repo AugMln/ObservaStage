@@ -1,6 +1,6 @@
 # À faire : projet ObservaStage
 
-Mis à jour le 15/10/2026. Cocher au fur et à mesure (`[x]`). Planning détaillé : [gestion-projet/planning/gantt.html](gestion-projet/planning/gantt.html).
+Mis à jour le 20/10/2026. Cocher au fur et à mesure (`[x]`). Planning détaillé : [gestion-projet/planning/gantt.html](gestion-projet/planning/gantt.html).
 
 ## Routines (toutes les semaines jusqu'à fin janvier)
 
@@ -18,10 +18,13 @@ Mis à jour le 15/10/2026. Cocher au fur et à mesure (`[x]`). Planning détaill
 | Ven 16/10 | Envoyer à Dorothée Bernard le CR du 12/10 (en PDF) et la table des codes étape | [ ] |
 | Week-end | Relire le rapport et les slides, reformuler avec mes mots | [ ] |
 | Week-end | 2 répétitions chronométrées, démo comprise (`notes_orales.md`) | [ ] |
-| Lun 19/10 | Avec Dorothée Bernard : règle de validation (884 ou 1023), règle « recherche » (27 ou 84), critères de validation, code 2XIGAP | [ ] |
-| Lun 19/10, 11h | Soutenance blanche avec Mme Kessaci : noter les remarques | [ ] |
-| Lun 19/10 | Intégrer les remarques et les réponses de Dorothée au rapport et aux slides, régénérer les PDF | [ ] |
-| Mar 20/10 | Version finale, dernière répétition, test de la démo avec `app/lancer.bat` sur la machine de la soutenance (Chrome) | [ ] |
+| Lun 19/10 | Avec Dorothée Bernard : règle de validation, règle « recherche », critères de validation, code 2XIGAP (CR : `gestion-projet/reunions/2026-10-19_dre/`) | [x] |
+| Lun 19/10, 11h | Soutenance blanche avec Mme Kessaci : noter les remarques (CR : `gestion-projet/reunions/2026-10-19_soutenance-blanche/`) | [x] |
+| Mar 20/10 | Intégrer les remarques et les réponses de Dorothée au rapport et aux slides, régénérer les PDF | [x] |
+| Mar 20/10 | Relire les slides, le rapport, `texte_oral.md` et `questions_jury.md` (en particulier la slide IA) et reformuler avec mes mots | [ ] |
+| Mar 20/10 | Envoyer le mail sur le code 2XIGAP (`gestion-projet/mails/2026-10-20_brouillons.md`) | [ ] |
+| Mar 20/10 | **Enregistrer la vidéo de secours de la démo** (`livrables/2026-10-21_soutenance-intermediaire/video_demo.md`) | [ ] |
+| Mar 20/10 | Version finale, répétition chronométrée du nouveau support (13 slides), test de la démo avec `app/lancer.bat` sur la machine de la soutenance (Chrome) | [ ] |
 | **Mer 21/10, avant 10h** | **Déposer sur Moodle `rapport_intermediaire.pdf` et `support_soutenance.pdf`** | [ ] |
 | Mer 21/10, 15h | Soutenance intermédiaire (10 min + 5 min de questions) | [ ] |
 | S43 | **Organiser la réunion tripartite intermédiaire** (Mme Kessaci, Dorothée Bernard) | [ ] |
@@ -32,10 +35,11 @@ Avant la démo : supprimer l'import et le profil du fichier test s'ils ont été
 
 ## Points ouverts à trancher
 
-- [ ] Règle de prise en compte des conventions : administrative seule (884) ou administrative OU pédagogique (1023). Si la règle change : modifier `regle_validation` en base et `VALIDATION_COLUMNS` dans `exploration/indicateurs_reference.py`.
-- [ ] Règle « recherche » : mots-clés dans le sujet (27) ou thématique (84) ?
-- [ ] Critères de validation du prototype : faire confirmer la proposition.
-- [ ] Table code étape → niveau → spécialité à faire valider, en particulier 2XIGAP (« L1 adaptée » codé en 2e année).
+- [x] Règle de prise en compte des conventions : tranchée le 19/10, seuls les doublons non validés (même étudiant) sont retirés → 1023. Mise en œuvre en S44 (voir Import).
+- [ ] Faire confirmer à Dorothée Bernard le sens de « doublon » : 26 des 30 conventions retirées ne commencent pas à la même date que la convention validée (autres stages ?). Alternative : même étudiant **et** même période.
+- [x] Règle « recherche » : mots-clés dans le sujet, maintenue le 19/10.
+- [x] Critères de validation du prototype : validés le 19/10.
+- [ ] Code étape 2XIGAP (« L1 adaptée » codé en 2e année, classé L2) : attendre la réponse au mail. Le reste de la table n'est pas remis en cause.
 - [ ] Hébergement : qui contacter à la DSI ? Contraintes de sécurité, accès à PostgreSQL et PHP, HTTPS.
 - [ ] Authentification : système de l'université (CAS) ou comptes locaux ? (à voir avec la DSI et l'expert)
 - [ ] Tests utilisateurs : dates de disponibilité de Dorothée Bernard début décembre.
@@ -43,6 +47,8 @@ Avant la démo : supprimer l'import et le profil du fichier test s'ils ont été
 ## Développement de la V1 (S44-S50)
 
 **Import (S44-S46)**
+- [ ] **Règle des doublons** (décision du 19/10) : nouvelle valeur de `regle_validation` dans `v_stage` (convention validée, ou non validée d'un étudiant sans aucune convention validée la même année). Report dans `exploration/indicateurs_reference.py`, relancer `verifier_application.py`, mettre à jour les chiffres cités (1023 attendu).
+- [ ] Rapport d'import : répartition des anomalies et des valeurs manquantes par niveau et par spécialité (suggestion de Mme Kessaci, 19/10)
 - [x] Test de robustesse : fichier ouvert puis enregistré dans Excel (.xls, .xlsx, .csv), voir `app/tests/README.md`
 - [ ] Écran d'administration des profils de mapping (renommer, consulter les règles)
 - [ ] Écran des paramètres métier (règle de validation, seuil d'heures, mots-clés) et des référentiels (codes étape)

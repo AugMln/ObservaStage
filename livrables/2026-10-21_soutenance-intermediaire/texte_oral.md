@@ -4,7 +4,7 @@ Texte à dire, slide par slide, calé sur le minutage de `notes_orales.md` (10 m
 
 Ne pas l'apprendre par cœur : le lire à voix haute deux ou trois fois, puis parler à partir des notes orales. Seules la première phrase de chaque slide et les phrases clés (en gras) méritent d'être mémorisées.
 
-Chiffres calculés avec la règle actuelle (884 conventions validées). Si la règle change le 19/10, mettre à jour les passages marqués ⚠.
+Version revue après la soutenance blanche du 19/10 : plus de besoin et de gestion de projet, moins de technique. Les chiffres sont ceux de la règle du 12/10 (884 conventions validées) : la règle des doublons, décidée le 19/10, sera appliquée en S44.
 
 ---
 
@@ -12,122 +12,115 @@ Chiffres calculés avec la règle actuelle (884 conventions validées). Si la r�
 
 Bonjour à toutes et à tous. Je vais vous présenter ObservaStage, un outil pour valoriser et suivre les données de stages de Polytech Lille. C'est un projet commandé par la Direction des Relations Entreprises, avec Dorothée Bernard comme référente.
 
-## Slide 2 : Contexte (0:55)
+## Slide 2 : Contexte (0:45)
 
-La Direction des Relations Entreprises, la DRE, gère les conventions de stage de toutes les formations de l'école : PEIP, licences, masters et cycle ingénieur. Cela représente un peu plus de mille conventions par an.
+La Direction des Relations Entreprises, la DRE, gère les conventions de stage de toutes les formations de l'école : un peu plus de mille par an.
 
-Depuis 2025-2026, toutes ces conventions passent par EsupStage, l'outil national de gestion des conventions. EsupStage gère très bien une convention, mais il ne permet pas d'analyser l'ensemble. La seule chose qu'on peut en sortir, c'est un fichier Excel de 71 colonnes par année.
+Depuis 2025-2026, elles passent toutes par EsupStage, l'outil national. EsupStage gère très bien une convention, mais il ne permet pas d'analyser l'ensemble : on ne peut en sortir qu'un fichier Excel de 71 colonnes.
 
-Résultat : aujourd'hui, 80 % des questions posées à la DRE sur les stages restent sans réponse. Pour les autres, chaque réponse demande environ une demi-heure de manipulations, et une seule personne gère toutes les conventions.
+Résultat : 80 % des questions posées à la DRE sur les stages restent sans réponse, et les autres demandent environ une demi-heure de manipulations chacune. **Les données existent, mais personne ne peut les exploiter.**
 
-**Autrement dit, les données existent, mais personne ne peut les exploiter.** Et elles intéresseraient pourtant la direction, les enseignants et les futurs stagiaires.
+## Slide 3 : Comprendre le besoin (1:00)
 
-## Slide 3 : Objectif (0:40)
+Avant d'écrire du code, j'ai voulu comprendre exactement ce que la DRE attend. Je suis parti de ses vraies questions.
 
-L'objectif est donc de construire un outil qui permette d'importer le fichier EsupStage de l'année, de contrôler les données, de les structurer dans une base historisée, puis de les explorer : indicateurs, recherche et export.
+[Montrer le tableau] Prenons « combien de stages à l'étranger ? ». La question paraît simple, mais il faut préciser : le pays du siège de l'entreprise, ou celui du lieu où se déroule le stage ? Même chose pour « combien de stages ? » : faut-il compter toutes les conventions, même celles qui ne sont pas validées ?
 
-L'utilisatrice de la première version est Dorothée Bernard. Elle doit pouvoir importer chaque année sans aide.
+Chaque question cache une règle implicite. Pour chacune, j'ai chiffré les options sur les données réelles, puis je les ai présentées à Dorothée Bernard pour qu'elle tranche.
 
-La difficulté centrale, c'est que le format du fichier change d'une année à l'autre : des colonnes sont renommées, déplacées, ajoutées ou supprimées. **L'import doit donc s'adapter sans qu'on touche au code.**
+[Montrer l'encadré] Ce travail s'est fait en trois réunions : le cadrage, les règles métier le 12 octobre, et la validation lundi dernier. Chaque réunion est préparée et suivie d'un compte rendu. Résultat : **quatorze règles explicites et validées, un périmètre priorisé avec elle, et des critères de validation qu'elle a acceptés.**
 
-[Montrer le bas de la slide] Voici le type de questions auxquelles on veut pouvoir répondre en quelques clics.
+## Slide 4 : Objectif (0:35)
 
-## Slide 4 : Les données (0:50)
+L'objectif est donc un outil qui importe le fichier EsupStage de l'année (le pré-traitement et les contrôles font partie de l'import), qui structure les données dans une base historisée, puis qui permet de les exploiter : indicateurs, recherche et export.
 
-J'ai commencé par analyser la base réelle, anonymisée : 1 053 conventions, 71 colonnes. J'y ai trouvé quatre pièges.
+L'utilisatrice, Dorothée Bernard, doit pouvoir importer chaque année sans aide.
 
-D'abord, les intitulés sont trompeurs : ils ne sont même pas cohérents dans un seul fichier, et la colonne « Code NAF » contient en fait un libellé.
+Et le format du fichier peut changer d'une année à l'autre. **La force de l'outil est d'être adaptable : les colonnes, les règles métier et les référentiels s'ajustent par paramétrage, sans toucher au code.**
 
-Ensuite, il faut déduire des informations absentes, comme le niveau ou la région. Le niveau et la spécialité, par exemple, sont fusionnés dans un seul libellé.
+## Slide 5 : Les données (0:40)
 
-Troisième piège, la qualité est hétérogène : 18 % de cellules vides, et jusqu'à 175 heures de travail par semaine.
+J'ai analysé la base réelle anonymisée : 1 053 conventions, 71 colonnes.
 
-Et surtout, il n'y a aucun historique : c'est la première année d'EsupStage. Pour tester l'évolution des colonnes, j'utilise donc des fichiers modifiés à partir de la base réelle.
+Les intitulés sont trompeurs : ils ne sont même pas cohérents dans un seul fichier, et « Code NAF » contient un libellé. Plusieurs informations sont à déduire, comme le niveau et la spécialité, fusionnés dans un seul libellé. La base a aussi ses particularités : les structures étrangères n'ont pas de SIRET, ce qui est normal, mais il faut une autre façon de les identifier. La qualité est hétérogène, avec jusqu'à 175 heures par semaine. Et surtout, c'est la première année d'EsupStage : je teste l'évolution des colonnes sur des fichiers modifiés.
 
-## Slide 5 : Cahier des charges (0:55)
+## Slide 6 : Cahier des charges (0:40)
 
-Le périmètre de la première version a été validé avec la DRE le 12 octobre. Il est classé par priorité.
+Le périmètre a été priorisé avec la DRE. L'indispensable : l'import avec un mapping configurable, les contrôles, les indicateurs, la recherche multicritère, et l'export en CSV et XLS, ajouté à sa demande. Viennent ensuite le souhaitable et les bonus.
 
-L'indispensable : un import avec un mapping configurable, des contrôles avec un rapport d'anomalies, les indicateurs (la durée moyenne en jours, semaines et heures, la part à l'étranger, en Hauts-de-France, par niveau et par spécialité), une recherche multicritère, et l'export en CSV et en XLS, qui a été ajouté à la demande de Dorothée Bernard.
+J'ai proposé quatre critères de validation mesurables, **qu'elle a validés lundi** : un import autonome sans doublon, des indicateurs identiques à des chiffres de référence, la recherche, et l'export.
 
-Viennent ensuite le souhaitable, comme l'historique sur plusieurs années ou les graphiques, puis des bonus.
+Les technologies m'ont été imposées par l'école, et les données de production seront nominatives, donc soumises au RGPD.
 
-J'ai proposé quatre critères de validation mesurables : un import autonome et sans doublon, des indicateurs identiques à des chiffres de référence, la recherche, et l'export lisible dans Excel.
+## Slide 7 : La chaîne de la donnée (1:00)
 
-Côté contraintes, la stack est imposée par l'école, et les données de production seront nominatives, donc soumises au RGPD.
+Voici la chaîne complète. L'import regroupe la lecture du fichier, l'association des colonnes, le mapping, et le pré-traitement. Les données vont ensuite dans PostgreSQL, puis une API en PHP les sert à l'interface. Ces technologies sont le standard des applications de Polytech, et elles m'ont été imposées.
 
-## Slide 6 : Architecture (0:35)
+La brique qui rend la chaîne adaptable, c'est le mapping. Chaque colonne est reconnue en quatre étapes, de la plus sûre à la moins sûre : un profil connu, une colonne déjà rencontrée, un alias connu, puis une similarité, qui donne une proposition « à vérifier ».
 
-L'architecture est une chaîne classique de traitement de données : le fichier est lu, les colonnes sont associées par le mapping, les données sont contrôlées, stockées dans PostgreSQL, puis servies par une API en PHP à une interface web.
+[Montrer la capture] Sur un fichier de test aux colonnes modifiées, l'outil en reconnaît 34, en propose 2 à vérifier et en signale 3 nouvelles. **Seules les différences sont à traiter, et l'utilisatrice valide toujours.**
 
-Trois choix importants. Les règles métier sont des paramètres stockés en base et appliqués à un seul endroit, on les modifie sans toucher au code. L'import est idempotent : réimporter un fichier met à jour les conventions, sans créer de doublon. Et tout tourne dans Docker, pour être déployé tel quel sur un serveur de l'école.
+## Slide 8 : Fiabilité et RGPD (0:40)
 
-## Slide 7 : Mapping configurable (1:00)
+Pour que les chiffres soient fiables, chaque règle est explicite et validée. Lundi, la DRE a précisé la règle de comptage : on ne retire que les doublons non validés d'un même étudiant. Elle sera appliquée la semaine prochaine.
 
-Le mapping, c'est le cœur technique du projet. Quand un fichier arrive, chaque colonne est reconnue en quatre étapes, de la plus sûre à la moins sûre.
+Pour vérifier les chiffres, je fais une vérification croisée : un script Python indépendant recalcule tous les indicateurs à partir du fichier brut, et les compare à ceux de l'application. **48 sur 48 sont identiques.**
 
-Un : si le fichier a exactement les mêmes colonnes qu'un import précédent, le profil connu est appliqué directement.
-Deux : si une colonne a déjà été rencontrée, la décision passée est reprise.
-Trois : on compare l'intitulé à une liste d'alias connus, après avoir retiré les accents, la casse et la ponctuation.
-Quatre : sinon, on calcule une similarité entre les intitulés, et on fait une proposition marquée « à vérifier ».
+Côté RGPD : les colonnes inutiles ne sont pas stockées, le fichier est supprimé après l'import, et les noms ne seront accessibles qu'à l'utilisatrice, avec une authentification.
 
-L'utilisatrice valide en voyant des valeurs d'exemple, et son choix devient un profil réutilisable l'année suivante.
+## Slide 9 : Démonstration (1:30)
 
-Sur le fichier de test, aux colonnes modifiées, l'outil en reconnaît 34, en propose 2 à vérifier et en signale 3 nouvelles. **Seules les différences sont à traiter.**
-
-## Slide 8 : Fiabilité et RGPD (0:45)
-
-Pour que les chiffres soient fiables, chaque règle est explicite et validée avec la DRE : seules les conventions validées sont comptées, l'étranger se définit par le pays du service d'accueil, et les valeurs aberrantes sont signalées et exclues, jamais corrigées.
-
-Pour vérifier les chiffres, un script Python indépendant recalcule tous les indicateurs à partir du fichier brut, puis les compare à ceux de l'application. **48 indicateurs sur 48 sont identiques.**
-
-Côté RGPD : les colonnes inutiles, comme les adresses ou les téléphones, ne sont pas stockées, le fichier est supprimé après l'import, et les noms ne seront accessibles qu'à l'utilisatrice habilitée, avec une authentification et un hébergement à l'école.
-
-## Slide 9 : Démonstration (1:45)
-
-Je vous montre maintenant l'ébauche, qui fonctionne déjà sur la base réelle anonymisée.
+Je vous montre la V1, qui fonctionne déjà sur la base réelle anonymisée.
 
 [Basculer sur le navigateur, onglet Tableau de bord]
 
-Voici le tableau de bord. ⚠ Sur les 884 stages validés, la durée moyenne est de 14,4 semaines, et un quart des stages se déroulent à l'étranger.
+Voici le tableau de bord : 884 stages validés, 14,4 semaines en moyenne, un quart à l'étranger.
 
-[Filtre Niveau = 4A] Si je filtre sur la 4e année, on voit qu'environ 60 % des stages sont à l'étranger. C'est exactement le type de question qui restait sans réponse.
+[Filtre Niveau = 4A] En 4e année, environ 60 % des stages sont à l'étranger. C'est exactement le type de question qui restait sans réponse.
 
-[Onglet Recherche, Localisation = Étranger, mot-clé « robot »] Dans la recherche, je cherche les stages à l'étranger qui parlent de robotique : 8 stages. [Cliquer sur XLS] Et je peux exporter ce résultat dans Excel.
+[Onglet Recherche, Localisation = Étranger, mot-clé « robot », puis XLS] Les stages à l'étranger qui parlent de robotique : 8. Je peux les exporter dans Excel.
 
-[Onglet Import, choisir le fichier de test, Analyser] Enfin, l'import. J'ouvre un fichier dont les colonnes ont été modifiées. L'outil reconnaît la plupart des colonnes, et me demande de décider uniquement pour celles qui ont changé. Par exemple, « Domaine d'activité » correspond en fait à la thématique, et « Temps de travail hebdo » au nombre d'heures par semaine. Je les associe, et le profil est enregistré pour la prochaine fois.
+[Onglet Import, fichier de test, Analyser] Enfin, l'import d'un fichier aux colonnes modifiées : l'outil ne me demande de décider que pour celles qui ont changé. « Domaine d'activité », c'est la thématique ; « Temps de travail hebdo », les heures par semaine.
 
 [Revenir aux slides]
 
-Ce qui manque encore : l'authentification, les écrans de paramètres, le rapprochement des structures et les graphiques.
+Avant la mise en service, il reste l'authentification, les écrans de paramètres et la nouvelle règle des doublons.
 
-> Plan B si la démo ne marche pas : rester sur la slide 9 et commenter la capture (« Voici le tableau de bord… »).
-> Si j'arrive à la slide 9 après 6:15 : ne montrer que le tableau de bord et l'écran de mapping.
+> Plan B si la démo ne marche pas : lancer la vidéo `demo_observastage.mp4` (voir `video_demo.md`) et la commenter. Si la vidéo ne marche pas non plus, rester sur la slide 9 et commenter la capture.
+> Si j'arrive à la slide 9 après 6:00 : ne montrer que le tableau de bord et l'écran de mapping.
 
-## Slide 10 : Avancement et difficultés (0:50)
+## Slide 10 : Gestion de projet (0:50)
 
-Côté gestion de projet : après le lancement, le cadrage tripartite et une réunion technique fin septembre, j'ai analysé les données, puis validé quatorze règles métier avec la DRE le 12 octobre.
+Côté gestion de projet, j'ai suivi une démarche itérative, avec une validation à chaque étape : le cadrage, une réunion technique pour l'architecture, l'analyse des données, puis les règles métier, la V1, et la validation lundi.
 
-Pour m'organiser : un Trello partagé, un mail récapitulatif chaque semaine, un compte rendu pour chaque réunion, et Git.
+Chaque réunion suit le même cycle : une préparation, avec les décisions à prendre et les options chiffrées, puis un compte rendu et des actions. J'envoie un mail récapitulatif chaque semaine, et le Trello est partagé. Le périmètre est priorisé : si je prends du retard, je coupe dans le souhaitable, jamais dans l'indispensable.
 
-Trois difficultés : la base complète n'est arrivée que début octobre, il n'y a pas d'historique, et les données sont peu propres, avec des règles implicites à expliciter une par une.
+Les difficultés : les données sont arrivées tard, il n'y a pas d'historique, et les règles implicites ont dû être explicitées une par une.
 
-**Aujourd'hui, je suis en avance** : l'ébauche va déjà de l'import à l'export, alors que le calendrier initial prévoyait le module d'import en novembre.
+**Aujourd'hui, je suis en avance : la V1 va déjà de l'import à l'export.**
 
-## Slide 11 : Gantt (0:40)
+## Slide 11 : Planning (0:30)
 
-Voici le planning, sur environ 15 heures par semaine, soit 300 heures. La ligne rouge marque aujourd'hui.
+Le planning, en grandes phases. Le cadrage et la V1 sont faits. Jusqu'à mi-décembre, je consolide l'outil : l'import, l'authentification, puis les fonctionnalités souhaitables, en parallèle de l'hébergement, qui est le principal risque. Tests avec Dorothée Bernard début décembre, puis la session démo le 8 janvier et la soutenance fin janvier. Le détail est en annexe.
 
-En novembre et début décembre, je consolide l'import, j'ajoute l'authentification et les fonctionnalités d'exploration, et je prépare le déploiement. Des tests avec Dorothée Bernard sont prévus début décembre. Ensuite viennent le rapport, mi-décembre, la session démo le 8 janvier et la soutenance finale le 29 janvier.
+## Slide 12 : Usage de l'IA (0:50)
 
-Le point d'attention, c'est l'hébergement : je contacte la DSI dès la semaine prochaine.
+J'ai utilisé l'IA, Claude Code, pour écrire le code et une partie des documents. Mais je l'ai encadrée.
 
-## Slide 12 : Suite du projet (0:45)
+D'abord, je cadre avant : l'outil a un fichier de contexte, que je tiens à jour, avec les règles validées, les contraintes RGPD et les pièges des données. Les décisions sont prises avec la DRE avant d'être codées. Et je travaille une tâche à la fois, en lui demandant d'exposer son plan et ses questions avant d'agir. [Montrer la consigne] Voici une consigne réelle, d'hier.
 
-Pour la suite, le périmètre est revu à la hausse, grâce à l'avance : recherche plein texte, rapprochement des structures, graphiques, historique. Et à la baisse sur le type d'expérience, CDD ou intérim : saisi en texte libre pour seulement 164 conventions, l'indicateur restera partiel.
+Ensuite, je vérifie après : les chiffres sont calculés deux fois de façon indépendante, chaque modification est relue avant d'être enregistrée, et testée.
 
-Prochaines étapes : consolider l'import, ajouter l'authentification, contacter la DSI, et faire tester l'outil par la DRE avant la démo de janvier.
+Enfin, je garde la main : l'IA ne voit que la base anonymisée, et les décisions restent les miennes.
 
-Enfin, ce projet correspond au métier de **data engineer** : son cœur est un pipeline d'ingestion de données dont le schéma évolue, avec du mapping, de la qualité de données, de la modélisation et de la conformité RGPD.
+**Le temps gagné sur l'écriture, je l'ai réinvesti dans la compréhension du besoin et dans la vérification.**
+
+## Slide 13 : Suite du projet (0:40)
+
+Pour la suite, le périmètre est revu à la hausse grâce à l'avance : recherche plein texte, rapprochement des structures, graphiques, historique. Il est revu à la baisse sur le type d'expérience, qui restera partiel.
+
+Prochaines étapes : la règle des doublons, un rapport d'import enrichi, l'authentification, le contact avec la DSI, et les tests avec la DRE.
+
+Ce projet correspond au métier de **data engineer** : son cœur est la chaîne complète de la donnée, du fichier brut à l'indicateur.
 
 Merci de votre attention, je suis prêt à répondre à vos questions.

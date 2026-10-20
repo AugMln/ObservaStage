@@ -20,6 +20,7 @@
   }
   @media print { body { background: #fff; } .slide { margin: 0; } }
   .slide::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 8px; background: var(--accent); }
+  .slide.annexe::before { background: var(--texte-3); }
   .pied { position: absolute; left: 64px; right: 64px; bottom: 16px; display: flex; justify-content: space-between; font-size: 13px; color: var(--texte-3); }
   .section { font-size: 15px; font-weight: 600; color: var(--accent-2); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
   h1 { font-size: 36px; line-height: 1.15; margin: 0 0 22px; letter-spacing: -0.015em; }
@@ -76,22 +77,50 @@
   .pipeline .etape.cle { background: var(--accent); border-color: var(--accent); }
   .pipeline .etape.cle b, .pipeline .etape.cle span { color: #fff; }
   .pipeline .sep { align-self: center; color: var(--accent-2); font-size: 26px; font-weight: 700; padding: 0 6px; }
+  .pipeline.grand .etape { padding: 22px 14px; }
+  .pipeline.grand .etape b { font-size: 26px; margin-bottom: 8px; }
+  .pipeline.grand .etape span { font-size: 17px; }
+  /* Étapes regroupées sous un même nom (ex. : l'import) */
+  .pipeline .groupe { display: flex; flex-direction: column; border: 2px dashed var(--accent-2); border-radius: 12px; padding: 4px 8px 8px; }
+  .pipeline .groupe .nom-groupe { font-size: 13px; font-weight: 700; color: var(--accent-2); text-transform: uppercase; letter-spacing: 0.08em; text-align: center; margin-bottom: 4px; }
+  .pipeline .groupe .interne { display: flex; align-items: stretch; flex: 1; }
+  .pipeline.compact .etape { padding: 12px 6px; }
+  .pipeline.compact .etape b { font-size: 18px; }
+  .pipeline.compact .etape span { font-size: 14px; }
+  .pipeline.compact .sep { font-size: 22px; padding: 0 4px; }
 
   /* Cascade du mapping */
   .cascade { display: flex; flex-direction: column; gap: 22px; }
   .cascade div { display: grid; grid-template-columns: 40px 1fr; gap: 14px; align-items: start; }
   .cascade .n { width: 40px; height: 40px; border-radius: 50%; background: var(--accent); color: #fff; font-weight: 700; display: grid; place-items: center; font-size: 19px; }
   .cascade p { margin: 0; font-size: 20px; line-height: 1.4; }
+  .cascade.serree { gap: 12px; }
+  .cascade.serree div { grid-template-columns: 32px 1fr; gap: 10px; }
+  .cascade.serree .n { width: 32px; height: 32px; font-size: 16px; }
+  .cascade.serree p { font-size: 18px; line-height: 1.35; }
 
-  .frise { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; margin: 4px 0 26px; position: relative; }
+  .frise { display: grid; grid-template-columns: repeat(7, 1fr); gap: 0; margin: 4px 0 22px; position: relative; }
   .frise::before { content: ""; position: absolute; left: 0; right: 0; top: 40px; height: 3px; background: var(--clair); }
   .frise div { position: relative; padding-right: 10px; }
   .frise .point { width: 18px; height: 18px; border-radius: 50%; background: var(--accent); border: 4px solid #fff; box-shadow: 0 0 0 2px var(--accent); margin: 5px 0 10px; }
   .frise .point.futur { background: #fff; }
   .frise .date { font-weight: 700; font-size: 18px; color: var(--accent); }
-  .frise .quoi { font-size: 17px; color: var(--texte-2); line-height: 1.3; }
+  .frise .quoi { font-size: 16px; color: var(--texte-2); line-height: 1.3; }
+
+  .dense .frise { margin-bottom: 14px; }
+  .dense .carte { padding: 18px 24px; }
+  .dense .carte h2 { margin-bottom: 10px; }
+  .dense .carte li { font-size: 18px; margin-bottom: 6px; }
 
   .grand-ok { font-size: 88px; font-weight: 750; color: var(--ok); letter-spacing: -0.03em; line-height: 1; }
+
+  /* Du besoin exprimé à la règle validée */
+  table.besoin td { padding: 11px 12px; font-size: 18px; vertical-align: middle; }
+  table.besoin th { padding: 6px 12px; }
+  table.besoin td:first-child { color: var(--texte); font-style: italic; }
+  table.besoin td:nth-child(2) { color: var(--texte-2); }
+  table.besoin td:last-child { font-weight: 600; color: var(--accent); }
+  .consigne { font-family: Consolas, "Courier New", monospace; font-size: 16px; line-height: 1.45; background: #fff; border: 1px solid var(--trait); border-left: 4px solid var(--accent-2); border-radius: 6px; padding: 10px 14px; color: var(--texte); }
 </style>
 </head>
 <body>
@@ -133,14 +162,42 @@
 
 <!-- 3 -->
 <section class="slide">
+  <div class="section">Le besoin</div>
+  <h1>Comprendre le besoin : des questions aux règles</h1>
+  <div class="contenu colonnes" style="grid-template-columns: 1.85fr 1fr; gap: 26px">
+    <div class="pile">
+      <table class="besoin">
+        <tr><th style="width:31%">Question posée à la DRE</th><th style="width:31%">Ce qu'il fallait préciser</th><th>Règle validée</th></tr>
+        <tr><td>«&nbsp;Combien de stages&nbsp;?&nbsp;»</td><td>Toutes les conventions&nbsp;?</td><td>Validées ; seuls les doublons non validés sont retirés</td></tr>
+        <tr><td>«&nbsp;Combien à l'étranger&nbsp;?&nbsp;»</td><td>Pays du siège ou du lieu du stage&nbsp;?</td><td>Pays du service d'accueil</td></tr>
+        <tr><td>«&nbsp;Quelle part en Hauts-de-France&nbsp;?&nbsp;»</td><td>Aucune colonne région</td><td>Département du code postal</td></tr>
+        <tr><td>«&nbsp;Quelle durée moyenne&nbsp;?&nbsp;»</td><td>Dates ou heures déclarées&nbsp;?</td><td>En jours, semaines et heures</td></tr>
+        <tr><td>«&nbsp;Combien dans la recherche&nbsp;?&nbsp;»</td><td>Aucune colonne dédiée</td><td>Mots-clés dans le sujet</td></tr>
+      </table>
+      <p class="petit" style="margin:12px 0 0">Chaque règle est <strong>chiffrée</strong> sur les données réelles, puis présentée à l'utilisatrice avec les options possibles avant d'être retenue.</p>
+    </div>
+    <div class="carte pile" style="background:#fff; border:2px solid var(--accent)">
+      <h2>Une démarche avec l'utilisatrice</h2>
+      <ul class="repartie" style="margin:0">
+        <li><strong>3 réunions</strong> avec la DRE : cadrage (28/09), règles métier (12/10), validation (19/10)</li>
+        <li>Chaque réunion <strong>préparée</strong> (questions, options chiffrées) et suivie d'un <strong>compte rendu</strong></li>
+        <li><strong>14 règles</strong> explicitées et validées, <strong>périmètre priorisé</strong> avec elle</li>
+        <li><strong>Critères de validation</strong> du prototype validés le 19/10</li>
+      </ul>
+    </div>
+  </div>
+  <div class="pied"><span>ObservaStage · Soutenance intermédiaire</span><span>3</span></div>
+</section>
+
+<!-- 4 -->
+<section class="slide">
   <div class="section">Objectif</div>
-  <h1>Un outil pour importer, contrôler, structurer et explorer</h1>
-  <div class="contenu">
-    <div class="pipeline">
-      <div class="etape"><b>Importer</b><span>le fichier EsupStage de l'année</span></div><div class="sep">›</div>
-      <div class="etape"><b>Contrôler</b><span>signaler les données incohérentes</span></div><div class="sep">›</div>
-      <div class="etape"><b>Structurer</b><span>une base de données historisée</span></div><div class="sep">›</div>
-      <div class="etape"><b>Explorer</b><span>indicateurs, recherche, export</span></div>
+  <h1>Un outil pour importer, structurer et exploiter</h1>
+  <div class="contenu pile" style="justify-content:center; gap:16px; padding-bottom:30px">
+    <div class="pipeline grand">
+      <div class="etape"><b>Importer</b><span>lire le fichier EsupStage de l'année, associer les colonnes, pré-traiter (contrôles, anomalies)</span></div><div class="sep">›</div>
+      <div class="etape"><b>Structurer</b><span>une base de données historisée, année après année</span></div><div class="sep">›</div>
+      <div class="etape"><b>Exploiter</b><span>indicateurs, recherche, export</span></div>
     </div>
     <div class="colonnes c2">
       <div class="carte">
@@ -149,25 +206,16 @@
         <p class="petit">Plus tard : enseignants, étudiants (avec des droits adaptés).</p>
       </div>
       <div class="carte" style="border-color: var(--accent); background: #fff">
-        <h2>La difficulté centrale</h2>
-        <p>Le format de l'extraction <strong>change d'une année à l'autre</strong> : colonnes renommées, déplacées, ajoutées, supprimées.</p>
-        <p><strong>→ L'import doit s'adapter sans modifier le code.</strong></p>
+        <h2>Une chaîne qui s'adapte</h2>
+        <p>Le format de l'extraction <strong>peut changer d'une année à l'autre</strong> : colonnes renommées, déplacées, ajoutées, supprimées.</p>
+        <p style="margin:0"><strong>→ Tout s'ajuste par paramétrage</strong> (colonnes, règles métier, référentiels), sans modifier le code.</p>
       </div>
     </div>
-    <h2 style="margin-top:22px">Exemples de questions posées à la DRE</h2>
-    <div class="questions">
-      <span>Quelle est la durée moyenne des stages de 4A ?</span>
-      <span>Combien de stages à l'étranger, et dans quels pays ?</span>
-      <span>Quelle part des stages en Hauts-de-France ?</span>
-      <span>Combien de stages dans la recherche ?</span>
-      <span>Quelles structures accueillent nos étudiants en génie civil ?</span>
-      <span>Quelles expériences (CDD, intérim) en PEIP et 3A ?</span>
-    </div>
   </div>
-  <div class="pied"><span>ObservaStage · Soutenance intermédiaire</span><span>3</span></div>
+  <div class="pied"><span>ObservaStage · Soutenance intermédiaire</span><span>4</span></div>
 </section>
 
-<!-- 4 -->
+<!-- 5 -->
 <section class="slide">
   <div class="section">Les données</div>
   <h1>Pourquoi un import « naïf » ne suffit pas</h1>
@@ -180,16 +228,16 @@
     </div>
     <div class="carte">
       <h2>Des informations à dériver</h2>
-      <p>Pas de colonne niveau, région, secteur ou recherche. Le niveau et la spécialité sont fusionnés :</p>
+      <p style="margin-bottom:8px">Pas de colonne niveau, région, secteur ou recherche. Le niveau et la spécialité sont fusionnés :</p>
       <span class="exemple">2an Ing Polytech Génie civil</span> <span class="fleche">→</span> <span class="exemple">4A · Génie civil</span>
-      <p class="petit" style="margin-top:8px">Table de correspondance construite pour les 48 codes étape</p>
+      <p class="petit" style="margin:10px 0 0">Particularité de la base : pas de SIRET pour les structures étrangères (21 %), c'est normal. Il faut une autre clé pour les rapprocher.</p>
     </div>
     <div class="carte">
       <h2>Une qualité hétérogène</h2>
       <ul>
         <li><strong>18 %</strong> de cellules vides, 7 colonnes entièrement vides</li>
-        <li>SIRET absent pour <strong>21 %</strong> des structures (étranger)</li>
         <li>Valeurs aberrantes : jusqu'à <strong>175 h</strong> par semaine</li>
+        <li>Type d'expérience (CDD, intérim) : seulement en <strong>texte libre</strong></li>
       </ul>
     </div>
     <div class="carte">
@@ -198,13 +246,13 @@
       <p class="petit">→ fichiers de test modifiés à partir de la base réelle</p>
     </div>
   </div>
-  <div class="pied"><span>ObservaStage · Soutenance intermédiaire · base anonymisée 2025-2026 : 1 053 conventions, 71 colonnes</span><span>4</span></div>
+  <div class="pied"><span>ObservaStage · Soutenance intermédiaire · base anonymisée 2025-2026 : 1 053 conventions, 71 colonnes</span><span>5</span></div>
 </section>
 
-<!-- 5 -->
+<!-- 6 -->
 <section class="slide">
   <div class="section">Cahier des charges</div>
-  <h1>Périmètre de la V1, validé avec la DRE le 12/10</h1>
+  <h1>Périmètre de la V1, priorisé avec la DRE</h1>
   <div class="contenu colonnes" style="grid-template-columns: 1.35fr 1fr; gap: 30px">
     <table style="height:100%" class="milieu">
       <tr><td><span class="tag ind">Indispensable</span></td><td>Import avec <strong>mapping configurable</strong> et profil réutilisable · contrôles et rapport d'anomalies · indicateurs (durée en jours, semaines et heures ; France / étranger ; Hauts-de-France ; par niveau, spécialité, année) · recherche multicritère · <strong>export CSV et XLS</strong></td></tr>
@@ -214,7 +262,7 @@
     </table>
     <div class="pile">
       <div class="carte etire pile" style="margin-bottom:18px">
-        <h2>Critères de validation (proposés)</h2>
+        <h2>Critères de validation (validés le 19/10)</h2>
         <ol class="repartie" style="margin:0; padding-left:22px">
           <li><strong>Import</strong> autonome, adapté aux colonnes modifiées, sans doublon au réimport</li>
           <li><strong>Indicateurs</strong> identiques aux chiffres de référence</li>
@@ -222,76 +270,68 @@
           <li><strong>Export</strong> CSV et XLS lisible dans Excel</li>
         </ol>
       </div>
-      <p class="petit" style="margin:0"><strong>Contraintes</strong> : stack imposée (PHP, JavaScript, PostgreSQL) · RGPD (données nominatives en production) · hébergement école.<br>
+      <p class="petit" style="margin:0"><strong>Contraintes</strong> : technologies imposées par l'école (PHP, JavaScript, PostgreSQL) · RGPD (données nominatives en production) · hébergement école.<br>
       <strong>Livrables</strong> : prototype, architecture, modèle de données, stratégie d'import, documentation, guide utilisateur.</p>
     </div>
   </div>
-  <div class="pied"><span>ObservaStage · Soutenance intermédiaire</span><span>5</span></div>
-</section>
-
-<!-- 6 -->
-<section class="slide">
-  <div class="section">Mise en œuvre</div>
-  <h1>Une chaîne de traitement des données, de bout en bout</h1>
-  <div class="contenu pile">
-    <div class="pipeline">
-      <div class="etape"><b>Fichier</b><span>.xls · .xlsx · .csv</span></div><div class="sep">›</div>
-      <div class="etape"><b>Lecture</b><span>tout en texte : codes et zéros préservés</span></div><div class="sep">›</div>
-      <div class="etape cle"><b>Mapping</b><span>configurable, profils en base</span></div><div class="sep">›</div>
-      <div class="etape"><b>Contrôles</b><span>conversions, anomalies</span></div><div class="sep">›</div>
-      <div class="etape"><b>PostgreSQL</b><span>modèle normalisé</span></div><div class="sep">›</div>
-      <div class="etape"><b>API JSON</b><span>PHP</span></div><div class="sep">›</div>
-      <div class="etape"><b>Interface</b><span>HTML / JavaScript</span></div>
-    </div>
-    <div class="colonnes c3 etire" style="gap:20px">
-      <div class="carte"><h2>Règles métier paramétrées</h2><p>Validation retenue, seuil d'heures, départements, mots-clés : stockés en base et appliqués dans <strong>une seule vue SQL</strong>. On les modifie sans toucher au code.</p></div>
-      <div class="carte"><h2>Import idempotent</h2><p>Clé <strong>(année, N° de convention)</strong> : réimporter met à jour, sans créer de doublon. Toutes les conventions sont importées, et le filtre s'applique au calcul.</p></div>
-      <div class="carte"><h2>Environnement reproductible</h2><p>PHP et PostgreSQL dans <strong>Docker</strong>, code versionné avec Git : l'outil se déploie tel quel sur un serveur de l'école.</p></div>
-    </div>
-    <div class="carte" style="margin-top:20px; background:#fff">
-      <p style="margin:0; font-size:18px"><strong style="color:var(--accent)">Modèle de données</strong> &nbsp;·&nbsp; <strong>Métier</strong> : étudiant – stage – structure d'accueil – formation (code étape → niveau, spécialité)
-        &nbsp;·&nbsp; <strong>Import</strong> : profils et règles de mapping, lots, anomalies &nbsp;·&nbsp; <strong>Paramètres</strong> : règles métier, référentiels</p>
-    </div>
-  </div>
-  <div class="pied"><span>ObservaStage · Soutenance intermédiaire</span><span>6</span></div>
+  <div class="pied"><span>ObservaStage · Soutenance intermédiaire · périmètre validé le 12/10, critères le 19/10</span><span>6</span></div>
 </section>
 
 <!-- 7 -->
 <section class="slide">
-  <div class="section">Point technique 1</div>
-  <h1>Le mapping configurable : seules les différences sont à traiter</h1>
-  <div class="contenu colonnes" style="grid-template-columns: 0.8fr 1.2fr; gap: 32px">
-    <div class="cascade" style="gap:30px">
-      <div><span class="n">1</span><p><strong>Profil connu</strong> : même ensemble de colonnes qu'un import précédent → appliqué directement</p></div>
-      <div><span class="n">2</span><p><strong>Colonne déjà rencontrée</strong> : la décision passée est reprise</p></div>
-      <div><span class="n">3</span><p><strong>Alias</strong> : intitulés connus, comparés après normalisation (accents, casse, ponctuation)</p></div>
-      <div><span class="n">4</span><p><strong>Similarité</strong> (mots communs, distance entre chaînes) → proposition <strong style="color:var(--attention)">« à vérifier »</strong></p></div>
-      <p class="petit" style="margin-top:4px; font-size:18px">L'utilisatrice valide en voyant des <strong>valeurs d'exemple</strong>. Son choix devient un profil réutilisable. Une colonne ignorée n'est <strong>jamais stockée</strong>.</p>
+  <div class="section">Mise en œuvre</div>
+  <h1>Une chaîne de la donnée, adaptable de bout en bout</h1>
+  <div class="contenu pile">
+    <div class="pipeline compact" style="margin:0 0 8px">
+      <div class="groupe" style="flex:3.6">
+        <div class="nom-groupe">Import</div>
+        <div class="interne">
+          <div class="etape"><b>Lecture</b><span>.xls · .xlsx · .csv, tout en texte</span></div><div class="sep">›</div>
+          <div class="etape cle"><b>Mapping</b><span>configurable, profils en base</span></div><div class="sep">›</div>
+          <div class="etape"><b>Pré-traitement</b><span>conversions, anomalies</span></div>
+        </div>
+      </div><div class="sep">›</div>
+      <div class="etape" style="align-self:flex-end"><b>PostgreSQL</b><span>règles métier paramétrées</span></div><div class="sep">›</div>
+      <div class="etape" style="align-self:flex-end"><b>API JSON</b><span>PHP</span></div><div class="sep">›</div>
+      <div class="etape" style="align-self:flex-end"><b>Interface</b><span>HTML / JavaScript</span></div>
     </div>
-    <div class="pile" style="justify-content:center">
-      <img class="capture" src="figures/app_mapping.png" style="width:100%">
-      <p class="petit" style="margin-top:12px; font-size:18px">Fichier de test : colonnes renommées, déplacées, ajoutées, supprimées → <strong>34 reconnues, 2 à vérifier, 3 nouvelles</strong> sur 69</p>
+    <p class="petit" style="margin:0 0 16px">Technologies <strong>imposées par l'école</strong> (standard des applications de Polytech), validées avec l'expert technique le 29/09.</p>
+    <div class="colonnes etire" style="grid-template-columns: 0.85fr 1.15fr; gap: 28px">
+      <div class="pile" style="justify-content:center">
+        <h2 style="margin-bottom:14px">Mapping : seules les différences sont à traiter</h2>
+        <div class="cascade serree">
+          <div><span class="n">1</span><p><strong>Profil connu</strong> : mêmes colonnes qu'un import précédent → appliqué</p></div>
+          <div><span class="n">2</span><p><strong>Colonne déjà rencontrée</strong> : décision passée reprise</p></div>
+          <div><span class="n">3</span><p><strong>Alias</strong> connus, après normalisation (accents, casse, ponctuation)</p></div>
+          <div><span class="n">4</span><p><strong>Similarité</strong> → proposition <strong style="color:var(--attention)">« à vérifier »</strong></p></div>
+        </div>
+        <p class="petit" style="margin:14px 0 0; font-size:17px">L'utilisatrice valide en voyant des <strong>valeurs d'exemple</strong> ; son choix devient un profil réutilisable.</p>
+      </div>
+      <div class="pile" style="justify-content:center">
+        <img class="capture" src="figures/app_mapping.png" style="width:100%">
+        <p class="petit" style="margin-top:10px; font-size:17px">Fichier de test aux colonnes modifiées : <strong>34 reconnues, 2 à vérifier, 3 nouvelles</strong> sur 69</p>
+      </div>
     </div>
   </div>
-  <div class="pied"><span>ObservaStage · Soutenance intermédiaire</span><span>7</span></div>
+  <div class="pied"><span>ObservaStage · Soutenance intermédiaire · architecture détaillée en annexe</span><span>7</span></div>
 </section>
 
 <!-- 8 -->
 <section class="slide">
-  <div class="section">Point technique 2</div>
+  <div class="section">Fiabilité</div>
   <h1>Des indicateurs fiables, des données protégées</h1>
   <div class="contenu colonnes c3" style="gap:20px">
     <div class="carte pile">
       <h2>Règles explicites, validées</h2>
       <ul class="repartie" style="margin:0">
-        <li>Conventions <strong>validées</strong> seulement</li>
+        <li>Conventions <strong>validées</strong> ; doublons non validés retirés (décidé le 19/10)</li>
         <li>Étranger = pays du <strong>service d'accueil</strong></li>
         <li>Hauts-de-France = départements 02, 59, 60, 62, 80</li>
         <li>Valeurs aberrantes <strong>signalées et exclues</strong>, jamais corrigées</li>
       </ul>
     </div>
     <div class="carte pile" style="text-align:center; justify-content:space-between">
-      <h2>Validation croisée</h2>
+      <h2>Vérification croisée</h2>
       <p style="font-size:18px">Un script Python indépendant recalcule les indicateurs à partir du fichier brut, puis les compare à l'application.</p>
       <div class="grand-ok">48 / 48</div>
       <p style="font-size:19px; margin-top:-20px">indicateurs identiques</p>
@@ -307,49 +347,51 @@
       </ul>
     </div>
   </div>
-  <div class="pied"><span>ObservaStage · Soutenance intermédiaire</span><span>8</span></div>
+  <div class="pied"><span>ObservaStage · Soutenance intermédiaire · chiffres calculés avec la règle du 12/10 (validation seule)</span><span>8</span></div>
 </section>
 
 <!-- 9 -->
 <section class="slide">
   <div class="section">Démonstration</div>
-  <h1>L'ébauche : du fichier EsupStage au tableau de bord</h1>
+  <h1>La V1 : du fichier EsupStage au tableau de bord</h1>
   <div class="contenu colonnes" style="grid-template-columns: 1.9fr 1fr; gap: 30px; align-items:center">
     <img class="capture" src="figures/app_tableau.png" style="width:100%; align-self:start">
     <div>
       <p><strong>Déjà fonctionnel</strong> sur la base réelle anonymisée :</p>
       <ul style="margin-bottom:18px">
-        <li>Import des 1 053 conventions en ≈ 3 s, rapport d'anomalies</li>
+        <li>Import des 1 053 conventions en ≈&nbsp;3&nbsp;s, rapport d'anomalies</li>
         <li>Tableau de bord filtrable</li>
         <li>Recherche multicritère et par mots-clés</li>
         <li>Export CSV et XLS</li>
       </ul>
-      <p class="petit" style="font-size:18px"><strong>Pas encore</strong> : authentification, écrans de paramètres, rapprochement des structures, graphiques avancés.</p>
+      <p class="petit" style="font-size:18px"><strong>Avant la mise en service</strong> : authentification, écrans de paramètres, règle des doublons.</p>
     </div>
   </div>
   <div class="pied"><span>ObservaStage · Soutenance intermédiaire · démonstration en direct</span><span>9</span></div>
 </section>
 
 <!-- 10 -->
-<section class="slide">
+<section class="slide dense">
   <div class="section">Gestion de projet</div>
-  <h1>Avancement et difficultés</h1>
+  <h1>Une démarche itérative, validée à chaque étape</h1>
   <div class="contenu pile">
     <div class="frise">
       <div><div class="date">14/09</div><div class="point"></div><div class="quoi">Lancement</div></div>
       <div><div class="date">28/09</div><div class="point"></div><div class="quoi">Cadrage tripartite</div></div>
-      <div><div class="date">29/09</div><div class="point"></div><div class="quoi">Réunion technique : architecture, stack</div></div>
-      <div><div class="date">S41-S42</div><div class="point"></div><div class="quoi">Analyse de la base anonymisée</div></div>
-      <div><div class="date">12/10</div><div class="point"></div><div class="quoi">DRE : 14 règles métier, périmètre V1</div></div>
-      <div><div class="date">S42-S43</div><div class="point"></div><div class="quoi">Conception et ébauche</div></div>
+      <div><div class="date">29/09</div><div class="point"></div><div class="quoi">Réunion technique : architecture</div></div>
+      <div><div class="date">S41-S42</div><div class="point"></div><div class="quoi">Analyse des données</div></div>
+      <div><div class="date">12/10</div><div class="point"></div><div class="quoi">DRE : règles métier, périmètre</div></div>
+      <div><div class="date">S42-S43</div><div class="point"></div><div class="quoi">Conception et V1</div></div>
+      <div><div class="date">19/10</div><div class="point"></div><div class="quoi">DRE : critères validés · soutenance blanche</div></div>
     </div>
     <div class="colonnes c2 etire" style="gap:22px">
       <div class="carte">
         <h2>Organisation</h2>
         <ul>
-          <li>Trello partagé, mail récapitulatif hebdomadaire</li>
-          <li>Préparation et compte rendu de chaque réunion</li>
-          <li>Git, Docker, chiffres de référence automatisés</li>
+          <li>Trello partagé, <strong>mail récapitulatif</strong> hebdomadaire</li>
+          <li>Réunion = <strong>préparation</strong> (décisions à prendre, options chiffrées) → <strong>compte rendu</strong> → actions</li>
+          <li>Périmètre <strong>priorisé</strong> : je coupe dans le souhaitable, jamais dans l'indispensable</li>
+          <li>Risques suivis : hébergement, format des futures extractions</li>
         </ul>
       </div>
       <div class="carte">
@@ -357,27 +399,67 @@
         <ul>
           <li><strong>Accès aux données</strong> : base complète début octobre, colonne utile en clair le 12/10</li>
           <li><strong>Aucun historique</strong> pour tester l'évolution des colonnes</li>
-          <li><strong>Données peu propres</strong>, règles implicites à expliciter une par une</li>
+          <li><strong>Règles implicites</strong> à expliciter une par une avec la DRE</li>
         </ul>
       </div>
     </div>
-    <div class="carte" style="margin-top:20px; background:#fff; border:2px solid var(--accent)">
-      <p style="margin:0; font-size:20px"><strong style="color:var(--accent)">État au 21/10</strong> : conception stabilisée, règles métier validées, ébauche fonctionnelle de bout en bout (import → export). <strong>En avance</strong> sur le calendrier initial, qui prévoyait le module d'import en S45-S48.</p>
+    <div class="carte" style="margin-top:14px; background:#fff; border:2px solid var(--accent); padding:14px 24px">
+      <p style="margin:0; font-size:19px"><strong style="color:var(--accent)">État au 21/10</strong> : règles métier et critères validés, <strong>V1 fonctionnelle</strong> de bout en bout (import → export). <strong>En avance</strong> : le calendrier initial prévoyait le module d'import en S45-S48.</p>
     </div>
   </div>
   <div class="pied"><span>ObservaStage · Soutenance intermédiaire</span><span>10</span></div>
 </section>
 
 <!-- 11 -->
-<section class="slide" style="padding-bottom:30px">
+<section class="slide" style="padding-bottom:40px">
   <div class="section">Planning</div>
-  <h1 style="margin-bottom:10px">Diagramme de Gantt (≈ 15 h par semaine, 300 h)</h1>
-  <div class="contenu" style="display:flex; justify-content:center">
-    <img src="figures/gantt.png" style="height:552px">
+  <h1 style="margin-bottom:6px">Planning : la V1 est prête, place à la consolidation</h1>
+  <div class="contenu" style="display:flex; justify-content:center; align-items:center">
+    <img src="figures/gantt_phases.png" style="height:540px">
   </div>
+  <div class="pied"><span>ObservaStage · Soutenance intermédiaire · ≈ 15 h par semaine, 300 h · Gantt détaillé en annexe</span><span>11</span></div>
 </section>
 
 <!-- 12 -->
+<section class="slide">
+  <div class="section">Usage de l'IA</div>
+  <h1>Claude Code : un assistant cadré et vérifié</h1>
+  <div class="contenu pile">
+    <div class="colonnes c3 etire" style="gap:20px">
+      <div class="carte">
+        <h2>1. Cadrer avant</h2>
+        <ul class="repartie" style="margin:0">
+          <li>Un <strong>fichier de contexte</strong> tenu à jour : règles validées, contraintes RGPD, pièges des données</li>
+          <li>Les <strong>décisions sont prises avant le code</strong>, avec la DRE et l'expert technique</li>
+          <li><strong>Une tâche à la fois</strong> ; l'IA expose son plan et ses questions avant d'agir</li>
+        </ul>
+      </div>
+      <div class="carte">
+        <h2>2. Vérifier après</h2>
+        <ul class="repartie" style="margin:0">
+          <li>Chiffres : <strong>deux calculs indépendants</strong> (Python et SQL), 48&nbsp;/&nbsp;48</li>
+          <li>Chaque modification <strong>relue</strong> avant d'être enregistrée (Git)</li>
+          <li>Tests sur la base réelle et sur les fichiers modifiés</li>
+        </ul>
+      </div>
+      <div class="carte">
+        <h2>3. Garder la main</h2>
+        <ul class="repartie" style="margin:0">
+          <li>L'IA ne voit que la base <strong>anonymisée</strong> ; les analyses ne sortent que des agrégats</li>
+          <li>Règles métier, validation, envoi des mails : <strong>c'est moi</strong></li>
+          <li>Les résultats sont confrontés à l'utilisatrice</li>
+        </ul>
+      </div>
+    </div>
+    <div class="colonnes" style="grid-template-columns: 1.25fr 1fr; gap: 20px; margin-top:18px; align-items:center">
+      <div class="consigne">« Voici les retours des deux réunions […]. Dis-moi ce que tu vas faire et pose-moi des questions avant de faire quoi que ce soit. »</div>
+      <p style="margin:0; font-size:19px"><strong style="color:var(--accent)">Le temps gagné</strong> sur l'écriture du code et des documents est réinvesti dans la <strong>compréhension du besoin</strong> et la <strong>vérification</strong>.</p>
+    </div>
+  </div>
+  <div class="pied"><span>ObservaStage · Soutenance intermédiaire · exemple réel de consigne (20/10)</span><span>12</span></div>
+</section>
+
+<!-- 13 -->
 <section class="slide">
   <div class="section">Suite du projet</div>
   <h1>Recadrage, prochaines étapes et positionnement</h1>
@@ -386,15 +468,14 @@
       <div class="carte etire" style="margin-bottom:18px">
         <h2>Recadrage</h2>
         <ul>
-          <li><strong>À la hausse</strong> : l'ébauche est en avance → recherche plein texte, rapprochement des structures, graphiques, historique</li>
+          <li><strong>À la hausse</strong> : la V1 est en avance → recherche plein texte, rapprochement des structures, graphiques, historique</li>
           <li><strong>À la baisse</strong> : type d'expérience partiel (texte libre, 164 conventions ; « stage » par défaut)</li>
         </ul>
       </div>
       <div class="carte etire">
         <h2>Prochaines étapes</h2>
         <ul>
-          <li>Faire valider les critères et la table des niveaux (S43)</li>
-          <li>Consolider l'import, ajouter l'authentification (S44-S47)</li>
+          <li>Règle des doublons, rapport d'import enrichi, authentification (S44-S47)</li>
           <li><strong>Contacter la DSI pour l'hébergement</strong> (principal risque)</li>
           <li>Tests avec la DRE avant la démo du 08/01</li>
         </ul>
@@ -403,25 +484,60 @@
     <div class="carte pile" style="background:#fff; border:2px solid var(--accent); justify-content:center">
       <div class="section" style="margin-bottom:2px">Compétences ISIA</div>
       <p style="font-size:30px; font-weight:700; color:var(--accent); margin:4px 0 12px">Data engineer</p>
-      <p style="font-size:19px">Le cœur du projet est un <strong>pipeline d'ingestion</strong> robuste :</p>
+      <p style="font-size:19px">Le cœur du projet est la <strong>chaîne complète de la donnée</strong>, du fichier brut à l'indicateur :</p>
       <ul class="repartie" style="margin-bottom:12px">
-        <li>données hétérogènes dont le <strong>schéma évolue</strong></li>
-        <li><strong>mapping</strong> vers un modèle cible, ETL</li>
-        <li><strong>qualité</strong> et traçabilité des données</li>
-        <li>modélisation relationnelle, conformité <strong>RGPD</strong></li>
+        <li><strong>ingestion</strong> de données dont le schéma évolue, mapping</li>
+        <li><strong>pré-traitement</strong>, qualité et traçabilité</li>
+        <li><strong>modélisation</strong> relationnelle, règles métier, RGPD</li>
+        <li><strong>exploitation</strong> : indicateurs, recherche, export</li>
       </ul>
-      <p class="petit" style="margin:0">Avec une part d'ingénierie logicielle (API, interface) et d'analyse de données (indicateurs avec le métier).</p>
+      <p class="petit" style="margin:0">Avec une part d'ingénierie logicielle (API, interface) et un travail continu avec le métier.</p>
     </div>
   </div>
-  <div class="pied"><span>ObservaStage · Soutenance intermédiaire</span><span>12</span></div>
+  <div class="pied"><span>ObservaStage · Soutenance intermédiaire</span><span>13</span></div>
 </section>
 
-<!-- 13 -->
+<!-- 14 -->
 <section class="slide titre" style="padding-left:96px">
   <div class="logo"></div>
   <p class="nom" style="font-size:60px">Merci</p>
   <p class="accroche">Questions ?</p>
   <div class="meta">Augustin Mélon · ISIA5 · ObservaStage</div>
+</section>
+
+<!-- Annexe 1 -->
+<section class="slide annexe" style="padding-bottom:30px">
+  <div class="section" style="color:var(--texte-3)">Annexe</div>
+  <h1 style="margin-bottom:10px">Diagramme de Gantt détaillé</h1>
+  <div class="contenu" style="display:flex; justify-content:center">
+    <img src="figures/gantt.png" style="height:560px">
+  </div>
+</section>
+
+<!-- Annexe 2 -->
+<section class="slide annexe">
+  <div class="section" style="color:var(--texte-3)">Annexe</div>
+  <h1>Architecture détaillée</h1>
+  <div class="contenu pile">
+    <div class="pipeline">
+      <div class="etape"><b>Fichier</b><span>.xls · .xlsx · .csv</span></div><div class="sep">›</div>
+      <div class="etape"><b>Lecture</b><span>tout en texte : codes et zéros préservés</span></div><div class="sep">›</div>
+      <div class="etape cle"><b>Mapping</b><span>configurable, profils en base</span></div><div class="sep">›</div>
+      <div class="etape"><b>Pré-traitement</b><span>conversions, anomalies</span></div><div class="sep">›</div>
+      <div class="etape"><b>PostgreSQL</b><span>modèle normalisé</span></div><div class="sep">›</div>
+      <div class="etape"><b>API JSON</b><span>PHP</span></div><div class="sep">›</div>
+      <div class="etape"><b>Interface</b><span>HTML / JavaScript</span></div>
+    </div>
+    <div class="colonnes c3 etire" style="gap:20px">
+      <div class="carte"><h2>Règles métier paramétrées</h2><p>Validation retenue, seuil d'heures, départements, mots-clés : stockés en base et appliqués dans <strong>une seule vue SQL</strong>. On les modifie sans toucher au code.</p></div>
+      <div class="carte"><h2>Import idempotent</h2><p>Clé <strong>(année, N° de convention)</strong> : réimporter met à jour, sans créer de doublon. Toutes les conventions sont importées, et le filtre s'applique au calcul.</p></div>
+      <div class="carte"><h2>Environnement reproductible</h2><p>PHP et PostgreSQL dans <strong>Docker</strong>, code versionné avec Git : l'outil se déploie tel quel sur un serveur de l'école.</p></div>
+    </div>
+    <div class="carte" style="margin-top:20px; background:#fff">
+      <p style="margin:0; font-size:18px"><strong style="color:var(--accent)">Modèle de données</strong> &nbsp;·&nbsp; <strong>Métier</strong> : étudiant – stage – structure d'accueil – formation (code étape → niveau, spécialité)
+        &nbsp;·&nbsp; <strong>Import</strong> : profils et règles de mapping, lots, anomalies &nbsp;·&nbsp; <strong>Paramètres</strong> : règles métier, référentiels</p>
+    </div>
+  </div>
 </section>
 
 </body>

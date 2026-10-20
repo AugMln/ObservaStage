@@ -51,7 +51,9 @@ docker compose down -v; docker compose up -d                     # repartir d'un
 
 ## Livrables
 
-`livrables/<date>_<jalon>/` : sources HTML (`rapport_intermediaire.html`, `support_soutenance.html`) et PDF générés par Chrome headless (impression, fonds activés). Figures dans `figures/` (captures de l'application en thème clair, `gantt.png` copié depuis `gestion-projet/planning/`). Le Gantt se modifie dans `gestion-projet/planning/gantt.html` (tableau `TACHES`).
+`livrables/<date>_<jalon>/` : sources HTML (`rapport_intermediaire.html`, `support_soutenance.html`) et PDF générés par Chrome headless (impression, fonds activés). Figures dans `figures/` (captures de l'application en thème clair, `gantt.png` et `gantt_phases.png` copiés depuis `gestion-projet/planning/`). Le Gantt se modifie dans `gestion-projet/planning/gantt.html` : tableau `TACHES` (vue détaillée) et `PHASES` (vue simplifiée pour les slides, `gantt.html?vue=phases`). Captures : Chrome headless `--screenshot`, `--force-device-scale-factor=2`, fenêtre 1604×970 (détaillé) ou 1225×640 (phases).
+
+Vocabulaire des livrables (remarques de la tutrice, 19/10) : « exploiter » (pas « explorer ») ; le contrôle est un **pré-traitement** inclus dans l'import ; « adaptabilité de la chaîne » (pas « difficulté centrale ») ; « **vérification** croisée » (jamais « validation croisée ») ; SIRET absent à l'étranger = particularité de la base, pas un défaut de qualité ; technologies **imposées** ; « chaîne complète de la donnée » (pas seulement l'ingestion) ; « V1 » (pas « ébauche »). Mettre en avant la compréhension du besoin et la gestion de projet plus que la technique.
 
 ## Scripts d'exploration
 
@@ -72,10 +74,11 @@ docker compose down -v; docker compose up -d                     # repartir d'un
 
 Détail et chiffres : `gestion-projet/reunions/2026-10-12_dre/compte_rendu.md`.
 
-- Indicateurs calculés **uniquement sur les conventions validées** (« Validation convention = Oui », 884 sur 1053) ; toutes sont importées, le filtre s'applique au calcul. Règle susceptible d'évoluer (validation administrative OU pédagogique, soit 1023) : la garder paramétrable.
+- Indicateurs calculés **uniquement sur les conventions validées** (« Validation convention = Oui », 884 sur 1053) ; toutes sont importées, le filtre s'applique au calcul. **Précisée le 19/10, pas encore implémentée** (S44) : ne retirer que les **doublons non validés** (même N° étudiant, même année, avec au moins une convention validée) ; un étudiant sans convention validée garde toutes ses conventions → 1023. À ajouter comme valeur de `regle_validation`. Le sens de « doublon » reste à confirmer (26 des 30 conventions retirées ont une autre date de début). Détail : `gestion-projet/reunions/2026-10-19_dre/compte_rendu.md`.
 - Durée moyenne affichée **en jours, semaines et heures**. « Durée du stage » est en heures (vérifié).
 - Étranger = pays du **service d'accueil**. Hauts-de-France = département du code postal ∈ {02, 59, 60, 62, 80}.
-- Recherche = mots-clés « recherche » / « R&D » **dans le sujet uniquement**. Secteur = **Thématique**.
+- Recherche = mots-clés « recherche » / « R&D » **dans le sujet uniquement** (confirmé le 19/10). Secteur = **Thématique**.
+- Critères de validation du prototype validés le 19/10 (import autonome, indicateurs = référence, recherche, export). Code étape 2XIGAP (classé L2) en attente de confirmation par mail.
 - Type d'expérience (CDD, CDI, intérim, bénévolat) : mots-clés dans « Commentaire durée travail ».
 - Toutes les formations sont suivies (PEIP, L, M, cycle ingénieur…).
 - Valeurs aberrantes (ex. heures hebdo ≤ 0 ou > 48) : signalées et exclues des calculs, jamais corrigées.

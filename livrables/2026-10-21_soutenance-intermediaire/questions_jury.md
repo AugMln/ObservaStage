@@ -11,6 +11,9 @@ EsupStage propose des extractions, pas d'analyse multi-critères ni d'historique
 **Qui va maintenir l'outil après le projet ?**
 Le choix de la stack standard de l'école est fait pour ça. Le paramétrage (mapping, règles, référentiels) se fait sans code. La documentation technique et le guide utilisateur font partie des livrables. Point à clarifier avec la DSI lors du contact pour l'hébergement.
 
+**Comment avez-vous compris le besoin ?**
+En partant des questions réelles posées à la DRE, puis en explicitant pour chacune la règle cachée (quelles conventions, quel pays, quelle unité). Pour chaque règle, j'ai chiffré les options sur les données réelles et c'est elle qui a tranché, en trois réunions préparées, chacune suivie d'un compte rendu. Le périmètre a été priorisé avec elle, et elle a validé les critères de validation le 19/10.
+
 ## Technique
 
 **Comment le mapping reconnaît-il une colonne renommée ?**
@@ -45,11 +48,28 @@ Avec un script qui génère des fichiers dérivés de la base réelle : colonnes
 **Vous travaillez sur des données personnelles ?**
 En développement, sur une base anonymisée par ma tutrice école. En production, Dorothée Bernard importera des fichiers nominatifs : l'outil conserve les noms (étudiants, enseignants référents, tuteurs), dont elle a besoin, mais n'importe pas les colonnes inutiles (adresses, téléphones, e-mails personnels). Le fichier n'est pas conservé après import, et l'authentification sera en place avant toute mise en service. L'hébergement sera sur un serveur de l'école.
 
-**Pourquoi seulement les conventions validées ?**
-C'est la règle demandée par la DRE : une convention non validée peut être abandonnée. Toutes sont importées, le filtre s'applique au calcul, et la règle est paramétrable (validation administrative seule : 884 ; administrative ou pédagogique : 1023). Point ouvert : les PEIP non validées étaient probablement en cours de validation au moment de l'extraction.
+**Quelles conventions sont comptées ?**
+Toutes sont importées, le filtre s'applique au calcul. Règle initiale (12/10) : conventions validées seulement, soit 884. Je lui ai montré que cela retirait environ 64 % des stages de PEIP, probablement en cours de validation au moment de l'extraction. Le 19/10, elle a précisé la règle : on ne retire que les **doublons non validés**, c'est-à-dire les conventions non validées d'un étudiant qui a déjà une convention validée. Cela donne 1 023 conventions. La règle est un paramètre ; elle sera appliquée en S44 et vérifiée avec le script de référence. Les chiffres présentés aujourd'hui sont ceux de la règle du 12/10.
 
 **Pourquoi la règle « recherche » ne donne que 27 stages, alors que la thématique « Recherche » en compte 84 ?**
-C'est la règle choisie par la DRE (mots-clés dans le sujet). L'écart lui sera présenté pour qu'elle confirme. Les mots-clés sont paramétrables.
+C'est la règle choisie par la DRE (mots-clés dans le sujet). Je lui ai présenté l'écart le 19/10 et elle a confirmé la règle. Les mots-clés sont paramétrables.
+
+## Usage de l'IA
+
+**Quelle part du travail a été faite par l'IA ?**
+Claude Code a écrit une grande partie du code et m'a aidé sur les documents. Le travail qui ne se délègue pas, je l'ai fait moi-même : comprendre le besoin, faire trancher les règles par la DRE, choisir l'architecture avec l'expert technique, décider du périmètre, vérifier les résultats. L'IA exécute des décisions déjà prises.
+
+**Comment être sûr que le code produit est juste ?**
+Par la vérification croisée : un script Python indépendant recalcule tous les indicateurs depuis le fichier brut et les compare à l'application (48 sur 48). Chaque modification est relue avant d'être enregistrée dans Git, et l'outil est testé sur la base réelle et sur des fichiers aux colonnes modifiées.
+
+**Comment l'avez-vous utilisée concrètement ?**
+Avec un fichier de contexte que je tiens à jour (règles métier validées, contraintes RGPD, pièges des données, commandes), lu par l'outil à chaque session. Je demande une tâche à la fois et je lui fais d'abord exposer son plan et ses questions, avant toute modification. Exemple réel : « Dis-moi ce que tu vas faire et pose-moi des questions avant de faire quoi que ce soit. »
+
+**Et les données personnelles ?**
+L'IA ne travaille que sur la base anonymisée. Les scripts d'analyse ne produisent que des agrégats, jamais de lignes individuelles.
+
+**Sauriez-vous maintenir le code sans l'IA ?**
+*(À formuler avec mes mots.)* Piste : l'architecture est volontairement simple et documentée (une vue SQL pour les règles, une API, une interface sans framework), et je relis chaque modification.
 
 ## Gestion de projet
 
@@ -60,7 +80,7 @@ Environ 15 h par semaine, soit 300 h pour 12 ECTS. Le périmètre est priorisé 
 L'hébergement : sans serveur de l'école, pas d'utilisation réelle sur données nominatives. Je contacte la DSI dès la semaine prochaine. L'application est conteneurisée, donc déployable facilement.
 
 **Vous dites être en avance : qu'allez-vous faire du temps gagné ?**
-Monter en qualité sur l'indispensable (authentification, gestion des profils et référentiels dans l'interface, contrôles plus fins). Puis traiter les fonctionnalités souhaitables : recherche plein texte, rapprochement des structures sans SIRET avec `pg_trgm`, graphiques, historique. Et surtout faire tester l'outil par l'utilisatrice plus tôt.
+Monter en qualité sur l'indispensable (règle des doublons, authentification, gestion des profils et référentiels dans l'interface, rapport d'import enrichi par niveau et spécialité). Puis traiter les fonctionnalités souhaitables : recherche plein texte, rapprochement des structures sans SIRET avec `pg_trgm`, graphiques, historique. Et surtout faire tester l'outil par l'utilisatrice plus tôt.
 
 **Pourquoi data engineer plutôt qu'ingénieur logiciel ?**
-La difficulté et la valeur du projet sont dans la chaîne de données : ingestion de fichiers dont le schéma évolue, mapping, qualité, modélisation, conformité RGPD. L'interface est volontairement simple. Les compétences logicielles sont mobilisées, mais au service du pipeline.
+La difficulté et la valeur du projet sont dans la chaîne complète de la donnée : ingestion de fichiers dont le schéma évolue, mapping, pré-traitement et qualité, modélisation, conformité RGPD, jusqu'à l'exploitation (indicateurs, export). L'interface est volontairement simple. Les compétences logicielles sont mobilisées, mais au service du pipeline.

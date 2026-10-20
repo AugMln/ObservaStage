@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <title>Gantt ObservaStage</title>
-<!-- Planning du projet. Modifier le tableau TACHES ci-dessous, puis régénérer gantt.png. -->
+<!-- Planning du projet. Modifier les tableaux TACHES (vue détaillée → gantt.png) et PHASES (gantt.html?vue=phases → gantt_phases.png), puis régénérer les images. -->
 <style>
   :root {
     --texte: #0b0b0b; --texte-2: #52514e; --texte-3: #8a8983; --grille: #e6e7ea; --fond: #ffffff;
@@ -34,6 +34,19 @@
   .aujourdhui span { position: absolute; top: -17px; left: -30px; font-size: 11px; color: var(--aujourdhui); font-weight: 600; white-space: nowrap; }
   .legende { display: flex; gap: 18px; margin-top: 12px; font-size: 12px; color: var(--texte-2); align-items: center; }
   .legende i { display: inline-block; width: 22px; height: 11px; border-radius: 2px; vertical-align: -1px; margin-right: 5px; }
+  /* Vue simplifiée : lisible une fois projetée */
+  .phases #gantt { width: 1180px; }
+  .phases h1, .phases .sous-titre { display: none; }
+  .phases .grille { grid-template-columns: 450px 1fr; margin-top: 20px; }
+  .phases .entete-sem { font-size: 13px; }
+  .phases .phase { font-size: 18px; padding: 14px 0 5px; }
+  .phases .tache { font-size: 17px; padding: 7px 10px 7px 12px; }
+  .phases .piste { height: 39px; }
+  .phases .barre { top: 10px; height: 19px; }
+  .phases .jalon { top: 10px; width: 18px; height: 18px; }
+  .phases .etiquette { top: 9px; font-size: 15px; }
+  .phases .aujourdhui span { top: -21px; font-size: 14px; left: -20px; }
+  .phases .legende { font-size: 15px; }
   .legende .j { width: 10px; height: 10px; transform: rotate(45deg); border: 2px solid var(--jalon); box-sizing: border-box; margin-right: 8px; }
 </style>
 </head>
@@ -55,13 +68,14 @@ const TACHES = [
   ['Données et besoins'],
   ['Analyse exploratoire de la base EsupStage', '05/10/2026', '16/10/2026', 'fait'],
   ['Réunion DRE : règles métier, périmètre V1', '12/10/2026', '12/10/2026', 'fait'],
-  ['Cahier des charges, critères de validation', '12/10/2026', '23/10/2026', 'en_cours', 70],
-  ['Conception et ébauche'],
+  ['Cahier des charges, critères de validation', '12/10/2026', '19/10/2026', 'fait'],
+  ['Réunion DRE : doublons, critères validés', '19/10/2026', '19/10/2026', 'fait'],
+  ['Conception et V1'],
   ['Architecture, modèle de données, stratégie de mapping', '30/09/2026', '20/10/2026', 'fait'],
-  ['Ébauche technique (import, indicateurs, recherche, export)', '14/10/2026', '20/10/2026', 'fait'],
+  ['V1 fonctionnelle (import, indicateurs, recherche, export)', '14/10/2026', '20/10/2026', 'fait'],
   ['Soutenance intermédiaire', '21/10/2026', '21/10/2026', 'a_venir'],
-  ['Développement de la V1'],
-  ['Import : profils, contrôles, référentiels, staging', '26/10/2026', '13/11/2026', 'a_venir'],
+  ['Consolidation et enrichissement de la V1'],
+  ['Import : règle des doublons, profils, contrôles, rapport', '26/10/2026', '13/11/2026', 'a_venir'],
   ['Authentification, écrans de paramètres', '09/11/2026', '20/11/2026', 'a_venir'],
   ['Rapprochement des structures, recherche plein texte', '16/11/2026', '04/12/2026', 'a_venir'],
   ['Indicateurs complets, graphiques, exports', '23/11/2026', '11/12/2026', 'a_venir'],
@@ -80,7 +94,26 @@ const TACHES = [
   ['Soutenance finale', '29/01/2027', '29/01/2027', 'a_venir'],
 ];
 
-const MOIS = ['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.'];
+// Vue simplifiée (soutenance) : grandes phases et jalons, même format que TACHES.
+const PHASES = [
+  ['Cadrage et besoin'],
+  ['Cadrage, analyse des données, règles métier', '14/09/2026', '19/10/2026', 'fait'],
+  ['Conception et V1 fonctionnelle', '30/09/2026', '20/10/2026', 'fait'],
+  ['Soutenance intermédiaire', '21/10/2026', '21/10/2026', 'a_venir'],
+  ['Suite du projet'],
+  ['Consolidation : import, authentification, paramètres', '26/10/2026', '20/11/2026', 'a_venir'],
+  ['Fonctionnalités souhaitables (historique, graphiques…)', '16/11/2026', '11/12/2026', 'a_venir'],
+  ['Hébergement et déploiement à l\'école', '26/10/2026', '18/12/2026', 'a_venir'],
+  ['Tests avec l\'utilisatrice', '30/11/2026', '11/12/2026', 'a_venir'],
+  ['Livrables'],
+  ['Rapport, documentation, guide utilisateur', '07/12/2026', '28/01/2027', 'a_venir'],
+  ['Session démo', '08/01/2027', '08/01/2027', 'a_venir'],
+  ['Soutenance finale', '29/01/2027', '29/01/2027', 'a_venir'],
+];
+const VUE_PHASES = new URLSearchParams(location.search).get('vue') === 'phases';
+if (VUE_PHASES) document.body.classList.add('phases');
+
+const MOIS =['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.'];
 const JOUR = 864e5;
 const versDate = (t) => { const [j, m, a] = t.split('/').map(Number); return new Date(a, m - 1, j); };
 const position = (d) => (100 * (d - DEBUT) / JOUR) / (NB_SEMAINES * 7);
@@ -108,7 +141,7 @@ html += '</div>';
 const fond = semaines.map((s, i) => `<div class="fond-sem${VACANCES.some(([a, n]) => a === s.annee && n === s.num) ? ' vacances' : ''}"
   style="left:${(100 * i) / NB_SEMAINES}%;width:${100 / NB_SEMAINES}%"></div>`).join('');
 
-TACHES.forEach(([libelle, debut, fin, statut, avancement], index) => {
+(VUE_PHASES ? PHASES : TACHES).forEach(([libelle,debut, fin, statut, avancement], index) => {
   if (!debut) { html += `<div class="phase">${libelle}</div>`; return; }
   const d = versDate(debut), f = versDate(fin);
   let marque;
